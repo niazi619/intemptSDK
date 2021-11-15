@@ -1,0 +1,36 @@
+{
+    "sourceId": 112958705675145216,
+    "name": "exit",
+    "profile": false,
+    "event": true,
+    "schema": {
+        "type": "record",
+        "name": "exit",
+        "namespace": "ios",
+        "doc": "iOS app exit event",
+        "fields": [
+            {
+                "name": "visitorId",
+                "type": "string"
+            },
+            {
+                "name": "exitTime",
+                "type": "string"
+            },
+            
+            {
+                "name": "uuid",
+                "type": "string"
+            },
+            {
+                "name": "major",
+                "type": "string"
+            },
+            
+            {
+                "name": "minor",
+                "type": "string"
+            }
+        ]
+    }
+}

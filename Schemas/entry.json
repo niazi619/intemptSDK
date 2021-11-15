@@ -1,0 +1,38 @@
+{
+    "sourceId": 112958705675145216,
+    "name": "entry",
+    "profile": false,
+    "event": true,
+    "schema": {
+        "type": "record",
+        "name": "entry",
+        "namespace": "ios",
+        "doc": "iOS app entry event",
+        "fields": [
+            {
+                "name": "visitorId",
+                "type": "string"
+            },
+            {
+                "name": "entryTime",
+                "type": "string"
+            },
+            {
+                           "name": "uuid",
+                           "type": "string"
+                       },
+                       {
+                           "name": "major",
+                           "type": "string"
+                       },
+                       
+                       {
+                           "name": "minor",
+                           "type": "string"
+                       }
+            
+            
+        ]
+    }
+}
+

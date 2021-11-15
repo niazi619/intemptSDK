@@ -1,0 +1,126 @@
+{
+    "sourceId": 80386537372459008,
+    "name": "launch",
+    "profile": false,
+    "event": true,
+    "schema": {
+        "type": "record",
+        "name": "launch",
+        "namespace": "ios",
+        "doc": "iOS app launch event",
+        "fields": [
+            {
+                "name": "visitorId",
+                "type": "string"
+            },
+            {
+                "name": "eventId",
+                "type": "string"
+            },
+            {
+                "name": "timestamp",
+                "type": "long"
+            },
+            {
+                "name": "wifi",
+                "type": "boolean"
+            },
+            {
+                "name": "device",
+                "type": {
+                    "name": "deviceRecord",
+                    "namespace": "nothing",
+                    "type": "record",
+                    "fields": [
+                        {
+                            "name": "name",
+                            "type": "string",
+                            "title": "Device Name",
+                            "display": true
+                        },
+                        {
+                            "name": "type",
+                            "type": "string",
+                            "title": "Device Type",
+                            "display": true
+                        },
+                        {
+                            "name": "osVersion",
+                            "type": "string",
+                            "title": "OS Version",
+                            "display": true
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "screen",
+                "type": {
+                    "name": "screenRecord",
+                    "namespace": "nothing",
+                    "type": "record",
+                    "fields": [
+                        {
+                            "name": "height",
+                            "type": "int",
+                            "title": "Screen Height",
+                            "display": true
+                        },
+                        {
+                            "name": "width",
+                            "type": "int",
+                            "title": "Screen Width",
+                            "display": true
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "geo",
+                "type": {
+                    "name": "geoRecord",
+                    "namespace": "nothing",
+                    "type": "record",
+                    "fields": [
+                        {
+                            "name": "city",
+                            "type": "string",
+                            "title": "City",
+                            "display": true
+                        },
+                        {
+                            "name": "country",
+                            "type": "string",
+                            "title": "Country",
+                            "display": true
+                        },
+                        {
+                            "name": "region",
+                            "type": "string",
+                            "title": "Region",
+                            "display": true
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "app",
+                "type": {
+                    "name": "appRecord",
+                    "namespace": "nothing",
+                    "type": "record",
+                    "fields": [
+                        {
+                            "name": "name",
+                            "type": "string"
+                        },
+                        {
+                            "name": "version",
+                            "type": "string"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}

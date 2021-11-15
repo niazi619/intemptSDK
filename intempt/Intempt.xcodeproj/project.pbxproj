@@ -1,0 +1,528 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0C016EEE25E3BE8A00393130 /* IntemptConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C016EEC25E3BE8A00393130 /* IntemptConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0C016EEF25E3BE8B00393130 /* IntemptConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C016EED25E3BE8A00393130 /* IntemptConfig.m */; };
+		0C016F1325E407F800393130 /* ModelEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C016F1125E407F800393130 /* ModelEvent.h */; };
+		0C016F1425E407F800393130 /* ModelEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C016F1225E407F800393130 /* ModelEvent.m */; };
+		0C6AAB9424F941EA0017FEC5 /* IntemptNotificationCenterTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C6AAB8C24F941E90017FEC5 /* IntemptNotificationCenterTracker.h */; };
+		0C6AAB9524F941EA0017FEC5 /* UIViewController+IntemptActionTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C6AAB8D24F941E90017FEC5 /* UIViewController+IntemptActionTracker.m */; };
+		0C6AAB9624F941EA0017FEC5 /* UIApplication+IntemptActionTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C6AAB8E24F941E90017FEC5 /* UIApplication+IntemptActionTracker.m */; };
+		0C6AAB9724F941EA0017FEC5 /* IntemptTouchTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C6AAB8F24F941E90017FEC5 /* IntemptTouchTracker.h */; };
+		0C6AAB9824F941EA0017FEC5 /* IntemptNotificationCenterTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C6AAB9024F941E90017FEC5 /* IntemptNotificationCenterTracker.m */; };
+		0C6AAB9924F941EA0017FEC5 /* UIApplication+IntemptActionTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C6AAB9124F941E90017FEC5 /* UIApplication+IntemptActionTracker.h */; };
+		0C6AAB9A24F941EA0017FEC5 /* UIViewController+IntemptActionTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C6AAB9224F941E90017FEC5 /* UIViewController+IntemptActionTracker.h */; };
+		0C6AAB9B24F941EA0017FEC5 /* IntemptTouchTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C6AAB9324F941E90017FEC5 /* IntemptTouchTracker.m */; };
+		0C8C645925CA9F15007F3589 /* DBManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C8C645725CA9F15007F3589 /* DBManager.h */; };
+		0C8C645A25CA9F15007F3589 /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8C645825CA9F15007F3589 /* DBManager.m */; };
+		0C9578632517670F0016F4AB /* UIView+RecurrenceSubviews.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C9578612517670F0016F4AB /* UIView+RecurrenceSubviews.h */; };
+		0C9578642517670F0016F4AB /* UIView+RecurrenceSubviews.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9578622517670F0016F4AB /* UIView+RecurrenceSubviews.m */; };
+		ED19F4D224217C6800305287 /* Intempt.h in Headers */ = {isa = PBXBuildFile; fileRef = ED19F4D024217C6800305287 /* Intempt.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ED19F54F24217CAE00305287 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = ED19F4F924217CAE00305287 /* Reachability.m */; };
+		ED19F55424217CAE00305287 /* IntemptClient.m in Sources */ = {isa = PBXBuildFile; fileRef = ED19F50124217CAE00305287 /* IntemptClient.m */; };
+		ED19F55524217CAE00305287 /* IntemptConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = ED19F50224217CAE00305287 /* IntemptConstants.m */; };
+		ED19F55824217CAE00305287 /* IntemptConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = ED19F50524217CAE00305287 /* IntemptConstants.h */; };
+		ED19F55924217CAE00305287 /* IntemptClient.h in Headers */ = {isa = PBXBuildFile; fileRef = ED19F50624217CAE00305287 /* IntemptClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ED19F55C24217CAE00305287 /* JRSwizzle.h in Headers */ = {isa = PBXBuildFile; fileRef = ED19F50B24217CAE00305287 /* JRSwizzle.h */; };
+		ED19F56F24217CAE00305287 /* JRSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = ED19F52224217CAE00305287 /* JRSwizzle.m */; };
+		ED19F57124217CAE00305287 /* SpacemanBlocks.h in Headers */ = {isa = PBXBuildFile; fileRef = ED19F52424217CAE00305287 /* SpacemanBlocks.h */; };
+		ED19F57224217CAE00305287 /* IntemptTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = ED19F52524217CAE00305287 /* IntemptTracker.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ED19F57324217CAE00305287 /* IntemptUIViewDerivativesSerializer.h in Headers */ = {isa = PBXBuildFile; fileRef = ED19F52724217CAE00305287 /* IntemptUIViewDerivativesSerializer.h */; };
+		ED19F57524217CAE00305287 /* IntemptUIViewDerivativesSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = ED19F52924217CAE00305287 /* IntemptUIViewDerivativesSerializer.m */; };
+		ED19F57724217CAE00305287 /* Reachability.h in Headers */ = {isa = PBXBuildFile; fileRef = ED19F52B24217CAE00305287 /* Reachability.h */; };
+		ED19F58024217CAE00305287 /* IntemptTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = ED19F53524217CAE00305287 /* IntemptTracker.m */; };
+		EDBE4F9E24CC4B63008DCE57 /* NSMutableArray+QueueAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = EDBE4F9C24CC4B63008DCE57 /* NSMutableArray+QueueAdditions.h */; };
+		EDBE4F9F24CC4B63008DCE57 /* NSMutableArray+QueueAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EDBE4F9D24CC4B63008DCE57 /* NSMutableArray+QueueAdditions.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0C016EEC25E3BE8A00393130 /* IntemptConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntemptConfig.h; sourceTree = "<group>"; };
+		0C016EED25E3BE8A00393130 /* IntemptConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntemptConfig.m; sourceTree = "<group>"; };
+		0C016F1125E407F800393130 /* ModelEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ModelEvent.h; sourceTree = "<group>"; };
+		0C016F1225E407F800393130 /* ModelEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ModelEvent.m; sourceTree = "<group>"; };
+		0C6AAB8C24F941E90017FEC5 /* IntemptNotificationCenterTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntemptNotificationCenterTracker.h; sourceTree = "<group>"; };
+		0C6AAB8D24F941E90017FEC5 /* UIViewController+IntemptActionTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+IntemptActionTracker.m"; sourceTree = "<group>"; };
+		0C6AAB8E24F941E90017FEC5 /* UIApplication+IntemptActionTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+IntemptActionTracker.m"; sourceTree = "<group>"; };
+		0C6AAB8F24F941E90017FEC5 /* IntemptTouchTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntemptTouchTracker.h; sourceTree = "<group>"; };
+		0C6AAB9024F941E90017FEC5 /* IntemptNotificationCenterTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntemptNotificationCenterTracker.m; sourceTree = "<group>"; };
+		0C6AAB9124F941E90017FEC5 /* UIApplication+IntemptActionTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+IntemptActionTracker.h"; sourceTree = "<group>"; };
+		0C6AAB9224F941E90017FEC5 /* UIViewController+IntemptActionTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+IntemptActionTracker.h"; sourceTree = "<group>"; };
+		0C6AAB9324F941E90017FEC5 /* IntemptTouchTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntemptTouchTracker.m; sourceTree = "<group>"; };
+		0C8C645725CA9F15007F3589 /* DBManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBManager.h; sourceTree = "<group>"; };
+		0C8C645825CA9F15007F3589 /* DBManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBManager.m; sourceTree = "<group>"; };
+		0C8C646025CAA064007F3589 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		0C9578612517670F0016F4AB /* UIView+RecurrenceSubviews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+RecurrenceSubviews.h"; sourceTree = "<group>"; };
+		0C9578622517670F0016F4AB /* UIView+RecurrenceSubviews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+RecurrenceSubviews.m"; sourceTree = "<group>"; };
+		0C976E55260EFA8F005F61A1 /* AppTrackingTransparency.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppTrackingTransparency.framework; path = System/Library/Frameworks/AppTrackingTransparency.framework; sourceTree = SDKROOT; };
+		ED19F4CD24217C6800305287 /* Intempt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Intempt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		ED19F4D024217C6800305287 /* Intempt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Intempt.h; sourceTree = "<group>"; };
+		ED19F4D124217C6800305287 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ED19F4F924217CAE00305287 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		ED19F50124217CAE00305287 /* IntemptClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntemptClient.m; sourceTree = "<group>"; };
+		ED19F50224217CAE00305287 /* IntemptConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntemptConstants.m; sourceTree = "<group>"; };
+		ED19F50524217CAE00305287 /* IntemptConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntemptConstants.h; sourceTree = "<group>"; };
+		ED19F50624217CAE00305287 /* IntemptClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntemptClient.h; sourceTree = "<group>"; };
+		ED19F50B24217CAE00305287 /* JRSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRSwizzle.h; sourceTree = "<group>"; };
+		ED19F52224217CAE00305287 /* JRSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRSwizzle.m; sourceTree = "<group>"; };
+		ED19F52424217CAE00305287 /* SpacemanBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpacemanBlocks.h; sourceTree = "<group>"; };
+		ED19F52524217CAE00305287 /* IntemptTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntemptTracker.h; sourceTree = "<group>"; };
+		ED19F52724217CAE00305287 /* IntemptUIViewDerivativesSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntemptUIViewDerivativesSerializer.h; sourceTree = "<group>"; };
+		ED19F52924217CAE00305287 /* IntemptUIViewDerivativesSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntemptUIViewDerivativesSerializer.m; sourceTree = "<group>"; };
+		ED19F52B24217CAE00305287 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		ED19F53524217CAE00305287 /* IntemptTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntemptTracker.m; sourceTree = "<group>"; };
+		EDBE4F9C24CC4B63008DCE57 /* NSMutableArray+QueueAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+QueueAdditions.h"; sourceTree = "<group>"; };
+		EDBE4F9D24CC4B63008DCE57 /* NSMutableArray+QueueAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+QueueAdditions.m"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		ED19F4CA24217C6800305287 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0C6AAB8B24F941E90017FEC5 /* Tracking */ = {
+			isa = PBXGroup;
+			children = (
+				0C9578612517670F0016F4AB /* UIView+RecurrenceSubviews.h */,
+				0C9578622517670F0016F4AB /* UIView+RecurrenceSubviews.m */,
+				0C6AAB8C24F941E90017FEC5 /* IntemptNotificationCenterTracker.h */,
+				0C6AAB9024F941E90017FEC5 /* IntemptNotificationCenterTracker.m */,
+				0C6AAB9224F941E90017FEC5 /* UIViewController+IntemptActionTracker.h */,
+				0C6AAB8D24F941E90017FEC5 /* UIViewController+IntemptActionTracker.m */,
+				0C6AAB9124F941E90017FEC5 /* UIApplication+IntemptActionTracker.h */,
+				0C6AAB8E24F941E90017FEC5 /* UIApplication+IntemptActionTracker.m */,
+				0C6AAB8F24F941E90017FEC5 /* IntemptTouchTracker.h */,
+				0C6AAB9324F941E90017FEC5 /* IntemptTouchTracker.m */,
+			);
+			path = Tracking;
+			sourceTree = "<group>";
+		};
+		0C8C645625CA9EF8007F3589 /* DBManager */ = {
+			isa = PBXGroup;
+			children = (
+				0C8C645725CA9F15007F3589 /* DBManager.h */,
+				0C8C645825CA9F15007F3589 /* DBManager.m */,
+			);
+			path = DBManager;
+			sourceTree = "<group>";
+		};
+		0C8C645F25CAA064007F3589 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0C976E55260EFA8F005F61A1 /* AppTrackingTransparency.framework */,
+				0C8C646025CAA064007F3589 /* libsqlite3.tbd */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		ED19F4C324217C6800305287 = {
+			isa = PBXGroup;
+			children = (
+				ED19F4CF24217C6800305287 /* Intempt */,
+				ED19F4CE24217C6800305287 /* Products */,
+				0C8C645F25CAA064007F3589 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		ED19F4CE24217C6800305287 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				ED19F4CD24217C6800305287 /* Intempt.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		ED19F4CF24217C6800305287 /* Intempt */ = {
+			isa = PBXGroup;
+			children = (
+				ED19F4D024217C6800305287 /* Intempt.h */,
+				ED19F52524217CAE00305287 /* IntemptTracker.h */,
+				ED19F53524217CAE00305287 /* IntemptTracker.m */,
+				ED19F50524217CAE00305287 /* IntemptConstants.h */,
+				ED19F50224217CAE00305287 /* IntemptConstants.m */,
+				ED19F50924217CAE00305287 /* 3rdPartyCode */,
+				ED19F4FC24217CAE00305287 /* Legacy */,
+				ED6CDE4C242B7D420073A920 /* Networking */,
+				ED19F52624217CAE00305287 /* Serialization */,
+				0C6AAB8B24F941E90017FEC5 /* Tracking */,
+				0C8C645625CA9EF8007F3589 /* DBManager */,
+				ED19F4D124217C6800305287 /* Info.plist */,
+			);
+			path = Intempt;
+			sourceTree = "<group>";
+		};
+		ED19F4FC24217CAE00305287 /* Legacy */ = {
+			isa = PBXGroup;
+			children = (
+				0C016EEC25E3BE8A00393130 /* IntemptConfig.h */,
+				0C016EED25E3BE8A00393130 /* IntemptConfig.m */,
+				EDBE4F9C24CC4B63008DCE57 /* NSMutableArray+QueueAdditions.h */,
+				EDBE4F9D24CC4B63008DCE57 /* NSMutableArray+QueueAdditions.m */,
+				ED19F50624217CAE00305287 /* IntemptClient.h */,
+				ED19F50124217CAE00305287 /* IntemptClient.m */,
+				0C016F1125E407F800393130 /* ModelEvent.h */,
+				0C016F1225E407F800393130 /* ModelEvent.m */,
+			);
+			path = Legacy;
+			sourceTree = "<group>";
+		};
+		ED19F50924217CAE00305287 /* 3rdPartyCode */ = {
+			isa = PBXGroup;
+			children = (
+				ED19F50A24217CAE00305287 /* JRSwizzle */,
+				ED19F52424217CAE00305287 /* SpacemanBlocks.h */,
+			);
+			path = 3rdPartyCode;
+			sourceTree = "<group>";
+		};
+		ED19F50A24217CAE00305287 /* JRSwizzle */ = {
+			isa = PBXGroup;
+			children = (
+				ED19F50B24217CAE00305287 /* JRSwizzle.h */,
+				ED19F52224217CAE00305287 /* JRSwizzle.m */,
+			);
+			path = JRSwizzle;
+			sourceTree = "<group>";
+		};
+		ED19F52624217CAE00305287 /* Serialization */ = {
+			isa = PBXGroup;
+			children = (
+				ED19F52724217CAE00305287 /* IntemptUIViewDerivativesSerializer.h */,
+				ED19F52924217CAE00305287 /* IntemptUIViewDerivativesSerializer.m */,
+			);
+			path = Serialization;
+			sourceTree = "<group>";
+		};
+		ED6CDE4C242B7D420073A920 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				ED19F52B24217CAE00305287 /* Reachability.h */,
+				ED19F4F924217CAE00305287 /* Reachability.m */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		ED19F4C824217C6800305287 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ED19F57224217CAE00305287 /* IntemptTracker.h in Headers */,
+				0C016F1325E407F800393130 /* ModelEvent.h in Headers */,
+				ED19F55924217CAE00305287 /* IntemptClient.h in Headers */,
+				ED19F55824217CAE00305287 /* IntemptConstants.h in Headers */,
+				0C6AAB9A24F941EA0017FEC5 /* UIViewController+IntemptActionTracker.h in Headers */,
+				ED19F55C24217CAE00305287 /* JRSwizzle.h in Headers */,
+				EDBE4F9E24CC4B63008DCE57 /* NSMutableArray+QueueAdditions.h in Headers */,
+				0C6AAB9424F941EA0017FEC5 /* IntemptNotificationCenterTracker.h in Headers */,
+				0C9578632517670F0016F4AB /* UIView+RecurrenceSubviews.h in Headers */,
+				0C6AAB9924F941EA0017FEC5 /* UIApplication+IntemptActionTracker.h in Headers */,
+				0C8C645925CA9F15007F3589 /* DBManager.h in Headers */,
+				ED19F4D224217C6800305287 /* Intempt.h in Headers */,
+				ED19F57724217CAE00305287 /* Reachability.h in Headers */,
+				0C016EEE25E3BE8A00393130 /* IntemptConfig.h in Headers */,
+				ED19F57324217CAE00305287 /* IntemptUIViewDerivativesSerializer.h in Headers */,
+				0C6AAB9724F941EA0017FEC5 /* IntemptTouchTracker.h in Headers */,
+				ED19F57124217CAE00305287 /* SpacemanBlocks.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		ED19F4CC24217C6800305287 /* Intempt */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ED19F4D524217C6800305287 /* Build configuration list for PBXNativeTarget "Intempt" */;
+			buildPhases = (
+				ED19F4C824217C6800305287 /* Headers */,
+				ED19F4C924217C6800305287 /* Sources */,
+				ED19F4CA24217C6800305287 /* Frameworks */,
+				ED19F4CB24217C6800305287 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Intempt;
+			productName = intempt;
+			productReference = ED19F4CD24217C6800305287 /* Intempt.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		ED19F4C424217C6800305287 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1160;
+				LastUpgradeCheck = 1220;
+				ORGANIZATIONNAME = Intempt;
+				TargetAttributes = {
+					ED19F4CC24217C6800305287 = {
+						CreatedOnToolsVersion = 11.3;
+					};
+				};
+			};
+			buildConfigurationList = ED19F4C724217C6800305287 /* Build configuration list for PBXProject "Intempt" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = ED19F4C324217C6800305287;
+			productRefGroup = ED19F4CE24217C6800305287 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				ED19F4CC24217C6800305287 /* Intempt */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		ED19F4CB24217C6800305287 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		ED19F4C924217C6800305287 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0C016F1425E407F800393130 /* ModelEvent.m in Sources */,
+				0C6AAB9824F941EA0017FEC5 /* IntemptNotificationCenterTracker.m in Sources */,
+				ED19F55424217CAE00305287 /* IntemptClient.m in Sources */,
+				0C6AAB9B24F941EA0017FEC5 /* IntemptTouchTracker.m in Sources */,
+				0C6AAB9624F941EA0017FEC5 /* UIApplication+IntemptActionTracker.m in Sources */,
+				0C9578642517670F0016F4AB /* UIView+RecurrenceSubviews.m in Sources */,
+				ED19F55524217CAE00305287 /* IntemptConstants.m in Sources */,
+				ED19F54F24217CAE00305287 /* Reachability.m in Sources */,
+				0C016EEF25E3BE8B00393130 /* IntemptConfig.m in Sources */,
+				ED19F58024217CAE00305287 /* IntemptTracker.m in Sources */,
+				ED19F57524217CAE00305287 /* IntemptUIViewDerivativesSerializer.m in Sources */,
+				0C6AAB9524F941EA0017FEC5 /* UIViewController+IntemptActionTracker.m in Sources */,
+				EDBE4F9F24CC4B63008DCE57 /* NSMutableArray+QueueAdditions.m in Sources */,
+				ED19F56F24217CAE00305287 /* JRSwizzle.m in Sources */,
+				0C8C645A25CA9F15007F3589 /* DBManager.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		ED19F4D324217C6800305287 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_WORKSPACE = NO;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		ED19F4D424217C6800305287 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+				VALIDATE_WORKSPACE = NO;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		ED19F4D624217C6800305287 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = YES;
+				INFOPLIST_FILE = intempt/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.intempt.intempt;
+				PRODUCT_NAME = Intempt;
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		ED19F4D724217C6800305287 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = YES;
+				INFOPLIST_FILE = intempt/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.intempt.intempt;
+				PRODUCT_NAME = Intempt;
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		ED19F4C724217C6800305287 /* Build configuration list for PBXProject "Intempt" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ED19F4D324217C6800305287 /* Debug */,
+				ED19F4D424217C6800305287 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ED19F4D524217C6800305287 /* Build configuration list for PBXNativeTarget "Intempt" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ED19F4D624217C6800305287 /* Debug */,
+				ED19F4D724217C6800305287 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = ED19F4C424217C6800305287 /* Project object */;
+}
