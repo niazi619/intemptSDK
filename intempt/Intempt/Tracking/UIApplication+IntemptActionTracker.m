@@ -47,12 +47,28 @@
         tag = [NSString stringWithFormat:@"%@",[serializedSender objectForKey:@"tag"]];
         viewController = [NSString stringWithFormat:@"%@",[serializedSender objectForKey:@"viewController"]];
         text = [NSString stringWithFormat:@"%@",[serializedSender objectForKey:@"selectedSegmentTitle"]];
+        
+    }else if ([class isEqualToString:@"UIStepper"]) {
+        path = [NSString stringWithFormat:@"%@",[serializedSender objectForKey:@"path"]];
+        tag = [NSString stringWithFormat:@"%@",[serializedSender objectForKey:@"tag"]];
+        viewController = [NSString stringWithFormat:@"%@",[serializedSender objectForKey:@"viewController"]];
+        text = [NSString stringWithFormat:@"%@",[serializedSender objectForKey:@"value"]];
+        
     }
     else {
         path = @"";
         tag = @"";
         viewController = @"";
         text = @"";
+        if([serializedSender objectForKey:@"viewController"] != NULL && [serializedSender objectForKey:@"viewController"] != nil){
+            viewController = [NSString stringWithFormat:@"%@",[serializedSender objectForKey:@"viewController"]];
+        }
+        if([serializedSender objectForKey:@"path"] != NULL && [serializedSender objectForKey:@"path"] != nil){
+            path = [NSString stringWithFormat:@"%@",[serializedSender objectForKey:@"path"]];
+        }
+        if([serializedSender objectForKey:@"tag"] != NULL && [serializedSender objectForKey:@"tag"] != nil){
+            tag = [NSString stringWithFormat:@"%@",[serializedSender objectForKey:@"tag"]];
+        }
     }
     
     if (serializedSender) {}

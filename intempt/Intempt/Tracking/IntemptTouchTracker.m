@@ -37,16 +37,23 @@
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     
     for (UITouch *touch in touches) {
-        
-        [self createEventDictionaryWith:touch.view];
-        
-        //Additionally extract all Labels as by default UILabel are not clickable
-        NSArray *arrViews = [touch.view recurrenceAllSubviews];
-        if(arrViews.count > 0) {
-             for (UIView *view in arrViews) {
-                 if([view isKindOfClass:[UILabel class]])
-                     [self createEventDictionaryWith:view];
-             }
+    
+        NSString *val = NSStringFromClass([touch.view.superclass class]);
+        if ([val isEqualToString:@"UIControl"] || [touch.view isKindOfClass:[UISwitch class]] ){
+            ////UIButton and other Actions which are inherited from UIControl are recorded by IntemptActionTracker, so we should avoid duplicate events gernerating
+            TBLog(@"IntemptActionTracker will log:-------%@",[val class]);
+        }else{
+            [self createEventDictionaryWith:touch.view];
+            //Additionally extract all Labels as by default UILabel are not clickable
+            NSArray *arrViews = [touch.view recurrenceAllSubviews];
+            if(arrViews.count > 0) {
+                 for (UIView *view in arrViews) {
+                     if([view isKindOfClass:[UILabel class]]){
+                         //not a good approach, it will generate events for all labels
+                         [self createEventDictionaryWith:view];
+                     }
+                 }
+            }
         }
     }
     [super touchesEnded:touches withEvent:event];
@@ -95,6 +102,26 @@
         [elementDictionary setValue:@"" forKey:@"ActionName"];
         
         if ([subview isKindOfClass:[UILabel class]]) {
+            NSString *titleLabel = [NSString stringWithFormat:@"%@",[serializedView objectForKey:@"text"]];
+            
+            if(titleLabel == (id)[NSNull null] || titleLabel.length == 0 || [titleLabel isEqualToString:@"(null)"]) {
+                [elementDictionary setValue:@"" forKey:@"text"];
+            }
+            else {
+                //TBLog(@"Label: %@",titleLabel);
+                [elementDictionary setValue:titleLabel forKey:@"text"];
+            }
+        }else if ([subview isKindOfClass:[UITextView class]]) {
+            NSString *titleLabel = [NSString stringWithFormat:@"%@",[serializedView objectForKey:@"text"]];
+            
+            if(titleLabel == (id)[NSNull null] || titleLabel.length == 0 || [titleLabel isEqualToString:@"(null)"]) {
+                [elementDictionary setValue:@"" forKey:@"text"];
+            }
+            else {
+                //TBLog(@"Label: %@",titleLabel);
+                [elementDictionary setValue:titleLabel forKey:@"text"];
+            }
+        }else if ([subview isKindOfClass:[UITextField class]]) {
             NSString *titleLabel = [NSString stringWithFormat:@"%@",[serializedView objectForKey:@"text"]];
             
             if(titleLabel == (id)[NSNull null] || titleLabel.length == 0 || [titleLabel isEqualToString:@"(null)"]) {

@@ -14,7 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         self.window = UIWindow(frame: UIScreen.main.bounds)
-        decideInitialViewController()
+        //decideInitialViewController()
         return true
     }
     
@@ -40,6 +40,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         navigationController.isNavigationBarHidden = true
         self.window?.rootViewController = navigationController
         self.window?.makeKeyAndVisible()
+    }
+    
+    func delay(_ delay:Double, closure:@escaping ()->()) {
+        
+        let when = DispatchTime.now() + delay
+        DispatchQueue.main.asyncAfter(deadline: when, execute: closure)
     }
     
 }

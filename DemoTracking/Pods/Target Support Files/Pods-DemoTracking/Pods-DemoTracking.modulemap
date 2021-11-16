@@ -1,0 +1,6 @@
+framework module Pods_DemoTracking {
+  umbrella header "Pods-DemoTracking-umbrella.h"
+
+  export *
+  module * { export * }
+}

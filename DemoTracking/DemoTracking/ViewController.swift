@@ -75,6 +75,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    @IBAction func showMoreEventsScreen(_ sender:UIButton){
+        let nextVC =  self.storyboard?.instantiateViewController(identifier: "MoreEventViewController") as! MoreEventViewController
+        self.navigationController?.pushViewController(nextVC, animated: true)
+    }
+    
     func isValidEmail(testStr:String) -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         

@@ -786,7 +786,7 @@ Validates that the given token is valid.
         //[arrInteraction addObject:interactionDic];
         [[DBManager shared] insertAnalayticsData:interactionDic withEventType:@"interaction"];
         //[dictValue setValue:arrInteraction forKey:@"interaction"];
-        TBLog(@"Event Data (Touch, Change, Action): %@",interactionDic);
+        TBLog(@"addEvent Event Data (Touch, Change, Action): %@",interactionDic);
         
         /*dispatch_async(self.uploadQueue, ^{
             if (self->arrInteraction.count == 5) {
@@ -1487,7 +1487,7 @@ NSNumber *parentTimestamp = nil;
                         NSDictionary *dictParams = [NSDictionary dictionaryWithObjectsAndKeys:items,@"interaction", nil];
                         
                             //TBLog(@"Rest %ld interaction events is being batched.", items.count);
-                        TBLog(@"Event Data (Touch, Change, Action): %@",dictParams);
+                        TBLog(@"sendDataToServerWithRequest  Event Data (Touch, Change, Action): %@",dictParams);
                         
                             //[self sendInteractions:dictParams withCompletion:handler];
                         [self sendEvents:dictParams multipleRecordExits:YES withCompletion:handler];

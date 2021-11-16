@@ -40,5 +40,9 @@ class NextViewController: UIViewController {
         let customVC =  self.storyboard?.instantiateViewController(identifier: "customVC") as! CustomEventViewController
         self.navigationController?.pushViewController(customVC, animated: true)
     }
+    @IBAction func showMoreEventsScreen(_ sender:UIButton){
+        let nextVC =  self.storyboard?.instantiateViewController(identifier: "MoreEventViewController") as! MoreEventViewController
+        self.navigationController?.pushViewController(nextVC, animated: true)
+    }
     
 }

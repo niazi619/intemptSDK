@@ -9,8 +9,10 @@
 import Foundation
 import UIKit
 
+let APP_DELEGATE: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+
 struct IntemptOptions {
-    static let orgId = "playground"
-    static let sourceId = "197162695551508480"
-    static let token = "xNm3EDk7AFhbmmcOqrG-gORF6cRvonmS.qjtwWkNsBNNJir5iOYQUjPZMf8dWAdITAVngyV1SPwunbOjpW3O1CoVrJzIlS4vo"
+    static let orgId = "dev-tech"
+    static let sourceId = "293437767630585856"
+    static let token = "y0IhgZI24Jj4j8Ty4dYsV8xKyKGDsrqA.GfB-hwI--VYp5vfqxAqqlE7X2dvrOfLXl1OYRMCkzYkreAPnMBIyHmrbsZfgGijq"
 }
