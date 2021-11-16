@@ -379,10 +379,10 @@
                                 <rect key="frame" x="15" y="94" width="384" height="768"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oiP-CZ-F2F">
-                                        <rect key="frame" x="0.0" y="0.0" width="384" height="1050"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="384" height="1210"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="JAK-Zx-kIv">
-                                                <rect key="frame" x="0.0" y="0.0" width="384" height="1050"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="384" height="1210"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9uB-hZ-OBL">
                                                         <rect key="frame" x="0.0" y="0.0" width="384" height="50"/>
@@ -722,6 +722,44 @@
                                                             <constraint firstItem="jLd-VA-757" firstAttribute="leading" secondItem="3Vr-6D-x68" secondAttribute="leading" constant="15" id="wGQ-bD-KdC"/>
                                                         </constraints>
                                                     </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fJC-JU-TIc">
+                                                        <rect key="frame" x="0.0" y="1050" width="384" height="80"/>
+                                                        <subviews>
+                                                            <searchBar contentMode="redraw" placeholder="Search Bar" translatesAutoresizingMaskIntoConstraints="NO" id="81j-ZM-vnw">
+                                                                <rect key="frame" x="0.0" y="18" width="384" height="44"/>
+                                                                <textInputTraits key="textInputTraits"/>
+                                                                <connections>
+                                                                    <outlet property="delegate" destination="x0m-rI-wDj" id="p5p-Q6-gMk"/>
+                                                                </connections>
+                                                            </searchBar>
+                                                        </subviews>
+                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                        <constraints>
+                                                            <constraint firstItem="81j-ZM-vnw" firstAttribute="top" secondItem="fJC-JU-TIc" secondAttribute="top" constant="18" id="1PW-IG-tmV"/>
+                                                            <constraint firstAttribute="trailing" secondItem="81j-ZM-vnw" secondAttribute="trailing" id="6u5-TD-p0z"/>
+                                                            <constraint firstItem="81j-ZM-vnw" firstAttribute="leading" secondItem="fJC-JU-TIc" secondAttribute="leading" id="HxI-Ah-wbw"/>
+                                                            <constraint firstAttribute="bottom" secondItem="81j-ZM-vnw" secondAttribute="bottom" constant="18" id="rdA-fO-6er"/>
+                                                            <constraint firstAttribute="height" constant="80" id="u8K-5Y-zQx"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="moD-nd-Vsr">
+                                                        <rect key="frame" x="0.0" y="1130" width="384" height="80"/>
+                                                        <subviews>
+                                                            <tabBar tag="3" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="66a-rQ-ZG7">
+                                                                <rect key="frame" x="0.0" y="15" width="384" height="49"/>
+                                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <items>
+                                                                    <tabBarItem tag="1" title="FirstButton" image="lightbulb.fill" catalog="system" id="U9q-fA-b0U"/>
+                                                                    <tabBarItem tag="2" title="SecondButton" image="tablecells.fill" catalog="system" id="wfC-ic-UP6"/>
+                                                                </items>
+                                                            </tabBar>
+                                                        </subviews>
+                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="80" id="UWI-8r-WBj"/>
+                                                        </constraints>
+                                                    </view>
                                                 </subviews>
                                             </stackView>
                                         </subviews>
@@ -796,6 +834,7 @@
                     <connections>
                         <outlet property="customBtn" destination="SqV-Jd-3aa" id="djs-eW-pod"/>
                         <outlet property="pickerViewList" destination="tC2-XA-uEN" id="1XA-xk-aZs"/>
+                        <outlet property="searchBar" destination="81j-ZM-vnw" id="YB0-a7-bcR"/>
                         <outlet property="segmentControl" destination="XOx-bD-pAL" id="tfz-t8-jrU"/>
                         <outlet property="switchControl" destination="HVL-66-yZb" id="Uqq-jy-EXz"/>
                     </connections>
@@ -807,6 +846,8 @@
     </scenes>
     <resources>
         <image name="1.jpeg" width="600" height="337"/>
+        <image name="lightbulb.fill" catalog="system" width="113" height="128"/>
+        <image name="tablecells.fill" catalog="system" width="128" height="93"/>
         <systemColor name="groupTableViewBackgroundColor">
             <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

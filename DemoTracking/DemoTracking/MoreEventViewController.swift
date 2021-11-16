@@ -11,6 +11,7 @@ import CountryPickerView
 
 class MoreEventViewController: UIViewController {
     
+    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var switchControl:UISwitch!
     @IBOutlet weak var customBtn:UIButton!
     @IBOutlet weak var segmentControl:UISegmentedControl!
@@ -89,4 +90,15 @@ extension MoreEventViewController: CountryPickerViewDelegate {
     func countryPickerView(_ countryPickerView: CountryPickerView, didSelectCountry country: Country) {
         print(country)
     }
+}
+extension MoreEventViewController: UISearchBarDelegate {
+
+      func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        if searchBar.text?.isEmpty == false {
+            // This avoids the text being stretched by the UISearchBar.
+            searchBar.setShowsCancelButton(true, animated: true)
+        }
+        return true
+    }
+
 }
