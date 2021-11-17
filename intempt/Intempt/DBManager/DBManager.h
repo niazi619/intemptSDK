@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)createDB;
 - (BOOL)insertAnalayticsData:(NSDictionary*)content withEventType:(NSString*)type;
 - (BOOL)updateRecordsWithEventId:(NSInteger)insertId withIsSync:(BOOL)status;
+- (BOOL)deleteRecordsWithEventId:(NSInteger)insertId;
 - (NSArray*)fetchAnalayticsDataWithSync:(BOOL)isSync useLimit:(BOOL)status withBatchSize:(int)limit;
 - (BOOL)deleteAnalayticsDataWithSync:(BOOL)isSync;
 

@@ -36,7 +36,10 @@
         }
         else if ([serializedSender objectForKey:@"currentTitle"]) {
             titleLabel = [NSString stringWithFormat:@"%@",[serializedSender objectForKey:@"currentTitle"]];
-            text = titleLabel;
+            text = [self stringByReplacing:titleLabel];
+        }else if ([serializedSender objectForKey:@"text"]) {
+            titleLabel = [NSString stringWithFormat:@"%@",[serializedSender objectForKey:@"text"]];
+            text = [self stringByReplacing:titleLabel];
         }
         else {
             text = @"";
@@ -68,6 +71,9 @@
         }
         if([serializedSender objectForKey:@"tag"] != NULL && [serializedSender objectForKey:@"tag"] != nil){
             tag = [NSString stringWithFormat:@"%@",[serializedSender objectForKey:@"tag"]];
+        }
+        if([serializedSender objectForKey:@"text"] != NULL && [serializedSender objectForKey:@"text"] != nil){
+            text = [NSString stringWithFormat:@"%@",[serializedSender objectForKey:@"text"]];
         }
     }
     
@@ -123,8 +129,9 @@
             newString = [joinedString substringFromIndex:[prefixToRemove length]];
         newString = [newString substringToIndex:(newString.length - 2)];
     }
-    else
-    {}
+    else{
+        newString = text;
+    }
     
     return newString;
 }

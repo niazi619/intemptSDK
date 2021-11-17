@@ -449,8 +449,14 @@ static int notaion = NTH_CHILD;
     
     if ([view isKindOfClass:[UIButton class]]) {
         UIButton *btn = (UIButton*)view;
-        if([btn.titleLabel.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length > 0)
+        if([btn.titleLabel.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length > 0){
+            
             [serializedView setObject:[btn.titleLabel text] forKey:@"text"];
+            
+        }else if([btn.currentAttributedTitle.string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length > 0){
+            
+            [serializedView setObject:btn.currentAttributedTitle.string forKey:@"text"];
+        }
     }
 
     

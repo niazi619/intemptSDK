@@ -1,16 +1,20 @@
 PODS:
   - CountryPickerView (3.3.0)
+  - EZSwipeController (0.6.1)
 
 DEPENDENCIES:
   - CountryPickerView
+  - EZSwipeController
 
 SPEC REPOS:
   trunk:
     - CountryPickerView
+    - EZSwipeController
 
 SPEC CHECKSUMS:
   CountryPickerView: 6322ada32a80b0cd721b0267282a5c24f406f263
+  EZSwipeController: 255b0f8aed31963b0236802c926e27dd006a2532
 
-PODFILE CHECKSUM: fc65e7ab41ebb32589913251b9e3802ec63f4c99
+PODFILE CHECKSUM: a8441bfae9d6dfec4e0feb9c1bb3401a383ef344
 
 COCOAPODS: 1.11.2

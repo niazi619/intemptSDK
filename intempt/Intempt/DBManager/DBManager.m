@@ -125,6 +125,32 @@ static DBManager *sharedInstance = nil;
     return updateStatus;
 }
 
+- (BOOL)deleteRecordsWithEventId:(NSInteger)insertId {
+    BOOL updateStatus = NO;
+    const char *dbpath = [databasePath UTF8String];
+    sqlite3 *database = nil;
+    if (sqlite3_open(dbpath, &database) == SQLITE_OK) {
+        NSString *querySQL = [NSString stringWithFormat:@"delete from interaction where id=\"%ld\"", insertId];
+        const char *query_stmt = [querySQL UTF8String];
+        sqlite3_stmt *statement;
+        if (sqlite3_prepare_v2(database, query_stmt, -1, &statement, NULL) == SQLITE_OK) {
+            if (sqlite3_step(statement) == SQLITE_DONE) {
+                updateStatus = YES;
+            }
+            else {
+                updateStatus = NO;
+                NSLog(@"Failed to delete: %s",sqlite3_errmsg(database));
+            }
+        }
+        else {
+            NSLog(@"\nDELETE statement could not be prepared.");
+        }
+        sqlite3_finalize(statement);
+        sqlite3_close(database);
+    }
+    return updateStatus;
+}
+
 - (NSArray*)fetchAnalayticsDataWithSync:(BOOL)isSync useLimit:(BOOL)status withBatchSize:(int)limit {
     const char *dbpath = [databasePath UTF8String];
     sqlite3 *database = nil;

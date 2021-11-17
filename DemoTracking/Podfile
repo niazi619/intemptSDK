@@ -8,5 +8,6 @@ target 'DemoTracking' do
   # Pods for DemoTracking
 
   pod 'CountryPickerView'
+  pod 'EZSwipeController'
 
 end

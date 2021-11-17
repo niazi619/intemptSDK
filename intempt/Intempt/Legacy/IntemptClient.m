@@ -40,9 +40,9 @@ static BOOL loggingEnabled = NO;
     CLPlacemark *placemark;
     
     /*NSMutableArray *arrBeacon;
-    double latitude;
-    double longitude;
-    NSString *proximityVisitorId;*/
+     double latitude;
+     double longitude;
+     NSString *proximityVisitorId;*/
 }
 
 @property (strong, nonatomic) CLBeaconRegion *beaconRegion;
@@ -99,10 +99,10 @@ static BOOL loggingEnabled = NO;
 + (BOOL)validateTrackerId:(NSString *)key;
 
 /**
-Validates that the given token is valid.
-@param key The key to check.
-@returns YES if key is valid, NO otherwise.
-*/
+ Validates that the given token is valid.
+ @param key The key to check.
+ @returns YES if key is valid, NO otherwise.
+ */
 + (BOOL)validateToken:(NSString *)key;
 
 @end
@@ -125,13 +125,13 @@ Validates that the given token is valid.
 - (id)init {
     self = [super init];
     loggingEnabled = NO;
-
+    
     // log the current version number
     TBLog(@"IntemptClient-iOS %@", kIntemptSdkVersion);
     
     /*_completion = ^(BOOL status, id result, NSError *error) {
-    };*/
-
+     };*/
+    
     if([[NSUserDefaults standardUserDefaults] valueForKey:@"visitorId"]) {
         visitorId = [[NSUserDefaults standardUserDefaults] valueForKey:@"visitorId"];
     }
@@ -281,7 +281,7 @@ Validates that the given token is valid.
 }
 
 - (void)withOrgId:(NSString*)orgId andSourceId:(NSString*)trackerId andToken:(NSString*)token uuidString:(NSString*)uuid withCompletion:(CompletionHandler)handler {
-
+    
     self.locationManager.delegate = self;
     _locationManager.desiredAccuracy=kCLLocationAccuracyBest;
     _locationManager.distanceFilter=kCLDistanceFilterNone;
@@ -296,7 +296,7 @@ Validates that the given token is valid.
     self.orgIdBeacon = orgId;
     self.trackerIdBeacon = trackerId;
     self.tokenBeacon = token;
-
+    
     //proximityVisitorId = [self generateUUIDNoDashes];
     NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
     NSMutableArray *profileData = [[NSMutableArray alloc] init];
@@ -310,17 +310,17 @@ Validates that the given token is valid.
     [self.locationManager startRangingBeaconsInRegion:self.beaconRegion];
     
     /*UIBackgroundTaskIdentifier bgTask = [[UIApplication  sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-        NSLog(@"End of tolerate time. Application should be suspended now if we do not ask more 'tolerance'");
-        [[UIApplication sharedApplication] endBackgroundTask:UIBackgroundTaskInvalid];
-    }];
-
-    if (bgTask == UIBackgroundTaskInvalid) {
-        NSLog(@"This application does not support background mode");
-    }
-    else {
-        //if application supports background mode, we'll see this log.
-        NSLog(@"Application will continue to run in background");
-    }*/
+     NSLog(@"End of tolerate time. Application should be suspended now if we do not ask more 'tolerance'");
+     [[UIApplication sharedApplication] endBackgroundTask:UIBackgroundTaskInvalid];
+     }];
+     
+     if (bgTask == UIBackgroundTaskInvalid) {
+     NSLog(@"This application does not support background mode");
+     }
+     else {
+     //if application supports background mode, we'll see this log.
+     NSLog(@"Application will continue to run in background");
+     }*/
     
 }
 
@@ -386,9 +386,9 @@ Validates that the given token is valid.
         }
         else if (sharedClient.config.itemsInQueue > 30) {
             sharedClient.config.itemsInQueue = kItemsInQueue;
-
+            
             TBLog(@"Due to performance issue, you can't set `itemsInQueue` value greater than 30. Resetting value to 5.");
-
+            
         }
         
         sharedClient.propertiesOverridesDictionary = propertiesOverrides;
@@ -411,9 +411,9 @@ Validates that the given token is valid.
         _locationManager = [[CLLocationManager alloc] init];
         _locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
         _locationManager.delegate = self;
-       [_locationManager requestAlwaysAuthorization];
+        [_locationManager requestAlwaysAuthorization];
     }
-   //[_locationManager startUpdatingLocation];
+    //[_locationManager startUpdatingLocation];
     
 }
 
@@ -423,11 +423,11 @@ Validates that the given token is valid.
 
 -(void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status{
     if (status == kCLAuthorizationStatusDenied || status == kCLAuthorizationStatusRestricted) {
-            // The user denied authorization
+        // The user denied authorization
         NSLog(@"The user denied location authorization");
         if(arrLaunch.count == 0) {
             NSMutableDictionary *newEvent = [NSMutableDictionary dictionary];
-                //BOOL wasAdded = [[IntemptClient sharedClient] addEvent:newEvent toEventCollection:@"notAllow" withCompletion:NULL];
+            //BOOL wasAdded = [[IntemptClient sharedClient] addEvent:newEvent toEventCollection:@"notAllow" withCompletion:NULL];
             BOOL wasAdded = [[IntemptClient sharedClient] addEvent:newEvent toEventCollection:@"notAllow" withCompletion:_completion];
             if (!wasAdded ) {
                 TBLog(@"Failed to add event to \"view\" collection.");
@@ -476,7 +476,7 @@ Validates that the given token is valid.
     } ];
     
     // Turn off the location manager to save power.
-   [manager stopUpdatingLocation];
+    [manager stopUpdatingLocation];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
@@ -495,20 +495,20 @@ Validates that the given token is valid.
 # pragma mark - Beacon Delegate Mmethod
 
 /*- (void)locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region {
-    if ([self insideRegion: region location: manager.location])
-        [_locationManager requestStateForRegion:region];
-}*/
+ if ([self insideRegion: region location: manager.location])
+ [_locationManager requestStateForRegion:region];
+ }*/
 
 - (void)locationManager:(CLLocationManager *)manager didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region {
 }
 
 - (void)locationManager:(CLLocationManager*)manager didRangeBeacons:(NSArray*)beacons inRegion:(CLBeaconRegion*)region {
-   // Beacon found!
+    // Beacon found!
     CLBeacon *foundBeacon = [beacons firstObject];
     if (foundBeacon == nil)
         return;
     [self.filterBuffer enqueue:foundBeacon];
-
+    
     if (self.filterBuffer.count < 10) {
         return;
     }
@@ -531,38 +531,38 @@ Validates that the given token is valid.
         [self.majorArrayData removeAllObjects];
         [self.majorArrayData addObject:major];
         [self.locationManager stopRangingBeaconsInRegion:_beaconRegion];
-
+        
         [self.locationManager startRangingBeaconsInRegion:_beaconRegion];
     }
     
     if (minImmediateProximitySightings > 5) {
-       self.currentState = 1;
+        self.currentState = 1;
         NSString*str = @"1";
         [self.entryArray addObject:str];
         NSString * value = [NSString stringWithFormat:@"%@",[self.entryArray objectAtIndex:0]];
-       
+        
         if ([value isEqualToString:@"1"] && [majorValue isEqualToString:major]) {
             [self.delegate didEnterRegion:foundBeacon];
             exitFlag = 1;
-
+            
             [self.entryArray insertObject:@"0" atIndex:0];
             [self.exitArray removeAllObjects];
             
-
+            
             NSMutableDictionary *dicEntry = [[NSMutableDictionary alloc] init];
             [dicEntry setValue:[NSString stringWithFormat:@"%@",visitorId]forKey:@"visitorId"];
             
             [dicEntry setValue:[self addTimestamp] forKey:@"timestamp"];
             //NSString *strTime = [NSString stringWithFormat:@"%lld",timestamp];
             //[dicEntry setValue:strTime forKey:@"entryTime"];
-
+            
             [dicEntry setValue:visitorId forKey:@"visitorId"];
             [dicEntry setValue:[self generateUUIDNoDashes] forKey:@"eventId"];
             [dicEntry setValue:major forKey:@"major"];
             [dicEntry setValue:minor forKey:@"minor"];
-
+            
             NSArray *arrEntryData = [NSArray arrayWithObject:dicEntry];
-
+            
             self->dictValue = [[NSMutableDictionary alloc] init];
             [self->dictValue setValue:arrEntryData forKey:@"entry"];
             
@@ -587,15 +587,15 @@ Validates that the given token is valid.
             [self.entryArray removeAllObjects];
             [self.exitArray insertObject:@"0" atIndex:0];
             
-
+            
             NSMutableDictionary *dicExit = [[NSMutableDictionary alloc] init];
             [dicExit setValue:[NSString stringWithFormat:@"%@",visitorId]forKey:@"visitorId"];
             
             [dicExit setValue:[self addTimestamp] forKey:@"timestamp"];
             //NSString *strTime = [NSString stringWithFormat:@"%lld",timestamp];
             //[dic setValue:strTime forKey:@"entryTime"];
-
-
+            
+            
             [dicExit setValue:visitorId forKey:@"visitorId"];
             [dicExit setValue:[self generateUUIDNoDashes] forKey:@"eventId"];
             [dicExit setValue:major forKey:@"major"];
@@ -612,13 +612,13 @@ Validates that the given token is valid.
             });
             strMajor = major;
             [self.filterBuffer removeAllObjects];
-
+            
             [self.majorArrayData removeAllObjects];
             [self.locationManager stopRangingBeaconsInRegion:_beaconRegion];
-
+            
             [self.locationManager startRangingBeaconsInRegion:_beaconRegion];
         }
-
+        
         self.currentState = 0;
         TBLog(@"No Beacon Found!");
     }
@@ -638,7 +638,7 @@ Validates that the given token is valid.
             NSMutableDictionary *event = [[NSMutableDictionary alloc] initWithDictionary:userProperties];
             [event setObject:identity forKey:@"identifier"];
             
-
+            
             [[NSUserDefaults standardUserDefaults] setValue:identity forKey:@"identifier"];
             [[NSUserDefaults standardUserDefaults] synchronize];
             
@@ -685,7 +685,7 @@ Validates that the given token is valid.
             [profileDic setValue:identity forKey:@"identifier"];
             
             //if (arrProfile == nil)
-                //arrProfile = [NSMutableArray array];
+            //arrProfile = [NSMutableArray array];
             //[arrProfile addObject:profileDic];
             
             NSArray *arrProfile = [NSArray arrayWithObject:profileDic];
@@ -726,17 +726,17 @@ Validates that the given token is valid.
 # pragma mark - Add events
 
 - (BOOL)addEvent:(NSDictionary *)event toEventCollection:(NSString *)eventCollection withCompletion:(CompletionHandler)handler {
-
+    
     // make sure the tracker ID has been set - can't do anything without that
     if (![IntemptClient validateTrackerId:self.sourceId]) {
-
+        
         //[NSException raise:@"IntemptNoTrackerIdProvided" format:@"You tried to add an event without setting a source Id please set one!"];
         TBLog(@"You tried to add an event without setting tracker source Id please set one!");
         return NO;
     }
     
     if (![IntemptClient validateToken:self.token]) {
-
+        
         //[NSException raise:@"IntemptNoTokenProvided" format:@"You tried to add an event without setting a token, please set one!"];
         TBLog(@"You tried to add an event without setting tracker token, please set one!");
         return NO;
@@ -751,15 +751,15 @@ Validates that the given token is valid.
     
     
     /*if(launchDic == nil)
-        launchDic = [[NSMutableDictionary alloc] init];
-    if(screenDic == nil)
-        screenDic = [[NSMutableDictionary alloc] init];
-    if(deviceDic == nil)
-        deviceDic = [[NSMutableDictionary alloc] init];
-    if(geoDic == nil)
-        geoDic = [[NSMutableDictionary alloc] init];
-    if(appDic == nil)
-        appDic = [[NSMutableDictionary alloc] init];*/
+     launchDic = [[NSMutableDictionary alloc] init];
+     if(screenDic == nil)
+     screenDic = [[NSMutableDictionary alloc] init];
+     if(deviceDic == nil)
+     deviceDic = [[NSMutableDictionary alloc] init];
+     if(geoDic == nil)
+     geoDic = [[NSMutableDictionary alloc] init];
+     if(appDic == nil)
+     appDic = [[NSMutableDictionary alloc] init];*/
     
     if ([[event objectForKey:@"type"] isEqualToString:@"touch"] || [[event objectForKey:@"type"] isEqualToString:@"change"] || [[event objectForKey:@"type"] isEqualToString:@"action"]) {
         
@@ -779,38 +779,46 @@ Validates that the given token is valid.
         NSUserDefaults *df = [NSUserDefaults standardUserDefaults];
         visitorId = [df valueForKey:@"visitorId"];
         parentId = [df valueForKey:@"parentId"];
+        
         eventId = [self generateUUIDNoDashes];
         [interactionDic setValue:eventId forKey:@"eventId"];
         //[interactionDic setValue:[event objectForKey:@"type"] forKey:@"type"];
         [interactionDic addEntriesFromDictionary:event];
         //[arrInteraction addObject:interactionDic];
-        [[DBManager shared] insertAnalayticsData:interactionDic withEventType:@"interaction"];
-        //[dictValue setValue:arrInteraction forKey:@"interaction"];
-        TBLog(@"addEvent Event Data (Touch, Change, Action): %@",interactionDic);
+        
+        ////Sometimes if scene event is not logged first then parentId is nill and such event gives error in db
+        ///It happens when rootviewcontroller is set on window and quickly pressed on some action
+        if (parentId != nil){
+            [[DBManager shared] insertAnalayticsData:interactionDic withEventType:@"interaction"];
+            //[dictValue setValue:arrInteraction forKey:@"interaction"];
+            TBLog(@"addEvent Event Data (Touch, Change, Action): %@",interactionDic);
+        }else{
+            TBLog(@"parentId is nill, can't log event=%@",parentId);
+        }
         
         /*dispatch_async(self.uploadQueue, ^{
-            if (self->arrInteraction.count == 5) {
-                if (![self connected]) {
-                    TBLog(@"Please Check Your Internet Connection");
-                }
-                else {
-                    NSArray *items = [self->arrInteraction subarrayWithRange:NSMakeRange(0, 5)];
-                    NSDictionary *dictParams = [NSDictionary dictionaryWithObjectsAndKeys:items,@"interaction", nil];
-                    
-                    //TBLog(@"5 interaction events is being batched.");
-                    TBLog(@"Event Data (Touch, Change, Action): %@",dictParams);
-                    
-                    //[self sendInteractions:dictParams withCompletion:handler];
-                    [self sendEvents:dictParams multipleRecordExits:YES withCompletion:handler];
-                }
-            }
-            
-            // we're done uploading, call the main queue and execute the block
-            dispatch_async(dispatch_get_main_queue(), ^{
-                // finally, run the user-specific block (if there is one)
-                
-            });
-        });*/
+         if (self->arrInteraction.count == 5) {
+         if (![self connected]) {
+         TBLog(@"Please Check Your Internet Connection");
+         }
+         else {
+         NSArray *items = [self->arrInteraction subarrayWithRange:NSMakeRange(0, 5)];
+         NSDictionary *dictParams = [NSDictionary dictionaryWithObjectsAndKeys:items,@"interaction", nil];
+         
+         //TBLog(@"5 interaction events is being batched.");
+         TBLog(@"Event Data (Touch, Change, Action): %@",dictParams);
+         
+         //[self sendInteractions:dictParams withCompletion:handler];
+         [self sendEvents:dictParams multipleRecordExits:YES withCompletion:handler];
+         }
+         }
+         
+         // we're done uploading, call the main queue and execute the block
+         dispatch_async(dispatch_get_main_queue(), ^{
+         // finally, run the user-specific block (if there is one)
+         
+         });
+         });*/
     }
     
     else if ([eventCollection isEqualToString:@"identify"]) {
@@ -877,7 +885,7 @@ Validates that the given token is valid.
             [self->launchDic setValue:self->screenDic forKey:@"screen"];
             [self->launchDic setValue:self->geoDic forKey:@"geo"];
             [self->launchDic setValue:self->appDic forKey:@"app"];
-
+            
             [self->arrLaunch addObject:self->launchDic];
             [self->dictValue setValue:self->arrLaunch forKey:@"launch"];
             TBLog(@"Launch Data:---%@",self->dictValue);
@@ -969,6 +977,7 @@ Validates that the given token is valid.
         eventId = [self generateUUIDNoDashes];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
             self->visitorId = [df valueForKey:@"visitorId"];
+            NSString *lastParentId = [df valueForKey:@"parentId"];
             self->parentId = [df valueForKey:@"parentId"];
             [self->profileDic setValue:self->visitorId forKey:@"visitorId"];
             
@@ -993,7 +1002,7 @@ Validates that the given token is valid.
             [self->sceneDic setValue:self->visitorId forKey:@"visitorId"];
             self->parentId = [self generateUUIDNoDashes];
             [df setValue:self->parentId forKey:@"parentId"];
-
+            
             [df synchronize];
             /*------*/
             [self->sceneDic setValue:self->parentId forKey:@"parentId"];
@@ -1004,7 +1013,11 @@ Validates that the given token is valid.
                 // Not connected
                 TBLog(@"Please Check Your Internet Connection");
             } else {
-                [[DBManager shared] insertAnalayticsData:self->dictValue withEventType:@"scene"];
+                if (lastParentId != nil){
+                    [[DBManager shared] insertAnalayticsData:self->dictValue withEventType:@"scene"];
+                }else{
+                    TBLog(@"Scene event can't be logged because its parentId(Launch event not logged first");
+                }
                 //[self sendEvents:self->dictValue multipleRecordExits:NO withCompletion:handler];
             }
         });
@@ -1174,7 +1187,7 @@ NSNumber *parentTimestamp = nil;
                         dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(retryInterval * pow(2, maxRetry - retryRemaining) * NSEC_PER_SEC));
                         TBLog(@"Delaying the next attempt by %.0f seconds …", retryInterval * pow(2, maxRetry - retryRemaining));
                         
-                            // Not accurate because of "Timer Coalescing and App Nap" - which helps to reduce power consumption.
+                        // Not accurate because of "Timer Coalescing and App Nap" - which helps to reduce power consumption.
                         dispatch_after(delay, dispatch_get_main_queue(), ^(void){
                             addRetryOperation();
                         });
@@ -1202,55 +1215,55 @@ NSNumber *parentTimestamp = nil;
 }
 
 /*- (NSURLSessionDataTask *)requestUrlWithRetryRemaining:(NSInteger)retryRemaining maxRetry:(NSInteger)maxRetry retryInterval:(NSTimeInterval)retryInterval progressive:(bool)progressive fatalStatusCodes:(NSArray<NSNumber *> *)fatalStatusCodes originalRequestCreator:(NSURLSessionDataTask *(^)(void (^)(NSURLSessionDataTask *, NSError *)))taskCreator originalFailure:(void(^)(NSURLSessionDataTask *task, NSError *))failure {
-    void(^retryBlock)(NSURLSessionDataTask *, NSError *) = ^(NSURLSessionDataTask *task, NSError *error) {
-        
-        if ([self isErrorFatal:error]) {
-            TBLog(@"Request failed with fatal error: %@ - Will not try again!", error.localizedDescription);
-            failure(task, error);
-            return;
-        }
-        
-        NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
-        for (NSNumber *fatalStatusCode in fatalStatusCodes) {
-            if (response.statusCode == fatalStatusCode.integerValue) {
-                TBLog(@"Request failed with fatal error: %@ - Will not try again!", error.localizedDescription);
-                failure(task, error);
-                return;
-            }
-        }
-        
-        TBLog(@"Request failed: %@, %ld attempt/s left", error.localizedDescription, retryRemaining);
-        if (retryRemaining > 0) {
-            void (^addRetryOperation)(void) = ^{
-                [self requestUrlWithRetryRemaining:retryRemaining - 1 maxRetry:maxRetry retryInterval:retryInterval progressive:progressive fatalStatusCodes:fatalStatusCodes originalRequestCreator:taskCreator originalFailure:failure];
-            };
-            if (retryInterval > 0.0) {
-                dispatch_time_t delay;
-                if (progressive) {
-                    delay = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(retryInterval * pow(2, maxRetry - retryRemaining) * NSEC_PER_SEC));
-                    TBLog(@"Delaying the next attempt by %.0f seconds …", retryInterval * pow(2, maxRetry - retryRemaining));
-                } else {
-                    delay = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(retryInterval * NSEC_PER_SEC));
-                    TBLog(@"Delaying the next attempt by %.0f seconds …", retryInterval);
-                }
-                
-                    // Not accurate because of "Timer Coalescing and App Nap" - which helps to reduce power consumption.
-                dispatch_after(delay, dispatch_get_main_queue(), ^(void){
-                    addRetryOperation();
-                });
-                
-            } else {
-                addRetryOperation();
-            }
-            
-        } else {
-            TBLog(@"No more attempts left! Will execute the failure block.");
-            failure(task, error);
-        }
-    };
-    NSURLSessionDataTask *task = taskCreator(retryBlock);
-    return task;
-}*/
+ void(^retryBlock)(NSURLSessionDataTask *, NSError *) = ^(NSURLSessionDataTask *task, NSError *error) {
+ 
+ if ([self isErrorFatal:error]) {
+ TBLog(@"Request failed with fatal error: %@ - Will not try again!", error.localizedDescription);
+ failure(task, error);
+ return;
+ }
+ 
+ NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
+ for (NSNumber *fatalStatusCode in fatalStatusCodes) {
+ if (response.statusCode == fatalStatusCode.integerValue) {
+ TBLog(@"Request failed with fatal error: %@ - Will not try again!", error.localizedDescription);
+ failure(task, error);
+ return;
+ }
+ }
+ 
+ TBLog(@"Request failed: %@, %ld attempt/s left", error.localizedDescription, retryRemaining);
+ if (retryRemaining > 0) {
+ void (^addRetryOperation)(void) = ^{
+ [self requestUrlWithRetryRemaining:retryRemaining - 1 maxRetry:maxRetry retryInterval:retryInterval progressive:progressive fatalStatusCodes:fatalStatusCodes originalRequestCreator:taskCreator originalFailure:failure];
+ };
+ if (retryInterval > 0.0) {
+ dispatch_time_t delay;
+ if (progressive) {
+ delay = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(retryInterval * pow(2, maxRetry - retryRemaining) * NSEC_PER_SEC));
+ TBLog(@"Delaying the next attempt by %.0f seconds …", retryInterval * pow(2, maxRetry - retryRemaining));
+ } else {
+ delay = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(retryInterval * NSEC_PER_SEC));
+ TBLog(@"Delaying the next attempt by %.0f seconds …", retryInterval);
+ }
+ 
+ // Not accurate because of "Timer Coalescing and App Nap" - which helps to reduce power consumption.
+ dispatch_after(delay, dispatch_get_main_queue(), ^(void){
+ addRetryOperation();
+ });
+ 
+ } else {
+ addRetryOperation();
+ }
+ 
+ } else {
+ TBLog(@"No more attempts left! Will execute the failure block.");
+ failure(task, error);
+ }
+ };
+ NSURLSessionDataTask *task = taskCreator(retryBlock);
+ return task;
+ }*/
 
 
 # pragma mark - HTTP Request and Response Management
@@ -1289,17 +1302,17 @@ NSNumber *parentTimestamp = nil;
                 NSMutableArray *arrInteractionItems = [NSMutableArray new];
                 
                 for (ModelEvent *modelEvent in arrAnalyticsDataToSync) {
-                        // create array with `interaction` events
+                    // create array with `interaction` events
                     if ([modelEvent.eventType isEqualToString:@"interaction"]) {
                         [arrInteractionIds addObject:modelEvent.eventId];
                         [arrInteractionItems addObject:modelEvent.eventContent];
                         
-                            //Update `isSync` to `YES` of these records as will be sent to server.
+                        //Update `isSync` to `YES` of these records as will be sent to server.
                         [[DBManager shared] updateRecordsWithEventId:[modelEvent.eventId integerValue] withIsSync:YES];
                     }
                     else { //`launch` and `scene` type events should not be sent as batch
                         [self sendEventContent:modelEvent.eventContent eventIds:@[modelEvent.eventId] withCompletion:self.completion];
-                            //Update `isSync` to `YES` of these records as will be sent to server.
+                        //Update `isSync` to `YES` of these records as will be sent to server.
                         [[DBManager shared] updateRecordsWithEventId:[modelEvent.eventId integerValue] withIsSync:YES];
                     }
                 }
@@ -1315,7 +1328,7 @@ NSNumber *parentTimestamp = nil;
         if (arrAnalyticsDataToSync.count > 0) {
             for (ModelEvent *modelEvent in arrAnalyticsDataToSync) {
                 [self sendEventContent:modelEvent.eventContent eventIds:@[modelEvent.eventId] withCompletion:self.completion];
-                    //Update `isSync` to `YES` of these records as will be sent to server.
+                //Update `isSync` to `YES` of these records as will be sent to server.
                 [[DBManager shared] updateRecordsWithEventId:[modelEvent.eventId integerValue] withIsSync:YES];
             }
         }
@@ -1344,15 +1357,15 @@ NSNumber *parentTimestamp = nil;
 }
 
 /*- (void)sendInteractions:(NSDictionary*)eventsValue withCompletion:(CompletionHandler)handler {
-    
-    NSString *sourceDataAddress = [NSString stringWithFormat:@"%@%@/sources/%@/data",kIntemptServerAddress,self.organizationId,self.sourceId];
-    TBLog(@"Tracker URL: %@",sourceDataAddress);
-    //[self sendDataToServerWithURL:[NSURL URLWithString:sourceDataAddress] withParams:eventsValue withToken:self.token withCompletion:handler];
-    
-    NSURLRequest *request = [self prepareRequestWithURL:[NSURL URLWithString:sourceDataAddress] withParams:eventsValue withToken:self.token];
-    if(request)
-        [self sendInteractionDataToServerWithRequest:request withCompletion:handler];
-}*/
+ 
+ NSString *sourceDataAddress = [NSString stringWithFormat:@"%@%@/sources/%@/data",kIntemptServerAddress,self.organizationId,self.sourceId];
+ TBLog(@"Tracker URL: %@",sourceDataAddress);
+ //[self sendDataToServerWithURL:[NSURL URLWithString:sourceDataAddress] withParams:eventsValue withToken:self.token withCompletion:handler];
+ 
+ NSURLRequest *request = [self prepareRequestWithURL:[NSURL URLWithString:sourceDataAddress] withParams:eventsValue withToken:self.token];
+ if(request)
+ [self sendInteractionDataToServerWithRequest:request withCompletion:handler];
+ }*/
 
 - (void)sendProximitySourceEvents:(NSString*)orgId andSourceId:(NSString*)trackerId andToken:(NSString*)token eventsValue:(NSMutableDictionary*)eventsValue withCompletion:(CompletionHandler)handler {
     
@@ -1369,7 +1382,7 @@ NSNumber *parentTimestamp = nil;
     NSString *hearderToken = [NSString stringWithFormat:@"ApiKey %@",apiToken];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
-        
+    
     [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request addValue:hearderToken forHTTPHeaderField:@"Authorization"];
     [request setHTTPMethod:@"POST"];
@@ -1398,64 +1411,79 @@ NSNumber *parentTimestamp = nil;
     NSURLSessionDataTask *postDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSMutableDictionary *dictResponse = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
-            TBLog(@"Response:------%@",dictResponse);
-
-            if(handler) {
-                if(error) {
-                    //Reset `isSync` status to `NO` if failed
-                    for (NSString *insertId in arrInsertIds) {
-                        [[DBManager shared] updateRecordsWithEventId:[insertId integerValue] withIsSync:NO];
-                    }
-                    
-                    // handle HTTP errors here
-                    if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
-                        
-                        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
-                        NSArray *arrFailureStatusCodes = @[@408, @500, @501, @502, @503, @504];
-                        
-                        if ([arrFailureStatusCodes containsObject:[NSNumber numberWithLong:statusCode]]) {
-                            TBLog(@"HTTP status code: %ld", (long)statusCode);
-                            
-                            // Not working
-                            /*NSURLSessionDataTask *taskRetry = [self requestUrlWithRetryRemaining:kRetryLimit maxRetry:kRetryLimit retryInterval:kRetryDelay progressive:true fatalStatusCodes:arrFailureStatusCodes originalRequestCreator:^NSURLSessionDataTask *(void (^retryBlock)(NSURLSessionDataTask *, NSError *)) {
-                                return postDataTask;
-                            } originalFailure:^(NSURLSessionDataTask *task, NSError *error) {
-                            }];
-                            [taskRetry resume];*/
-                            
-                            // Retry method
-                            [self requestUrlWithRetryRemaining:kRetryLimit maxRetry:kRetryLimit retryInterval:kRetryDelay fatalStatusCodes:arrFailureStatusCodes originalRequest:request eventIds:arrInsertIds];
-                            
-                            [self stopTimer];
-                        }
-                    }
-
-
-                    handler(NO, nil, error);
-                }
-                else {
-                    if ([dictResponse valueForKey:@"error"] && [dictResponse valueForKey:@"status"]) {
+            if (data != nil){
+                NSMutableDictionary *dictResponse = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+                TBLog(@"sendDataToServerWithRequest eventIds Response:------%@",dictResponse);
+                if(handler) {
+                    if(error) {
                         //Reset `isSync` status to `NO` if failed
                         for (NSString *insertId in arrInsertIds) {
                             [[DBManager shared] updateRecordsWithEventId:[insertId integerValue] withIsSync:NO];
                         }
                         
-                        NSString *const kIntemptErrorDomain = [[NSBundle mainBundle] bundleIdentifier];
-                        NSDictionary *dictUserInfo = @{
-                            NSLocalizedDescriptionKey: NSLocalizedString([dictResponse valueForKey:@"error"], nil),
-                            NSLocalizedFailureReasonErrorKey: NSLocalizedString([dictResponse valueForKey:@"message"], nil),
-                            NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"", nil)
-                        };
+                        // handle HTTP errors here
+                        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+                            
+                            NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+                            NSArray *arrFailureStatusCodes = @[@408, @500, @501, @502, @503, @504];
+                            
+                            if ([arrFailureStatusCodes containsObject:[NSNumber numberWithLong:statusCode]]) {
+                                TBLog(@"HTTP status code: %ld", (long)statusCode);
+                                
+                                // Not working
+                                /*NSURLSessionDataTask *taskRetry = [self requestUrlWithRetryRemaining:kRetryLimit maxRetry:kRetryLimit retryInterval:kRetryDelay progressive:true fatalStatusCodes:arrFailureStatusCodes originalRequestCreator:^NSURLSessionDataTask *(void (^retryBlock)(NSURLSessionDataTask *, NSError *)) {
+                                 return postDataTask;
+                                 } originalFailure:^(NSURLSessionDataTask *task, NSError *error) {
+                                 }];
+                                 [taskRetry resume];*/
+                                
+                                // Retry method
+                                [self requestUrlWithRetryRemaining:kRetryLimit maxRetry:kRetryLimit retryInterval:kRetryDelay fatalStatusCodes:arrFailureStatusCodes originalRequest:request eventIds:arrInsertIds];
+                                
+                                [self stopTimer];
+                            }
+                        }
                         
-                        NSError *createError = [NSError errorWithDomain:kIntemptErrorDomain code:[[dictResponse valueForKey:@"status"] intValue] userInfo:dictUserInfo];
-                        handler(NO, nil, createError);
+                        
+                        handler(NO, nil, error);
                     }
                     else {
-                        [[DBManager shared] deleteAnalayticsDataWithSync:YES];
-                        handler(YES, dictResponse, nil);
+                        if ([dictResponse valueForKey:@"error"] && [dictResponse valueForKey:@"status"]) {
+                            
+                            if([[dictResponse valueForKey:@"status"]intValue] == 400){
+                                ////delete bad requests data from local db, so that it should not keep throwing and trying to send to server, it is possible developer can generate bad data which is not matching with schema
+                                for (NSString *insertId in arrInsertIds) {
+                                    [[DBManager shared] deleteRecordsWithEventId:[insertId integerValue]];
+                                }
+                            }else{
+                                ////Reset `isSync` status to `NO` if failed
+                                for (NSString *insertId in arrInsertIds) {
+                                    [[DBManager shared] updateRecordsWithEventId:[insertId integerValue] withIsSync:NO];
+                                }
+                            }
+                            
+                            NSString *const kIntemptErrorDomain = [[NSBundle mainBundle] bundleIdentifier];
+                            NSDictionary *dictUserInfo = @{
+                                NSLocalizedDescriptionKey: NSLocalizedString([dictResponse valueForKey:@"error"], nil),
+                                NSLocalizedFailureReasonErrorKey: NSLocalizedString([dictResponse valueForKey:@"message"], nil),
+                                NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"", nil)
+                            };
+                            
+                            NSError *createError = [NSError errorWithDomain:kIntemptErrorDomain code:[[dictResponse valueForKey:@"status"] intValue] userInfo:dictUserInfo];
+                            handler(NO, nil, createError);
+                        }
+                        else {
+                            [[DBManager shared] deleteAnalayticsDataWithSync:YES];
+                            handler(YES, dictResponse, nil);
+                        }
                     }
                 }
+            }else{
+                //Reset `isSync` status to `NO` if failed
+                for (NSString *insertId in arrInsertIds) {
+                    [[DBManager shared] updateRecordsWithEventId:[insertId integerValue] withIsSync:NO];
+                }
+                handler(NO, nil, error);
             }
         });
     }];
@@ -1467,117 +1495,120 @@ NSNumber *parentTimestamp = nil;
     
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
-
+    
     NSURLSessionDataTask *postDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSMutableDictionary *dictResponse = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
-            TBLog(@"Response:------%@",dictResponse);
-            
-            if (status == YES) {
+        
+        if (data != nil){
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSMutableDictionary *dictResponse = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+                TBLog(@"Response:------%@",dictResponse);
+                
+                if (status == YES) {
                     //Remove used 5 events
-                if(self->arrInteraction.count >= 5){
-                    [self->arrInteraction removeObjectsInRange:NSMakeRange(0, 5)];
+                    if(self->arrInteraction.count >= 5){
+                        [self->arrInteraction removeObjectsInRange:NSMakeRange(0, 5)];
                         //TBLog(@"5 interaction events removed after sending to server.");
-                    
+                        
                         //Make sure there is no leftover in the array
-                    if (self->arrInteraction.count > 0 && self->arrInteraction.count < 5) {
-                        NSArray *items = [self->arrInteraction copy];
-                        [self->arrInteraction removeObjectsInArray:items];
-                        NSDictionary *dictParams = [NSDictionary dictionaryWithObjectsAndKeys:items,@"interaction", nil];
-                        
+                        if (self->arrInteraction.count > 0 && self->arrInteraction.count < 5) {
+                            NSArray *items = [self->arrInteraction copy];
+                            [self->arrInteraction removeObjectsInArray:items];
+                            NSDictionary *dictParams = [NSDictionary dictionaryWithObjectsAndKeys:items,@"interaction", nil];
+                            
                             //TBLog(@"Rest %ld interaction events is being batched.", items.count);
-                        TBLog(@"sendDataToServerWithRequest  Event Data (Touch, Change, Action): %@",dictParams);
-                        
+                            TBLog(@"sendDataToServerWithRequest  Event Data (Touch, Change, Action): %@",dictParams);
+                            
                             //[self sendInteractions:dictParams withCompletion:handler];
-                        [self sendEvents:dictParams multipleRecordExits:YES withCompletion:handler];
+                            [self sendEvents:dictParams multipleRecordExits:YES withCompletion:handler];
+                        }
                     }
                 }
-            }
-
-            if(handler) {
-                if(error) {
-                    handler(NO, nil, error);
-                }
-                else {
-                    if ([dictResponse valueForKey:@"error"] && [dictResponse valueForKey:@"status"]) {
-                        NSString *const kIntemptErrorDomain = [[NSBundle mainBundle] bundleIdentifier];
-                        NSDictionary *dictUserInfo = @{
-                            NSLocalizedDescriptionKey: NSLocalizedString([dictResponse valueForKey:@"error"], nil),
-                            NSLocalizedFailureReasonErrorKey: NSLocalizedString([dictResponse valueForKey:@"message"], nil),
-                            NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"", nil)
-                        };
-                        
-                        NSError *createError = [NSError errorWithDomain:kIntemptErrorDomain code:[[dictResponse valueForKey:@"status"] intValue] userInfo:dictUserInfo];
-                        handler(NO, nil, createError);
+                
+                if(handler) {
+                    if(error) {
+                        handler(NO, nil, error);
                     }
                     else {
-                        handler(YES, dictResponse, nil);
+                        if ([dictResponse valueForKey:@"error"] && [dictResponse valueForKey:@"status"]) {
+                            NSString *const kIntemptErrorDomain = [[NSBundle mainBundle] bundleIdentifier];
+                            NSDictionary *dictUserInfo = @{
+                                NSLocalizedDescriptionKey: NSLocalizedString([dictResponse valueForKey:@"error"], nil),
+                                NSLocalizedFailureReasonErrorKey: NSLocalizedString([dictResponse valueForKey:@"message"], nil),
+                                NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"", nil)
+                            };
+                            
+                            NSError *createError = [NSError errorWithDomain:kIntemptErrorDomain code:[[dictResponse valueForKey:@"status"] intValue] userInfo:dictUserInfo];
+                            handler(NO, nil, createError);
+                        }
+                        else {
+                            handler(YES, dictResponse, nil);
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
+        
     }];
     
     [postDataTask resume];
 }
 
 /*- (void)sendInteractionDataToServerWithRequest:(NSURLRequest*)request withCompletion:(CompletionHandler)handler {
-    
-    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
-
-    NSURLSessionDataTask *postDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSMutableDictionary *dictResponse = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
-            TBLog(@"Response:------%@",dictResponse);
-            
-                //Remove used 5 events
-            if(self->arrInteraction.count >= 5){
-                [self->arrInteraction removeObjectsInRange:NSMakeRange(0, 5)];
-                    //TBLog(@"5 interaction events removed after sending to server.");
-                
-                    //Make sure there is no leftover in the array
-                if (self->arrInteraction.count > 0 && self->arrInteraction.count < 5) {
-                    NSArray *items = [self->arrInteraction copy];
-                    [self->arrInteraction removeObjectsInArray:items];
-                    NSDictionary *dictParams = [NSDictionary dictionaryWithObjectsAndKeys:items,@"interaction", nil];
-                    
-                        //TBLog(@"Rest %ld interaction events is being batched.", items.count);
-                    TBLog(@"Event Data (Touch, Change, Action): %@",dictParams);
-                    
-                        //[self sendInteractions:dictParams withCompletion:handler];
-                    [self sendEvents:dictParams multipleRecordExits:YES withCompletion:handler];
-                }
-            }
-
-            if(handler) {
-                if(error) {
-                    handler(NO, nil, error);
-                }
-                else {
-                    if ([dictResponse valueForKey:@"error"] && [dictResponse valueForKey:@"status"]) {
-                        NSString *const kIntemptErrorDomain = [[NSBundle mainBundle] bundleIdentifier];
-                        NSDictionary *dictUserInfo = @{
-                            NSLocalizedDescriptionKey: NSLocalizedString([dictResponse valueForKey:@"error"], nil),
-                            NSLocalizedFailureReasonErrorKey: NSLocalizedString([dictResponse valueForKey:@"message"], nil),
-                            NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"", nil)
-                        };
-                        
-                        NSError *createError = [NSError errorWithDomain:kIntemptErrorDomain code:[[dictResponse valueForKey:@"status"] intValue] userInfo:dictUserInfo];
-                        handler(NO, nil, createError);
-                    }
-                    else {
-                        handler(YES, dictResponse, nil);
-                    }
-                }
-            }
-        });
-    }];
-    
-    [postDataTask resume];
-}*/
+ 
+ NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+ NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
+ 
+ NSURLSessionDataTask *postDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+ 
+ dispatch_async(dispatch_get_main_queue(), ^{
+ NSMutableDictionary *dictResponse = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+ TBLog(@"Response:------%@",dictResponse);
+ 
+ //Remove used 5 events
+ if(self->arrInteraction.count >= 5){
+ [self->arrInteraction removeObjectsInRange:NSMakeRange(0, 5)];
+ //TBLog(@"5 interaction events removed after sending to server.");
+ 
+ //Make sure there is no leftover in the array
+ if (self->arrInteraction.count > 0 && self->arrInteraction.count < 5) {
+ NSArray *items = [self->arrInteraction copy];
+ [self->arrInteraction removeObjectsInArray:items];
+ NSDictionary *dictParams = [NSDictionary dictionaryWithObjectsAndKeys:items,@"interaction", nil];
+ 
+ //TBLog(@"Rest %ld interaction events is being batched.", items.count);
+ TBLog(@"Event Data (Touch, Change, Action): %@",dictParams);
+ 
+ //[self sendInteractions:dictParams withCompletion:handler];
+ [self sendEvents:dictParams multipleRecordExits:YES withCompletion:handler];
+ }
+ }
+ 
+ if(handler) {
+ if(error) {
+ handler(NO, nil, error);
+ }
+ else {
+ if ([dictResponse valueForKey:@"error"] && [dictResponse valueForKey:@"status"]) {
+ NSString *const kIntemptErrorDomain = [[NSBundle mainBundle] bundleIdentifier];
+ NSDictionary *dictUserInfo = @{
+ NSLocalizedDescriptionKey: NSLocalizedString([dictResponse valueForKey:@"error"], nil),
+ NSLocalizedFailureReasonErrorKey: NSLocalizedString([dictResponse valueForKey:@"message"], nil),
+ NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"", nil)
+ };
+ 
+ NSError *createError = [NSError errorWithDomain:kIntemptErrorDomain code:[[dictResponse valueForKey:@"status"] intValue] userInfo:dictUserInfo];
+ handler(NO, nil, createError);
+ }
+ else {
+ handler(YES, dictResponse, nil);
+ }
+ }
+ }
+ });
+ }];
+ 
+ [postDataTask resume];
+ }*/
 
 
 # pragma mark - visitorId
@@ -1598,11 +1629,11 @@ NSNumber *parentTimestamp = nil;
         case CBManagerStateResetting:
             TBLog(@"The connection with the system service was momentarily lost, update imminent.");
             break;
-
+            
         case CBManagerStateUnsupported:
             NSLog(@"The platform doesn't support Bluetooth.");
             break;
-
+            
         case CBManagerStateUnauthorized:
             TBLog(@"The app is not authorized to use Bluetooth.");
             break;
@@ -1610,9 +1641,9 @@ NSNumber *parentTimestamp = nil;
             TBLog(@"Bluetooth is currently powered off, powered ON first.");
             break;
         case CBManagerStatePoweredOn:
-             //Scan for devices
-             //[_centralManager scanForPeripheralsWithServices:@[[CBUUID UUIDWithString:TRANSFER_SERVICE_UUID]] options:@{ CBCentralManagerScanOptionAllowDuplicatesKey : @YES }];
-             NSLog(@"Scanning started");
+            //Scan for devices
+            //[_centralManager scanForPeripheralsWithServices:@[[CBUUID UUIDWithString:TRANSFER_SERVICE_UUID]] options:@{ CBCentralManagerScanOptionAllowDuplicatesKey : @YES }];
+            NSLog(@"Scanning started");
             break;
         default:
             TBLog(@"State unknown, update imminent.");
@@ -1621,13 +1652,13 @@ NSNumber *parentTimestamp = nil;
     
     
     /*if (central.state != CBManagerStatePoweredOn) {
-        return;
-    }
+     return;
+     }
      
-    if (central.state == CBManagerStatePoweredOn) {
-       // [_centralManager scanForPeripheralsWithServices:@[[CBUUID UUIDWithString:TRANSFER_SERVICE_UUID]] options:@{ CBCentralManagerScanOptionAllowDuplicatesKey : @YES }];
-        TBLog(@"Scanning started");
-    }*/
+     if (central.state == CBManagerStatePoweredOn) {
+     // [_centralManager scanForPeripheralsWithServices:@[[CBUUID UUIDWithString:TRANSFER_SERVICE_UUID]] options:@{ CBCentralManagerScanOptionAllowDuplicatesKey : @YES }];
+     TBLog(@"Scanning started");
+     }*/
 }
 
 
@@ -1637,7 +1668,7 @@ NSNumber *parentTimestamp = nil;
     switch (error.code) {
         case kCFHostErrorHostNotFound:
         case kCFHostErrorUnknown: // Query the kCFGetAddrInfoFailureKey to get the value returned from getaddrinfo; lookup in netdb.h
-                                  // HTTP errors
+            // HTTP errors
         case kCFErrorHTTPAuthenticationTypeUnsupported:
         case kCFErrorHTTPBadCredentials:
         case kCFErrorHTTPParseFailure:
@@ -1647,7 +1678,7 @@ NSNumber *parentTimestamp = nil;
         case kCFErrorPACFileError:
         case kCFErrorPACFileAuth:
         case kCFStreamErrorHTTPSProxyFailureUnexpectedResponseToCONNECTMethod:
-                // Error codes for CFURLConnection and CFURLProtocol
+            // Error codes for CFURLConnection and CFURLProtocol
         case kCFURLErrorUnknown:
         case kCFURLErrorCancelled:
         case kCFURLErrorBadURL:
@@ -1668,7 +1699,7 @@ NSNumber *parentTimestamp = nil;
         case kCFURLErrorFileIsDirectory:
         case kCFURLErrorNoPermissionsToReadFile:
         case kCFURLErrorDataLengthExceedsMaximum:
-                // SSL errors
+            // SSL errors
         case kCFURLErrorServerCertificateHasBadDate:
         case kCFURLErrorServerCertificateUntrusted:
         case kCFURLErrorServerCertificateHasUnknownRoot:
@@ -1676,9 +1707,9 @@ NSNumber *parentTimestamp = nil;
         case kCFURLErrorClientCertificateRejected:
         case kCFURLErrorClientCertificateRequired:
         case kCFURLErrorCannotLoadFromNetwork:
-                // Cookie errors
+            // Cookie errors
         case kCFHTTPCookieCannotParseCookieFile:
-                // Errors originating from CFNetServices
+            // Errors originating from CFNetServices
         case kCFNetServiceErrorUnknown:
         case kCFNetServiceErrorCollision:
         case kCFNetServiceErrorNotFound:
@@ -1686,7 +1717,7 @@ NSNumber *parentTimestamp = nil;
         case kCFNetServiceErrorBadArgument:
         case kCFNetServiceErrorCancel:
         case kCFNetServiceErrorInvalid:
-                // Special case
+            // Special case
         case 101: // null address
         case 102: // Ignore "Frame Load Interrupted" errors. Seen after app store links.
             return YES;

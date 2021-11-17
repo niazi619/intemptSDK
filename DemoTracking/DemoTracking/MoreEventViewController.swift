@@ -8,6 +8,8 @@
 
 import UIKit
 import CountryPickerView
+import CoreLocation
+import CoreLocationUI
 
 class MoreEventViewController: UIViewController {
     
@@ -34,8 +36,15 @@ class MoreEventViewController: UIViewController {
         countryPickerView = CountryPickerView()
         countryPickerView.delegate = self
         
+        
+        let locationButton = CLLocationButton()
+        locationButton.label = .currentLocation
+        
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = true
+    }
     @IBAction func goBackPressed(){
         self.navigationController?.popViewController(animated: true)
     }
@@ -70,7 +79,21 @@ class MoreEventViewController: UIViewController {
     @IBAction func podTestWithCountryPicker(){
         countryPickerView.showCountriesList(from: self)
     }
+    @IBAction func navigationControl(){
+        let customVC =  self.storyboard?.instantiateViewController(identifier: "NavigationControllerViewController") as! NavigationControllerViewController
+        self.navigationController?.pushViewController(customVC, animated: true)
+    }
+    @IBAction func pageViewController(){
+        let vcnt = MySwipeVC()
+        self.navigationController?.pushViewController(vcnt, animated: true)
+    }
 
+    @IBAction func attributatedBtnPressed(_ sender:UIButton){
+        
+    }
+    @IBAction func barItemPressed(_ sender:UIBarItem){
+        
+    }
 }
 
 extension MoreEventViewController: UIPickerViewDataSource, UIPickerViewDelegate {
