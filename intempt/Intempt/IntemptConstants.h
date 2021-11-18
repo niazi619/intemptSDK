@@ -19,6 +19,7 @@ extern NSString * const kIntemptApiVersion;
 extern NSString * const kPlatform;
 extern NSString * const kIntemptErrorDomain;
 
+extern BOOL const kTrackingEnable;
 extern BOOL const kEnableQueue;
 extern int const kItemsInQueue;
 extern double const kTimeBuffer;

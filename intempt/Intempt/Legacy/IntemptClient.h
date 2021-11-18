@@ -64,6 +64,22 @@ typedef void(^CompletionHandler)(BOOL status, id result, NSError *error);
  */
 + (void)authorizeGeoLocationWhenInUse;
 
+/**
+ Call this to disable tracking, By default tracking is enabled. NOTE: this settings is persistent, once disabled it will remain disabled even app is killed and relaucnhed, To renable tracking 'enableTracking' function should be called.
+ */
++ (void)disableTracking;
+
+/**
+ Call this to enable tracking. By default it's enabled.
+ */
++ (void)enableTracking;
+
+/**
+ Returns whether or not tracking is currently enabled.
+ 
+ @return true if tracking is enabled, false if disabled.
+ */
++ (Boolean)isTrackingEnabled;
 
 /**
  Call this to disable debug logging.
@@ -71,7 +87,7 @@ typedef void(^CompletionHandler)(BOOL status, id result, NSError *error);
 + (void)disableLogging;
 
 /**
- Call this to enable debug logging. By default it's disabled.
+ Call this to enable debug logging. By default it's enabled.
  */
 + (void)enableLogging;
 

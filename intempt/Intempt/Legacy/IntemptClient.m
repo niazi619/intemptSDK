@@ -27,6 +27,7 @@ static BOOL authorizedGeoLocationAlways = NO;
 static BOOL authorizedGeoLocationWhenInUse = NO;
 static BOOL geoLocationEnabled = NO;
 static BOOL loggingEnabled = NO;
+static BOOL trackingEnabled = YES;
 
 
 @interface IntemptClient ()<CLLocationManagerDelegate,CBCentralManagerDelegate, CBPeripheralDelegate> {
@@ -124,8 +125,8 @@ static BOOL loggingEnabled = NO;
 
 - (id)init {
     self = [super init];
-    loggingEnabled = NO;
-    
+    loggingEnabled = YES;
+    trackingEnabled = YES;
     // log the current version number
     TBLog(@"IntemptClient-iOS %@", kIntemptSdkVersion);
     
@@ -141,6 +142,17 @@ static BOOL loggingEnabled = NO;
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
     //TBLog(@"VisitorId-------------------------------: %@",visitorId);
+    
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    if([userDefault valueForKey:@"Intempt_Tracking_Flag"]){
+        NSString *valTracking = [userDefault valueForKey:@"Intempt_Tracking_Flag"];
+        if([valTracking isEqualToString:@"NO"]){
+            trackingEnabled = NO;
+            NSLog(@"Intempt Tracking Disabled");
+        }
+    }
+    
+    [userDefault setValue:@"NO" forKey:@"Intempt_Tracking_Flag"];
     
     brand = @"Apple";
     /*----*/
@@ -176,8 +188,26 @@ static BOOL loggingEnabled = NO;
         return;
     }
     
-    [IntemptClient disableLogging];
+    [IntemptClient enableLogging];
     [IntemptClient enableGeoLocation];
+}
+
++ (void)disableTracking {
+    trackingEnabled = NO;
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    [userDefault setValue:@"NO" forKey:@"Intempt_Tracking_Flag"];
+    [userDefault synchronize];
+}
+
++ (void)enableTracking {
+    trackingEnabled = YES;
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    [userDefault setValue:@"YES" forKey:@"Intempt_Tracking_Flag"];
+    [userDefault synchronize];
+}
+
++ (Boolean)isTrackingEnabled {
+    return trackingEnabled;
 }
 
 + (void)disableLogging {
@@ -1453,6 +1483,7 @@ NSNumber *parentTimestamp = nil;
                             if([[dictResponse valueForKey:@"status"]intValue] == 400){
                                 ////delete bad requests data from local db, so that it should not keep throwing and trying to send to server, it is possible developer can generate bad data which is not matching with schema
                                 for (NSString *insertId in arrInsertIds) {
+                                    TBLog(@"Deleted Bad Request from local queu");
                                     [[DBManager shared] deleteRecordsWithEventId:[insertId integerValue]];
                                 }
                             }else{
@@ -1473,6 +1504,8 @@ NSNumber *parentTimestamp = nil;
                             handler(NO, nil, createError);
                         }
                         else {
+                            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
+                            TBLog(@"success response code=%ld",(long)httpResponse.statusCode);
                             [[DBManager shared] deleteAnalayticsDataWithSync:YES];
                             handler(YES, dictResponse, nil);
                         }

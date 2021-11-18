@@ -27,7 +27,9 @@ class CustomEventViewController: UIViewController {
         dic1.setValue("2", forKey: "bookingId");
         dic1.setValue("1", forKey: "flightId");
         dic1.setValue("booked", forKey: "bookingStatus");
-        dic1.setValue("2020-05-26", forKey: "bookingDate");
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dic1.setValue(dateFormatter.string(from:Date()), forKey: "bookingDate");
         
         
         let arrData = NSArray(object: dic1)

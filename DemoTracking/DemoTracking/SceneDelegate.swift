@@ -52,6 +52,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 if ATTrackingManager.trackingAuthorizationStatus == .authorized {
                     requestTrackingPermission()
                 }
+            }else{
+                initializeIntemptTracking()
             }
         }
     }
@@ -114,7 +116,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 }
             }
         }
-        IntemptClient.enableLogging()
+        
     }
     
     func decideInitialViewController() {

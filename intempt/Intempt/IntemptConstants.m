@@ -19,6 +19,7 @@
 NSString * const kIntemptApiVersion = @"1.0";
 NSString * const kPlatform = @"iOS";
 
+BOOL const kTrackingEnable = YES;
 BOOL const kEnableQueue = YES;
 int const kItemsInQueue = 5;
 double const kTimeBuffer = 5;

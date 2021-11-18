@@ -15,15 +15,22 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet var emailTxt: UITextField!
     @IBOutlet var pwdTxt: UITextField!
-    
     @IBOutlet var tanay: UIButton!
     @IBOutlet var lbl: UILabel!
+    @IBOutlet var switchTracking: UISwitch!
+    @IBOutlet var lblTracking: UILabel!
+    @IBOutlet var switchLogging: UISwitch!
+    @IBOutlet var lblLogging: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        self.updateTrackingStatus()
+        self.updateLoggingStatus()
     }
     
     @IBAction func ButtonPressed( sender: AnyObject? ) {
@@ -79,7 +86,40 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let nextVC =  self.storyboard?.instantiateViewController(identifier: "MoreEventViewController") as! MoreEventViewController
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
-    
+    @IBAction func enableDisableTracking(){
+        if(IntemptClient.isTrackingEnabled()){
+            IntemptClient.disableTracking()
+        }else{
+            IntemptClient.enableTracking()
+        }
+        self.updateTrackingStatus()
+    }
+    func updateTrackingStatus(){
+        if(IntemptClient.isTrackingEnabled()){
+            lblTracking.text = "Tracking Enabled"
+            switchTracking.isOn = true
+        }else{
+            lblTracking.text = "Tracking Disabled"
+            switchTracking.isOn = false
+        }
+    }
+    @IBAction func enableDisableLogging(){
+        if(IntemptClient.isLoggingEnabled()){
+            IntemptClient.disableLogging()
+        }else{
+            IntemptClient.enableLogging()
+        }
+        self.updateLoggingStatus()
+    }
+    func updateLoggingStatus(){
+        if(IntemptClient.isLoggingEnabled()){
+            lblLogging.text = "Logging Enabled"
+            switchLogging.isOn = true
+        }else{
+            lblLogging.text = "Logging Disabled"
+            switchLogging.isOn = false
+        }
+    }
     func isValidEmail(testStr:String) -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         
@@ -92,6 +132,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
+    
 }
 
 

@@ -36,25 +36,49 @@
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     
-    for (UITouch *touch in touches) {
-    
-        NSString *val = NSStringFromClass([touch.view.superclass class]);
-        if ([val isEqualToString:@"UIControl"] || [touch.view isKindOfClass:[UISwitch class]] ){
-            ////UIButton and other Actions which are inherited from UIControl are recorded by IntemptActionTracker, so we should avoid duplicate events gernerating
-            TBLog(@"IntemptActionTracker will log:-------%@",[val class]);
-        }else{
-            [self createEventDictionaryWith:touch.view];
-            //Additionally extract all Labels as by default UILabel are not clickable
-            NSArray *arrViews = [touch.view recurrenceAllSubviews];
-            if(arrViews.count > 0) {
-                 for (UIView *view in arrViews) {
-                     if([view isKindOfClass:[UILabel class]]){
-                         //not a good approach, it will generate events for all labels
-                         [self createEventDictionaryWith:view];
-                     }
-                 }
+    if([IntemptClient isTrackingEnabled] == YES){
+        for (UITouch *touch in touches) {
+        
+            CGPoint touchPoint = [touch locationInView:touch.view];
+            TBLog(@"touch=%f,%f", touchPoint.x, touchPoint.y);
+            NSString *val = NSStringFromClass([touch.view.superclass class]);
+            if ([val isEqualToString:@"UIControl"] || [touch.view isKindOfClass:[UISwitch class]] ){
+                ////UIButton and other Actions which are inherited from UIControl are recorded by IntemptActionTracker, so we should avoid duplicate events gernerating
+                TBLog(@"IntemptActionTracker will log:-------%@",[val class]);
+            }else{
+                //[self createEventDictionaryWith:touch.view];
+                
+                if (touch.view != nil){
+                    NSString *entityClass = NSStringFromClass([touch.view class]);
+                    TBLog(@"entityClass super=%@",entityClass);
+                    ////UITextView take touch itself, so we need to check it first
+                    if ([touch.view isKindOfClass:[UITextView class]]){
+                        [self createEventDictionaryWith:touch.view];
+                    }else{
+                        ////Additionally extract all Labels as by default UILabel are not clickable
+                        NSMutableArray *arrViews = [NSMutableArray array];
+                        [arrViews addObject:touch.view];
+                        NSArray *arrSubViews = [touch.view recurrenceAllSubviews];
+                        [arrViews addObjectsFromArray:arrSubViews];
+                        if(arrViews.count > 0) {
+                             for (UIView *view in arrViews) {
+                                 ////track only  which are tapped by checking touch point intersect with subviews
+                                 //TBLog(@"view frame=%f,%f,%f,%f",view.frame.origin.x,view.frame.origin.y, view.frame.size.width, view.frame.size.height);
+                                 //NSString *entityClass = NSStringFromClass([view class]);
+                                 //TBLog(@"entityClass=%@",entityClass);
+                                 if(CGRectContainsPoint(view.frame, touchPoint)){
+                                     if([view isKindOfClass:[UILabel class]] || [view isKindOfClass:[UIImageView class]] || [view isKindOfClass:[UITextView class]]){
+                                         [self createEventDictionaryWith:view];
+                                     }
+                                 }
+                             }
+                        }
+                    }
+                }
             }
         }
+    }else{
+        TBLog(@"Tracking disabled - Not tracking touches");
     }
     [super touchesEnded:touches withEvent:event];
 }
@@ -68,7 +92,6 @@
     //	not being called after moving a certain threshold
     
 }
-
 
 - (void)createEventDictionaryWith:(UIView *)subview {
     

@@ -22,6 +22,7 @@ class MoreEventViewController: UIViewController {
     @IBOutlet weak var tableView:UITableView!
     @IBOutlet weak var imageView:UIImageView!
     @IBOutlet weak var pickerViewList:UIPickerView!
+    @IBOutlet weak var viewLocationButton:UIView!
     var countryPickerView: CountryPickerView!
     var responder:UIResponder!
     var controll:UIControl!
@@ -37,8 +38,12 @@ class MoreEventViewController: UIViewController {
         countryPickerView.delegate = self
         
         
-        let locationButton = CLLocationButton()
-        locationButton.label = .currentLocation
+        if #available(iOS 15.0, *) {
+            let locationButton = CLLocationButton()
+            locationButton.frame = viewLocationButton.bounds
+            locationButton.label = .currentLocation
+            viewLocationButton.addSubview(locationButton)
+        }
         
     }
     override func viewWillAppear(_ animated: Bool) {
