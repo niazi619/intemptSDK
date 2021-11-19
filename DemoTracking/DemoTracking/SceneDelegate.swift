@@ -46,16 +46,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillEnterForeground(_ scene: UIScene) {
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
-        
-        if let enabled = UserDefaults.standard.value(forKey: "TrackingEnabled") as? Bool, enabled == false {
-            if #available(iOS 14, *) {
-                if ATTrackingManager.trackingAuthorizationStatus == .authorized {
-                    requestTrackingPermission()
-                }
-            }else{
-                initializeIntemptTracking()
-            }
-        }
+        print("sceneWillEnterForeground=",sceneWillEnterForeground)
+        //self.initializeIntemptTracking()
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {
@@ -96,7 +88,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
         }
         else {
-            decideInitialViewController()
             initializeIntemptTracking()
         }
     }

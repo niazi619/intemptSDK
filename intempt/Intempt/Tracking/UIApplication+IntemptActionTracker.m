@@ -14,6 +14,15 @@
 @end
 
 @implementation UIApplication (IntemptActionTracker)
+
+- (void)intempt_applicationWillEnterForeground:(UIApplication *)application{
+    
+    if([IntemptClient isTrackingEnabled] == YES){
+        [[IntemptClient sharedClient]refreshCurrentLocation];
+    }
+    return [self intempt_applicationWillEnterForeground:application];
+}
+
 - (BOOL)intempt_sendAction:(SEL)action to:(id)target from:(id)sender forEvent:(UIEvent *)event {
     
     if([IntemptClient isTrackingEnabled] == YES){

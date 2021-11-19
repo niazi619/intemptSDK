@@ -9,6 +9,7 @@
 import UIKit
 import AppTrackingTransparency
 import Intempt
+import CoreLocation
 
 class ViewController: UIViewController, UITextFieldDelegate {
     
@@ -110,6 +111,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
             IntemptClient.enableLogging()
         }
         self.updateLoggingStatus()
+    }
+    @IBAction func enableLocation(){
+        LocationsManager.sharedInstance.startGtettingLocation()
     }
     func updateLoggingStatus(){
         if(IntemptClient.isLoggingEnabled()){

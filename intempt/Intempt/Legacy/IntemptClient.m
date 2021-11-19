@@ -151,9 +151,7 @@ static BOOL trackingEnabled = YES;
             NSLog(@"Intempt Tracking Disabled");
         }
     }
-    
-    [userDefault setValue:@"NO" forKey:@"Intempt_Tracking_Flag"];
-    
+
     brand = @"Apple";
     /*----*/
     //arrInteraction = [[NSMutableArray alloc] init];
@@ -161,7 +159,10 @@ static BOOL trackingEnabled = YES;
     country = @"";
     city = @"";
     region = @"";
-    [self refreshCurrentLocation];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        [self refreshCurrentLocation];
+    });
     self.uploadQueue = dispatch_queue_create("intempt.uploader", DISPATCH_QUEUE_SERIAL);
     self.currentState = 0;
     self.filterBuffer = [[NSMutableArray alloc] init];
@@ -441,9 +442,25 @@ static BOOL trackingEnabled = YES;
         _locationManager = [[CLLocationManager alloc] init];
         _locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
         _locationManager.delegate = self;
-        [_locationManager requestAlwaysAuthorization];
+        
+        /** Intempt SDK should get location only if app user has granted permission,
+         Intempt itself will not ask for location permission
+         */
+        BOOL statusLocationPermission = [CLLocationManager locationServicesEnabled];
+        CLAuthorizationStatus auth = [CLLocationManager authorizationStatus];
+        if(statusLocationPermission == NO || auth == kCLAuthorizationStatusNotDetermined || auth == kCLAuthorizationStatusRestricted || auth == kCLAuthorizationStatusDenied){
+            TBLog(@"CLLocationManager.locationServicesEnabled=%d",statusLocationPermission);
+            TBLog(@"CLLocationManager.authorizationStatus=%d",auth);
+            NSMutableDictionary *newEvent = [NSMutableDictionary dictionary];
+            BOOL wasAdded = [[IntemptClient sharedClient] addEvent:newEvent toEventCollection:@"notAllow" withCompletion:_completion];
+            if (!wasAdded ){
+                TBLog(@"Failed to add event to \"view\" collection.");
+            }
+        }else{
+            [_locationManager requestAlwaysAuthorization];
+        }
+        
     }
-    //[_locationManager startUpdatingLocation];
     
 }
 
@@ -453,7 +470,7 @@ static BOOL trackingEnabled = YES;
 
 -(void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status{
     if (status == kCLAuthorizationStatusDenied || status == kCLAuthorizationStatusRestricted) {
-        // The user denied authorization
+        /// The user denied authorization
         NSLog(@"The user denied location authorization");
         if(arrLaunch.count == 0) {
             NSMutableDictionary *newEvent = [NSMutableDictionary dictionary];

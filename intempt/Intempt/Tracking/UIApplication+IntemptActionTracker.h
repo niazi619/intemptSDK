@@ -11,5 +11,6 @@
 @interface UIApplication (IntemptActionTracker)
 
 - (BOOL)intempt_sendAction:(SEL)action to:(id)target from:(id)sender forEvent:(UIEvent *)event;
+- (void)intempt_applicationWillEnterForeground:(UIApplication *)application;
 
 @end

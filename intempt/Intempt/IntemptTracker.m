@@ -14,6 +14,7 @@
 #import "UIViewController+IntemptActionTracker.h"
 #import "IntemptConstants.h"
 #import "IntemptClient.h"
+#import "UIScene+IntemptAction.h"
 
 @implementation IntemptTracker
 static IntemptNotificationCenterTracker* notificationsClient;
@@ -65,7 +66,27 @@ static NSString *_token;
             if (!result || error) {
                 TBLog(@"Can't swizzle methods - %@", [error description]);
             }
+            /*
+            NSError *error2;
+            BOOL result2 = [UIApplication jr_swizzleClassMethod:@selector(applicationWillEnterForeground:) withClassMethod:@selector(intempt_applicationWillEnterForeground:) error:&error2];
+            if (!result2 || error2) {
+                TBLog(@"Can't swizzle methods - %@", [error2 description]);
+            }*/
         });
+        
+        // UIScene tracker initialization
+        /*
+        static dispatch_once_t sceneTrackingToken;
+        dispatch_once(&sceneTrackingToken, ^{
+            NSError *error;
+            if (@available(iOS 13.0, *)) {
+                BOOL result = [UIWindowScene jr_swizzleMethod:@selector(sceneWillEnterForeground:) withMethod:@selector(intempt_sceneWillEnterForeground:) error:&error];
+                if (!result || error) {
+                    TBLog(@"Can't swizzle methods - %@", [error description]);
+                }
+            }
+        });
+        */
         
         // View tracker initialization
         static dispatch_once_t viewTrackingToken;

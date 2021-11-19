@@ -39,6 +39,8 @@
 		ED19F58024217CAE00305287 /* IntemptTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = ED19F53524217CAE00305287 /* IntemptTracker.m */; };
 		EDBE4F9E24CC4B63008DCE57 /* NSMutableArray+QueueAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = EDBE4F9C24CC4B63008DCE57 /* NSMutableArray+QueueAdditions.h */; };
 		EDBE4F9F24CC4B63008DCE57 /* NSMutableArray+QueueAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EDBE4F9D24CC4B63008DCE57 /* NSMutableArray+QueueAdditions.m */; };
+		FA599F822747E4C200AC25F4 /* UIScene+IntemptAction.h in Headers */ = {isa = PBXBuildFile; fileRef = FA599F802747E4C200AC25F4 /* UIScene+IntemptAction.h */; };
+		FA599F832747E4C200AC25F4 /* UIScene+IntemptAction.m in Sources */ = {isa = PBXBuildFile; fileRef = FA599F812747E4C200AC25F4 /* UIScene+IntemptAction.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -78,6 +80,8 @@
 		ED19F53524217CAE00305287 /* IntemptTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntemptTracker.m; sourceTree = "<group>"; };
 		EDBE4F9C24CC4B63008DCE57 /* NSMutableArray+QueueAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+QueueAdditions.h"; sourceTree = "<group>"; };
 		EDBE4F9D24CC4B63008DCE57 /* NSMutableArray+QueueAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+QueueAdditions.m"; sourceTree = "<group>"; };
+		FA599F802747E4C200AC25F4 /* UIScene+IntemptAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIScene+IntemptAction.h"; sourceTree = "<group>"; };
+		FA599F812747E4C200AC25F4 /* UIScene+IntemptAction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIScene+IntemptAction.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +106,8 @@
 				0C6AAB8D24F941E90017FEC5 /* UIViewController+IntemptActionTracker.m */,
 				0C6AAB9124F941E90017FEC5 /* UIApplication+IntemptActionTracker.h */,
 				0C6AAB8E24F941E90017FEC5 /* UIApplication+IntemptActionTracker.m */,
+				FA599F802747E4C200AC25F4 /* UIScene+IntemptAction.h */,
+				FA599F812747E4C200AC25F4 /* UIScene+IntemptAction.m */,
 				0C6AAB8F24F941E90017FEC5 /* IntemptTouchTracker.h */,
 				0C6AAB9324F941E90017FEC5 /* IntemptTouchTracker.m */,
 			);
@@ -228,6 +234,7 @@
 				ED19F55C24217CAE00305287 /* JRSwizzle.h in Headers */,
 				EDBE4F9E24CC4B63008DCE57 /* NSMutableArray+QueueAdditions.h in Headers */,
 				0C6AAB9424F941EA0017FEC5 /* IntemptNotificationCenterTracker.h in Headers */,
+				FA599F822747E4C200AC25F4 /* UIScene+IntemptAction.h in Headers */,
 				0C9578632517670F0016F4AB /* UIView+RecurrenceSubviews.h in Headers */,
 				0C6AAB9924F941EA0017FEC5 /* UIApplication+IntemptActionTracker.h in Headers */,
 				0C8C645925CA9F15007F3589 /* DBManager.h in Headers */,
@@ -312,6 +319,7 @@
 				0C016F1425E407F800393130 /* ModelEvent.m in Sources */,
 				0C6AAB9824F941EA0017FEC5 /* IntemptNotificationCenterTracker.m in Sources */,
 				ED19F55424217CAE00305287 /* IntemptClient.m in Sources */,
+				FA599F832747E4C200AC25F4 /* UIScene+IntemptAction.m in Sources */,
 				0C6AAB9B24F941EA0017FEC5 /* IntemptTouchTracker.m in Sources */,
 				0C6AAB9624F941EA0017FEC5 /* UIApplication+IntemptActionTracker.m in Sources */,
 				0C9578642517670F0016F4AB /* UIView+RecurrenceSubviews.m in Sources */,
