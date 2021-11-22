@@ -442,24 +442,23 @@ static BOOL trackingEnabled = YES;
         _locationManager = [[CLLocationManager alloc] init];
         _locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
         _locationManager.delegate = self;
-        
-        /** Intempt SDK should get location only if app user has granted permission,
-         Intempt itself will not ask for location permission
-         */
-        BOOL statusLocationPermission = [CLLocationManager locationServicesEnabled];
-        CLAuthorizationStatus auth = [CLLocationManager authorizationStatus];
-        if(statusLocationPermission == NO || auth == kCLAuthorizationStatusNotDetermined || auth == kCLAuthorizationStatusRestricted || auth == kCLAuthorizationStatusDenied){
-            TBLog(@"CLLocationManager.locationServicesEnabled=%d",statusLocationPermission);
-            TBLog(@"CLLocationManager.authorizationStatus=%d",auth);
-            NSMutableDictionary *newEvent = [NSMutableDictionary dictionary];
-            BOOL wasAdded = [[IntemptClient sharedClient] addEvent:newEvent toEventCollection:@"notAllow" withCompletion:_completion];
-            if (!wasAdded ){
-                TBLog(@"Failed to add event to \"view\" collection.");
-            }
-        }else{
-            [_locationManager requestAlwaysAuthorization];
+    
+    }
+    /** Intempt SDK should get location only if app user has granted permission,
+     Intempt itself will not ask for location permission
+     */
+    BOOL statusLocationPermission = [CLLocationManager locationServicesEnabled];
+    CLAuthorizationStatus auth = [CLLocationManager authorizationStatus];
+    if(statusLocationPermission == NO || auth == kCLAuthorizationStatusNotDetermined || auth == kCLAuthorizationStatusRestricted || auth == kCLAuthorizationStatusDenied){
+        TBLog(@"CLLocationManager.locationServicesEnabled=%d",statusLocationPermission);
+        TBLog(@"CLLocationManager.authorizationStatus=%d",auth);
+        NSMutableDictionary *newEvent = [NSMutableDictionary dictionary];
+        BOOL wasAdded = [[IntemptClient sharedClient] addEvent:newEvent toEventCollection:@"notAllow" withCompletion:_completion];
+        if (!wasAdded ){
+            TBLog(@"Failed to add event to \"view\" collection.");
         }
-        
+    }else{
+        [_locationManager requestAlwaysAuthorization];
     }
     
 }
