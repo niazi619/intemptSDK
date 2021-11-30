@@ -1,0 +1,53 @@
+/* 
+  Universal Framework creation script.strings
+  Intempt
+
+  Created by MacBook on 24/11/2021.
+  Copyright © 2021 Intempt. All rights reserved.
+*/
+
+/**
+ run below scrpt in termnial, first navigate to root directory of the project
+ 
+ mkdir build
+     ;
+     xcodebuild clean build \
+       -project Intempt.xcodeproj \
+       -scheme intempt \
+       -configuration Release \
+       -sdk iphoneos \
+       -derivedDataPath derived_data \
+       BUILD_LIBRARY_FOR_DISTRIBUTION=YES
+     ;
+     mkdir build/devices
+     ;
+     cp -r derived_data/Build/Products/Release-iphoneos/Intempt.framework build/devices
+     ;
+     xcodebuild clean build \
+       -project Intempt.xcodeproj \
+       -scheme intempt \
+       -configuration Release \
+       -sdk iphonesimulator \
+       -derivedDataPath derived_data \
+       BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
+       EXCLUDED_ARCHS="arm64"
+     ;
+     mkdir build/simulator
+     ;
+     cp -r derived_data/Build/Products/Release-iphonesimulator/Intempt.framework build/simulator
+     ;
+     mkdir build/universal
+     ;
+     cp -r build/devices/Intempt.framework build/universal/
+     ;
+     lipo -create \
+       build/simulator/Intempt.framework/Intempt \
+       build/devices/Intempt.framework/Intempt \
+       -output build/universal/Intempt.framework/Intempt
+     ;
+     cp -r \
+     build/simulator/Intempt.framework/Modules/Intempt.swiftmodule/* \
+     build/universal/Intempt.framework/Modules/Intempt.swiftmodule/Intempt
+ 
+ */
+

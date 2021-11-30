@@ -66,6 +66,7 @@ typedef void(^CompletionHandler)(BOOL status, id result, NSError *error);
 
 /**
  Call this to disable tracking, By default tracking is enabled. NOTE: this settings is persistent, once disabled it will remain disabled even app is killed and relaucnhed, To renable tracking 'enableTracking' function should be called.
+  NOTE: IntemptSDK respect  and follow Apple rules,  so if Device->Settings->Privacy->Tracking is disabled, then intemptSDK will  not track anything, its  on Developer to ask the user to enable the tracking in appropriate way, e.g showing a nice screen by explaning why user should allow tracking.
  */
 + (void)disableTracking;
 
@@ -87,7 +88,7 @@ typedef void(^CompletionHandler)(BOOL status, id result, NSError *error);
 + (void)disableLogging;
 
 /**
- Call this to enable debug logging. By default it's enabled.
+ Call this to enable debug logging. By default it's disabled.
  */
 + (void)enableLogging;
 

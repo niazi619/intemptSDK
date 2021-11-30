@@ -16,7 +16,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1254"
             endingLineNumber = "1254"
-            landmarkName = "-requestUrlWithRetryRemaining:maxRetry:retryInterval:fatalStatusCodes:originalRequest:eventIds:"
+            landmarkName = "-bundleInfo:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -32,7 +32,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1219"
             endingLineNumber = "1219"
-            landmarkName = "-requestUrlWithRetryRemaining:maxRetry:retryInterval:fatalStatusCodes:originalRequest:eventIds:"
+            landmarkName = "-checkAppUpgradeStatus:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -125,11 +125,12 @@ static BOOL trackingEnabled = YES;
 
 - (id)init {
     self = [super init];
-    loggingEnabled = YES;
+    loggingEnabled = NO;
     trackingEnabled = YES;
     // log the current version number
     TBLog(@"IntemptClient-iOS %@", kIntemptSdkVersion);
-    
+    //create database on start
+    [DBManager shared];
     /*_completion = ^(BOOL status, id result, NSError *error) {
      };*/
     
@@ -160,7 +161,7 @@ static BOOL trackingEnabled = YES;
     city = @"";
     region = @"";
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         [self refreshCurrentLocation];
     });
     self.uploadQueue = dispatch_queue_create("intempt.uploader", DISPATCH_QUEUE_SERIAL);
@@ -189,8 +190,8 @@ static BOOL trackingEnabled = YES;
         return;
     }
     
-    [IntemptClient enableLogging];
-    [IntemptClient enableGeoLocation];
+    //[IntemptClient enableLogging];
+    //[IntemptClient enableGeoLocation];
 }
 
 + (void)disableTracking {
@@ -436,7 +437,7 @@ static BOOL trackingEnabled = YES;
 
 - (void)refreshCurrentLocation {
     // only do this if geo is enabled
-    
+    TBLog(@"refreshCurrentLocation");
     geocoder = [[CLGeocoder alloc] init];
     if (_locationManager == nil){
         _locationManager = [[CLLocationManager alloc] init];
@@ -453,12 +454,19 @@ static BOOL trackingEnabled = YES;
         TBLog(@"CLLocationManager.locationServicesEnabled=%d",statusLocationPermission);
         TBLog(@"CLLocationManager.authorizationStatus=%d",auth);
         NSMutableDictionary *newEvent = [NSMutableDictionary dictionary];
+        TBLog(@"notAllow");
         BOOL wasAdded = [[IntemptClient sharedClient] addEvent:newEvent toEventCollection:@"notAllow" withCompletion:_completion];
         if (!wasAdded ){
             TBLog(@"Failed to add event to \"view\" collection.");
         }
     }else{
-        [_locationManager requestAlwaysAuthorization];
+        if(auth == kCLAuthorizationStatusAuthorizedAlways){
+            TBLog(@"requestAlwaysAuthorization");
+            [_locationManager requestAlwaysAuthorization];
+        }else{
+            TBLog(@"requestWhenInUseAuthorization");
+            [_locationManager requestWhenInUseAuthorization];
+        }
     }
     
 }
@@ -479,18 +487,29 @@ static BOOL trackingEnabled = YES;
                 TBLog(@"Failed to add event to \"view\" collection.");
             }
         }
+        NSMutableDictionary *newEvent = [NSMutableDictionary dictionary];
+        [newEvent setValue:@"The user denied location authorization" forKey:@"consents"];
+        [[IntemptClient sharedClient] addEvent:newEvent toEventCollection:@"consents" withCompletion:_completion];
     }
     else if (status == kCLAuthorizationStatusAuthorizedWhenInUse) {
         // The user accepted authorization only when in use
-        if ([_locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]){
-            [_locationManager requestAlwaysAuthorization];
+        if ([_locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]){
+            [_locationManager requestWhenInUseAuthorization];
         }
         
         [_locationManager startUpdatingLocation];
+        
+        NSMutableDictionary *newEvent = [NSMutableDictionary dictionary];
+        [newEvent setValue:@"The user granted location authorization as WhenInUseAuthorization" forKey:@"consents"];
+        [[IntemptClient sharedClient] addEvent:newEvent toEventCollection:@"consents" withCompletion:_completion];
     }
     else if (status == kCLAuthorizationStatusAuthorizedAlways) {
         // The user accepted authorization at any time
         [_locationManager startUpdatingLocation];
+        
+        NSMutableDictionary *newEvent = [NSMutableDictionary dictionary];
+        [newEvent setValue:@"The user granted location authorization as AlwaysAuthorization" forKey:@"consents"];
+        [[IntemptClient sharedClient] addEvent:newEvent toEventCollection:@"consents" withCompletion:_completion];
     }
 }
 
@@ -691,14 +710,22 @@ static BOOL trackingEnabled = YES;
             BOOL wasAdded = [self addEvent:event toEventCollection:@"identify" withCompletion:handler];
             if (!wasAdded) {
                 TBLog(@"Failed to add event for %@", identity);
+                NSError *error = [NSError errorWithDomain:@"Failed to add event for" code:200 userInfo:nil];
+                handler(NO, nil, error);
+            }else{
+                handler(YES, nil, nil);
             }
         }
         else{
             TBLog(@"Please provide a valid identity(email, phone)");
+            NSError *error = [NSError errorWithDomain:@"Please provide a valid identity(email, phone)" code:200 userInfo:nil];
+            handler(NO, nil, error);
         }
     }
     else {
         TBLog(@"Identity field can't be empty");
+        NSError *error = [NSError errorWithDomain:@"Identity field can't be empty" code:200 userInfo:nil];
+        handler(NO, nil, error);
     }
 }
 
@@ -778,6 +805,8 @@ static BOOL trackingEnabled = YES;
         
         //[NSException raise:@"IntemptNoTrackerIdProvided" format:@"You tried to add an event without setting a source Id please set one!"];
         TBLog(@"You tried to add an event without setting tracker source Id please set one!");
+        NSError *error = [NSError errorWithDomain:@"You tried to add an event without setting tracker source Id please set one!" code:200 userInfo:nil];
+        handler(NO, nil, error);
         return NO;
     }
     
@@ -785,6 +814,8 @@ static BOOL trackingEnabled = YES;
         
         //[NSException raise:@"IntemptNoTokenProvided" format:@"You tried to add an event without setting a token, please set one!"];
         TBLog(@"You tried to add an event without setting tracker token, please set one!");
+        NSError *error = [NSError errorWithDomain:@"You tried to add an event without setting tracker token, please set one!" code:200 userInfo:nil];
+        handler(NO, nil, error);
         return NO;
     }
     
@@ -880,7 +911,26 @@ static BOOL trackingEnabled = YES;
         [[DBManager shared] insertAnalayticsData:dictValue withEventType:@"profile"];
         //[self sendEvents:dictValue multipleRecordExits:NO withCompletion:handler];
     }
-    
+    else if ([eventCollection isEqualToString:@"consents"]) {
+        
+        /*
+        NSMutableDictionary *dictValueLocal = [[NSMutableDictionary alloc]init];
+        NSMutableArray *arrLaunchLocal = [[NSMutableArray alloc] init];
+        NSMutableDictionary *launchDicLocal = [[NSMutableDictionary alloc] initWithDictionary:event];
+        [launchDicLocal setValue:[self generateUUIDNoDashes] forKey:@"eventId"];
+        [launchDicLocal setValue:self->visitorId forKey:@"visitorId"];
+        [launchDicLocal setValue:[newEvent valueForKey:@"timestamp"] forKey:@"timestamp"];
+        [launchDicLocal setValue:@"" forKey:@"document"];
+        [launchDicLocal setValue:@"" forKey:@"hardware_id"];
+        [launchDicLocal setValue:self->country forKey:@"location"];
+        [arrLaunchLocal addObject:launchDicLocal];
+        [dictValueLocal setValue:arrLaunchLocal forKey:@"consents"];
+        TBLog(@"consent Data: %@",dictValueLocal);
+        [[DBManager shared] insertAnalayticsData:dictValueLocal withEventType:@"consents"];
+        */
+        
+        //[self sendEvents:dictValue multipleRecordExits:NO withCompletion:handler];
+    }
     else if ([eventCollection isEqualToString:@"customEvent"]) {
         dictValue = [[NSMutableDictionary alloc] initWithDictionary:event];
         TBLog(@"Custom Event Data: %@",dictValue);
@@ -892,11 +942,7 @@ static BOOL trackingEnabled = YES;
     else if ([eventCollection isEqualToString:@"geoLocation"]) {
         
         [self checkAppUpgradeStatus:newEvent];
-        NSMutableDictionary *deviceValues =[[NSMutableDictionary alloc] init];
-        NSMutableDictionary *screenValues =[[NSMutableDictionary alloc] init];
-        NSMutableDictionary *geoValues = [[NSMutableDictionary alloc] init];
-        NSMutableDictionary *appValues = [[NSMutableDictionary alloc] init];
-        self->dictValue =[[NSMutableDictionary alloc]initWithDictionary:event];
+        self->dictValue = [[NSMutableDictionary alloc]initWithDictionary:event];
         [newEvent setValue:self->region forKey:@"region"];
         [newEvent setValue:self->country forKey:@"country"];
         [newEvent setValue:self->city forKey:@"city"];
@@ -904,44 +950,74 @@ static BOOL trackingEnabled = YES;
         if (launchDic == nil) {
             launchDic = [[NSMutableDictionary alloc] init];
         }
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
             
-            [self->launchDic setValue:self->visitorId forKey:@"visitorId"];
-            [self->launchDic setValue:self->eventId forKey:@"eventId"];
-            [self->launchDic setValue:[newEvent valueForKey:@"timestamp"] forKey:@"timestamp"];
-            [self->launchDic setValue:[newEvent valueForKey:@"wifi"] forKey:@"wifi"];
-            [self->deviceDic setValue:self->brand forKey:@"brand"];
-            [self->deviceDic setValue:[newEvent valueForKey:@"name"] forKey:@"name"];
-            [self->deviceDic setValue:[newEvent valueForKey:@"type"] forKey:@"type"];
-            [self->deviceDic setValue:[newEvent valueForKey:@"osVersion"] forKey:@"osVersion"];
-            [self->deviceDic setValue:ipAddress forKey:@"ipAddress"];
-            [deviceValues setValue:self->deviceDic forKey:@"device"];
-            [self->screenDic setValue:[newEvent valueForKey:@"height"] forKey:@"height"];
-            [self->screenDic setValue:[newEvent valueForKey:@"width"] forKey:@"width"];
-            [screenValues setValue:self->screenDic forKey:@"screen"];
-            [self->geoDic setValue:[newEvent valueForKey:@"country"] forKey:@"country"];
-            [self->geoDic setValue:[newEvent valueForKey:@"city"] forKey:@"city"];
-            [self->geoDic setValue:[newEvent valueForKey:@"region"] forKey:@"region"];
-            [geoValues setValue:self->geoDic forKey:@"geo"];
-            [self->appDic setValue:[newEvent valueForKey:@"appName"] forKey:@"name"];
-            [self->appDic setValue:[newEvent valueForKey:@"version"] forKey:@"version"];
-            [self->appDic setValue:[newEvent valueForKey:@"AppUpgrade"] forKey:@"appUpgrade"];
-            [appValues setValue:self->appDic forKey:@"app"];
-            [self->launchDic setValue:self->deviceDic forKey:@"device"];
-            [self->launchDic setValue:self->screenDic forKey:@"screen"];
-            [self->launchDic setValue:self->geoDic forKey:@"geo"];
-            [self->launchDic setValue:self->appDic forKey:@"app"];
+            NSMutableDictionary *dictValueLocal =[[NSMutableDictionary alloc]initWithDictionary:event];
+            NSMutableDictionary *launchDicLocal = [[NSMutableDictionary alloc] init];
+            NSMutableDictionary *deviceDicLocal = [[NSMutableDictionary alloc] init];
+            NSMutableDictionary *screenDicLocal = [[NSMutableDictionary alloc] init];
+            NSMutableDictionary *geoDicLocal = [[NSMutableDictionary alloc] init];
+            NSMutableDictionary *appDicLocal = [[NSMutableDictionary alloc] init];
+            NSMutableArray *arrLaunchLocal = [[NSMutableArray alloc] init];
             
+            self->eventId = [self generateUUIDNoDashes];
+
+            [launchDicLocal setValue:self->visitorId forKey:@"visitorId"];
+            [launchDicLocal setValue:self->eventId forKey:@"eventId"];
+            [launchDicLocal setValue:[newEvent valueForKey:@"timestamp"] forKey:@"timestamp"];
+            [launchDicLocal setValue:[newEvent valueForKey:@"wifi"] forKey:@"wifi"];
+            
+            [deviceDicLocal setValue:self->brand forKey:@"brand"];
+            [deviceDicLocal setValue:[newEvent valueForKey:@"name"] forKey:@"name"];
+            [deviceDicLocal setValue:[newEvent valueForKey:@"type"] forKey:@"type"];
+            [deviceDicLocal setValue:[newEvent valueForKey:@"osVersion"] forKey:@"osVersion"];
+            [deviceDicLocal setValue:ipAddress forKey:@"ipAddress"];
+            
+            [screenDicLocal setValue:[newEvent valueForKey:@"height"] forKey:@"height"];
+            [screenDicLocal setValue:[newEvent valueForKey:@"width"] forKey:@"width"];
+            
+            if([newEvent valueForKey:@"region"]){
+                [geoDicLocal setValue:[newEvent valueForKey:@"region"] forKey:@"region"];
+            }else{
+                [geoDicLocal setValue:@"" forKey:@"region"];
+            }
+            if([newEvent valueForKey:@"country"]){
+                [geoDicLocal setValue:[newEvent valueForKey:@"country"] forKey:@"country"];
+            }else{
+                [geoDicLocal setValue:@"" forKey:@"country"];
+            }
+            if([newEvent valueForKey:@"city"]){
+                [geoDicLocal setValue:[newEvent valueForKey:@"city"] forKey:@"city"];
+            }else{
+                [geoDicLocal setValue:@"" forKey:@"city"];
+            }
+        
+            [appDicLocal setValue:[newEvent valueForKey:@"appName"] forKey:@"name"];
+            [appDicLocal setValue:[newEvent valueForKey:@"version"] forKey:@"version"];
+            [appDicLocal setValue:[newEvent valueForKey:@"AppUpgrade"] forKey:@"appUpgrade"];
+            
+            [self->launchDic setValue:deviceDicLocal forKey:@"device"];
+            [self->launchDic setValue:screenDicLocal forKey:@"screen"];
+            [self->launchDic setValue:geoDicLocal forKey:@"geo"];
+            [self->launchDic setValue:appDicLocal forKey:@"app"];
             [self->arrLaunch addObject:self->launchDic];
             [self->dictValue setValue:self->arrLaunch forKey:@"launch"];
-            TBLog(@"Launch Data:---%@",self->dictValue);
+            
+            [launchDicLocal setValue:deviceDicLocal forKey:@"device"];
+            [launchDicLocal setValue:screenDicLocal forKey:@"screen"];
+            [launchDicLocal setValue:geoDicLocal forKey:@"geo"];
+            [launchDicLocal setValue:appDicLocal forKey:@"app"];
+            [arrLaunchLocal addObject:launchDicLocal];
+            [dictValueLocal setValue:arrLaunchLocal forKey:@"launch"];
+            
+            TBLog(@"Launch Data:---%@",arrLaunchLocal);
             
             if (![self connected]) {
                 // Not connected
                 TBLog(@"Please Check Your Internet Connection");
             }
             else {
-                [[DBManager shared] insertAnalayticsData:self->dictValue withEventType:@"launch"];
+                [[DBManager shared] insertAnalayticsData:dictValueLocal withEventType:@"launch"];
                 //[self sendEvents:self->dictValue multipleRecordExits:NO withCompletion:handler];
             }
             
@@ -950,12 +1026,8 @@ static BOOL trackingEnabled = YES;
     
     else if ([eventCollection isEqualToString:@"notAllow"]) {
         [self checkAppUpgradeStatus:newEvent];
-        NSMutableDictionary *deviceValues = [[NSMutableDictionary alloc] init];
-        NSMutableDictionary *screenValues = [[NSMutableDictionary alloc] init];
-        NSMutableDictionary *geoValues = [[NSMutableDictionary alloc] init];
-        NSMutableDictionary *appValues = [[NSMutableDictionary alloc] init];
+
         self->dictValue = [[NSMutableDictionary alloc] initWithDictionary:event];
-        
         [newEvent setValue:self->region forKey:@"region"];
         [newEvent setValue:self->country forKey:@"country"];
         [newEvent setValue:self->city forKey:@"city"];
@@ -963,43 +1035,74 @@ static BOOL trackingEnabled = YES;
         if (launchDic == nil) {
             launchDic = [[NSMutableDictionary alloc] init];
         }
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
             
-            [self->launchDic setValue:self->visitorId forKey:@"visitorId"];
-            [self->launchDic setValue:self->eventId forKey:@"eventId"];
-            [self->launchDic setValue:[newEvent valueForKey:@"timestamp"] forKey:@"timestamp"];
-            [self->launchDic setValue:[newEvent valueForKey:@"wifi"] forKey:@"wifi"];
-            [self->deviceDic setValue:self->brand forKey:@"brand"];
-            [self->deviceDic setValue:[newEvent valueForKey:@"name"] forKey:@"name"];
-            [self->deviceDic setValue:[newEvent valueForKey:@"type"] forKey:@"type"];
-            [self->deviceDic setValue:[newEvent valueForKey:@"osVersion"] forKey:@"osVersion"];
-            [self->deviceDic setValue:ipAddress forKey:@"ipAddress"];
-            [deviceValues setValue:self->deviceDic forKey:@"device"];
-            [self->screenDic setValue:[newEvent valueForKey:@"height"] forKey:@"height"];
-            [self->screenDic setValue:[newEvent valueForKey:@"width"] forKey:@"width"];
-            [screenValues setValue:self->screenDic forKey:@"screen"];
-            [self->geoDic setValue:[newEvent valueForKey:@"country"] forKey:@"country"];
-            [self->geoDic setValue:[newEvent valueForKey:@"city"] forKey:@"city"];
-            [self->geoDic setValue:[newEvent valueForKey:@"region"] forKey:@"region"];
-            [geoValues setValue:self->geoDic forKey:@"geo"];
-            [self->appDic setValue:[newEvent valueForKey:@"appName"] forKey:@"name"];
-            [self->appDic setValue:[newEvent valueForKey:@"version"] forKey:@"version"];
-            [self->appDic setValue:[newEvent valueForKey:@"AppUpgrade"] forKey:@"appUpgrade"];
-            [appValues setValue:self->appDic forKey:@"app"];
-            [self->launchDic setValue:self->deviceDic forKey:@"device"];
-            [self->launchDic setValue:self->screenDic forKey:@"screen"];
-            [self->launchDic setValue:self->geoDic forKey:@"geo"];
-            [self->launchDic setValue:self->appDic forKey:@"app"];
+            NSMutableDictionary *dictValueLocal =[[NSMutableDictionary alloc]initWithDictionary:event];
+            NSMutableDictionary *launchDicLocal = [[NSMutableDictionary alloc] init];
+            NSMutableDictionary *deviceDicLocal = [[NSMutableDictionary alloc] init];
+            NSMutableDictionary *screenDicLocal = [[NSMutableDictionary alloc] init];
+            NSMutableDictionary *geoDicLocal = [[NSMutableDictionary alloc] init];
+            NSMutableDictionary *appDicLocal = [[NSMutableDictionary alloc] init];
+            NSMutableArray *arrLaunchLocal = [[NSMutableArray alloc] init];
             
-            [self->arrLaunch addObject:self->launchDic];
+            self->eventId = [self generateUUIDNoDashes];
+            
+            [launchDicLocal setValue:self->visitorId forKey:@"visitorId"];
+            [launchDicLocal setValue:self->eventId forKey:@"eventId"];
+            [launchDicLocal setValue:[newEvent valueForKey:@"timestamp"] forKey:@"timestamp"];
+            [launchDicLocal setValue:[newEvent valueForKey:@"wifi"] forKey:@"wifi"];
+            
+            [deviceDicLocal setValue:self->brand forKey:@"brand"];
+            [deviceDicLocal setValue:[newEvent valueForKey:@"name"] forKey:@"name"];
+            [deviceDicLocal setValue:[newEvent valueForKey:@"type"] forKey:@"type"];
+            [deviceDicLocal setValue:[newEvent valueForKey:@"osVersion"] forKey:@"osVersion"];
+            [deviceDicLocal setValue:ipAddress forKey:@"ipAddress"];
+            
+            [screenDicLocal setValue:[newEvent valueForKey:@"height"] forKey:@"height"];
+            [screenDicLocal setValue:[newEvent valueForKey:@"width"] forKey:@"width"];
+            
+            if([newEvent valueForKey:@"region"]){
+                [geoDicLocal setValue:[newEvent valueForKey:@"region"] forKey:@"region"];
+            }else{
+                [geoDicLocal setValue:@"" forKey:@"region"];
+            }
+            if([newEvent valueForKey:@"country"]){
+                [geoDicLocal setValue:[newEvent valueForKey:@"country"] forKey:@"country"];
+            }else{
+                [geoDicLocal setValue:@"" forKey:@"country"];
+            }
+            if([newEvent valueForKey:@"city"]){
+                [geoDicLocal setValue:[newEvent valueForKey:@"city"] forKey:@"city"];
+            }else{
+                [geoDicLocal setValue:@"" forKey:@"city"];
+            }
+            
+            [appDicLocal setValue:[newEvent valueForKey:@"appName"] forKey:@"name"];
+            [appDicLocal setValue:[newEvent valueForKey:@"version"] forKey:@"version"];
+            [appDicLocal setValue:[newEvent valueForKey:@"AppUpgrade"] forKey:@"appUpgrade"];
+            
+            [self->launchDic setValue:deviceDicLocal forKey:@"device"];
+            [self->launchDic setValue:screenDicLocal forKey:@"screen"];
+            [self->launchDic setValue:geoDicLocal forKey:@"geo"];
+            [self->launchDic setValue:appDicLocal forKey:@"app"];
+            
+            [launchDicLocal setValue:deviceDicLocal forKey:@"device"];
+            [launchDicLocal setValue:screenDicLocal forKey:@"screen"];
+            [launchDicLocal setValue:geoDicLocal forKey:@"geo"];
+            [launchDicLocal setValue:appDicLocal forKey:@"app"];
+            [arrLaunchLocal addObject:launchDicLocal];
+            [dictValueLocal setValue:arrLaunchLocal forKey:@"launch"];
+            [self->arrLaunch addObject:launchDicLocal];
             [self->dictValue setValue:self->arrLaunch forKey:@"launch"];
-            TBLog(@"Launch Data (Location Access Not Provided):---%@",self->dictValue);
+            
+            //TBLog(@"dictValueLocal=%@",dictValueLocal);
+            TBLog(@"Launch Data (Location Access Not Provided):---%@",dictValueLocal);
             if (![self connected]) {
                 // Not connected
                 TBLog(@"Please Check Your Internet Connection");
             }
             else {
-                [[DBManager shared] insertAnalayticsData:self->dictValue withEventType:@"launch"];
+                [[DBManager shared] insertAnalayticsData:dictValueLocal withEventType:@"launch"];
                 //[self sendEvents:self->dictValue multipleRecordExits:NO withCompletion:handler];
             }
             
@@ -1021,7 +1124,7 @@ static BOOL trackingEnabled = YES;
         sceneDic = [[NSMutableDictionary alloc] init];
         interactionDic = [[NSMutableDictionary alloc] init];
         eventId = [self generateUUIDNoDashes];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
             self->visitorId = [df valueForKey:@"visitorId"];
             NSString *lastParentId = [df valueForKey:@"parentId"];
             self->parentId = [df valueForKey:@"parentId"];
@@ -1069,6 +1172,7 @@ static BOOL trackingEnabled = YES;
         });
     }
     
+    handler(YES, nil, nil);
     return YES;
 }
 

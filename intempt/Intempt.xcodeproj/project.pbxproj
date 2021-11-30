@@ -41,6 +41,7 @@
 		EDBE4F9F24CC4B63008DCE57 /* NSMutableArray+QueueAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EDBE4F9D24CC4B63008DCE57 /* NSMutableArray+QueueAdditions.m */; };
 		FA599F822747E4C200AC25F4 /* UIScene+IntemptAction.h in Headers */ = {isa = PBXBuildFile; fileRef = FA599F802747E4C200AC25F4 /* UIScene+IntemptAction.h */; };
 		FA599F832747E4C200AC25F4 /* UIScene+IntemptAction.m in Sources */ = {isa = PBXBuildFile; fileRef = FA599F812747E4C200AC25F4 /* UIScene+IntemptAction.m */; };
+		FAAA419E274E54F100CA7D27 /* Universal Framework creation script.strings in Resources */ = {isa = PBXBuildFile; fileRef = FAAA419D274E54F100CA7D27 /* Universal Framework creation script.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -82,6 +83,7 @@
 		EDBE4F9D24CC4B63008DCE57 /* NSMutableArray+QueueAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+QueueAdditions.m"; sourceTree = "<group>"; };
 		FA599F802747E4C200AC25F4 /* UIScene+IntemptAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIScene+IntemptAction.h"; sourceTree = "<group>"; };
 		FA599F812747E4C200AC25F4 /* UIScene+IntemptAction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIScene+IntemptAction.m"; sourceTree = "<group>"; };
+		FAAA419D274E54F100CA7D27 /* Universal Framework creation script.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = "Universal Framework creation script.strings"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,6 +154,7 @@
 		ED19F4CF24217C6800305287 /* Intempt */ = {
 			isa = PBXGroup;
 			children = (
+				FAAA419D274E54F100CA7D27 /* Universal Framework creation script.strings */,
 				ED19F4D024217C6800305287 /* Intempt.h */,
 				ED19F52524217CAE00305287 /* IntemptTracker.h */,
 				ED19F53524217CAE00305287 /* IntemptTracker.m */,
@@ -258,6 +261,7 @@
 				ED19F4C924217C6800305287 /* Sources */,
 				ED19F4CA24217C6800305287 /* Frameworks */,
 				ED19F4CB24217C6800305287 /* Resources */,
+				FAAA41A7274E611400CA7D27 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -306,10 +310,32 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAAA419E274E54F100CA7D27 /* Universal Framework creation script.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		FAAA41A7274E611400CA7D27 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "
+";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		ED19F4C924217C6800305287 /* Sources */ = {

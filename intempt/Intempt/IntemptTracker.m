@@ -52,10 +52,7 @@ static NSString *_token;
                 //[IntemptClient disableGeoLocation];
                 break;
         }
-#ifdef DEBUG
-        [IntemptClient enableLogging];
-#endif
-        
+     
         [IntemptClient sharedClientWithOrganizationId:_orgId withTrackerId:_trackerId withToken:_token withConfig:settings  withCompletion:handler];
 
         // Actions tracker initialization
