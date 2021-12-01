@@ -26,8 +26,6 @@
 	<string>Always</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Always</string>
-	<key>NSUserTrackingUsageDescription</key>
-	<string>Tracking permission is needed to for analytics</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

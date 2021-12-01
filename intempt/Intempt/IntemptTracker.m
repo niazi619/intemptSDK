@@ -30,10 +30,12 @@ static NSString *_token;
     @autoreleasepool {
         
         if (orgId == nil || orgId.length == 0 || sourceId == nil || sourceId.length == 0 || token == nil || token .length == 0) {
+            NSError *error = [NSError errorWithDomain:@"Origanization ID or source ID or token must not be blank." code:1001 userInfo:nil];
+            handler(NO, nil, error);
             NSAssert(NULL, @"Origanization ID or source ID or token must not be blank.");
         }
         
-        TBLog(@"Init was called with orgId \"%@\", trackerId \"%@\" and token \"%@\"", orgId, sourceId, token);
+        //TBLog(@"Init was called with orgId \"%@\", trackerId \"%@\" and token \"%@\"", orgId, sourceId, token);
         _orgId = orgId;
         _trackerId = sourceId;
         _token = token;
@@ -95,16 +97,19 @@ static NSString *_token;
             }
         });
         
-        // Touch tracker initialization
-        IntemptTouchTracker *recognizer = [[IntemptTouchTracker alloc] initWithTarget:nil action:nil];
-        [recognizer setCancelsTouchesInView:NO];
-        
-        UIApplication *application = [UIApplication sharedApplication];
-        NSArray *appWindows = [NSArray arrayWithArray:application.windows];
-        UIWindow *mainWindow = [appWindows objectAtIndex:0];
-        
-        [mainWindow addGestureRecognizer:recognizer];
-
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            // Touch tracker initialization
+            IntemptTouchTracker *recognizer = [[IntemptTouchTracker alloc] initWithTarget:nil action:nil];
+            [recognizer setCancelsTouchesInView:NO];
+            
+            UIApplication *application = [UIApplication sharedApplication];
+            NSArray *appWindows = [NSArray arrayWithArray:application.windows];
+            UIWindow *mainWindow = [appWindows objectAtIndex:0];
+            
+            [mainWindow addGestureRecognizer:recognizer];
+        });
+        NSString *msg = [NSString stringWithFormat:@"Init was called with orgId \"%@\", trackerId \"%@\" and token \"%@\"", orgId, sourceId, token];
+        handler(YES, [NSDictionary dictionaryWithObject:msg forKey:@"info"] , nil);
         //Initialize notifications center listener. Text input capture is enabled by default.
         //notificationsClient = [[IntemptNotificationCenterTracker alloc] init];
         //[self disableTextInput:[IntemptClient sharedClient].config.isInputTextCaptureDisabled];

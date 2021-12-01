@@ -7,14 +7,31 @@
 //
 
 import UIKit
+import Intempt
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-        self.window = UIWindow(frame: UIScreen.main.bounds)
-        //decideInitialViewController()
+        
+        ///Your code here
+        
+        //Initialize Intempt SDK
+        let intemptConfig = IntemptConfig(queueEnabled: true, withItemsInQueue: 7, withTimeBuffer: 15, withInitialDelay: 0.3, withInputTextCaptureDisabled: false)
+        IntemptTracker.tracking(withOrgId: IntemptOptions.orgId, withSourceId: IntemptOptions.sourceId, withToken: IntemptOptions.token, withConfig: intemptConfig) { (status, result, error) in
+            if(status) {
+                if let dictResult = result as? [String: Any] {
+                    print(dictResult)
+                }
+            }
+            else {
+                if let error = error {
+                    print(error.localizedDescription)
+                }
+            }
+        }
+        
         return true
     }
     

@@ -195,6 +195,11 @@ static BOOL trackingEnabled = YES;
 }
 
 + (void)disableTracking {
+    
+    NSMutableDictionary *newEvent = [NSMutableDictionary dictionary];
+    [newEvent setValue:@"Tracking disabled" forKey:@"consents"];
+    [[IntemptClient sharedClient] addEvent:newEvent toEventCollection:@"consents" withCompletion:nil];
+    
     trackingEnabled = NO;
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
     [userDefault setValue:@"NO" forKey:@"Intempt_Tracking_Flag"];
@@ -206,6 +211,10 @@ static BOOL trackingEnabled = YES;
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
     [userDefault setValue:@"YES" forKey:@"Intempt_Tracking_Flag"];
     [userDefault synchronize];
+    
+    NSMutableDictionary *newEvent = [NSMutableDictionary dictionary];
+    [newEvent setValue:@"Tracking enabled" forKey:@"consents"];
+    [[IntemptClient sharedClient] addEvent:newEvent toEventCollection:@"consents" withCompletion:nil];
 }
 
 + (Boolean)isTrackingEnabled {
@@ -711,21 +720,29 @@ static BOOL trackingEnabled = YES;
             if (!wasAdded) {
                 TBLog(@"Failed to add event for %@", identity);
                 NSError *error = [NSError errorWithDomain:@"Failed to add event for" code:200 userInfo:nil];
-                handler(NO, nil, error);
+                if (handler != NULL){
+                    handler(NO, nil, error);
+                }
             }else{
-                handler(YES, nil, nil);
+                if (handler != NULL){
+                    handler(YES, nil, nil);
+                }
             }
         }
         else{
             TBLog(@"Please provide a valid identity(email, phone)");
-            NSError *error = [NSError errorWithDomain:@"Please provide a valid identity(email, phone)" code:200 userInfo:nil];
-            handler(NO, nil, error);
+            if (handler != NULL){
+                NSError *error = [NSError errorWithDomain:@"Please provide a valid identity(email, phone)" code:200 userInfo:nil];
+                handler(NO, nil, error);
+            }
         }
     }
     else {
         TBLog(@"Identity field can't be empty");
-        NSError *error = [NSError errorWithDomain:@"Identity field can't be empty" code:200 userInfo:nil];
-        handler(NO, nil, error);
+        if (handler != NULL){
+            NSError *error = [NSError errorWithDomain:@"Identity field can't be empty" code:200 userInfo:nil];
+            handler(NO, nil, error);
+        }
     }
 }
 
@@ -805,8 +822,10 @@ static BOOL trackingEnabled = YES;
         
         //[NSException raise:@"IntemptNoTrackerIdProvided" format:@"You tried to add an event without setting a source Id please set one!"];
         TBLog(@"You tried to add an event without setting tracker source Id please set one!");
-        NSError *error = [NSError errorWithDomain:@"You tried to add an event without setting tracker source Id please set one!" code:200 userInfo:nil];
-        handler(NO, nil, error);
+        if (handler != NULL){
+            NSError *error = [NSError errorWithDomain:@"You tried to add an event without setting tracker source Id please set one!" code:1001 userInfo:nil];
+            handler(NO, nil, error);
+        }
         return NO;
     }
     
@@ -814,8 +833,10 @@ static BOOL trackingEnabled = YES;
         
         //[NSException raise:@"IntemptNoTokenProvided" format:@"You tried to add an event without setting a token, please set one!"];
         TBLog(@"You tried to add an event without setting tracker token, please set one!");
-        NSError *error = [NSError errorWithDomain:@"You tried to add an event without setting tracker token, please set one!" code:200 userInfo:nil];
-        handler(NO, nil, error);
+        if (handler != NULL){
+            NSError *error = [NSError errorWithDomain:@"You tried to add an event without setting tracker token, please set one!" code:1001 userInfo:nil];
+            handler(NO, nil, error);
+        }
         return NO;
     }
     
@@ -913,21 +934,27 @@ static BOOL trackingEnabled = YES;
     }
     else if ([eventCollection isEqualToString:@"consents"]) {
         
-        /*
         NSMutableDictionary *dictValueLocal = [[NSMutableDictionary alloc]init];
         NSMutableArray *arrLaunchLocal = [[NSMutableArray alloc] init];
         NSMutableDictionary *launchDicLocal = [[NSMutableDictionary alloc] initWithDictionary:event];
         [launchDicLocal setValue:[self generateUUIDNoDashes] forKey:@"eventId"];
         [launchDicLocal setValue:self->visitorId forKey:@"visitorId"];
         [launchDicLocal setValue:[newEvent valueForKey:@"timestamp"] forKey:@"timestamp"];
+        [launchDicLocal setValue:[newEvent valueForKey:@"timestamp"] forKey:@"timestamp_unixtime_ms"];
         [launchDicLocal setValue:@"" forKey:@"document"];
-        [launchDicLocal setValue:@"" forKey:@"hardware_id"];
-        [launchDicLocal setValue:self->country forKey:@"location"];
+        [launchDicLocal setValue:[[[UIDevice currentDevice]identifierForVendor]UUIDString] forKey:@"hardware_id"];
+        if(self->city.length > 1){
+            [launchDicLocal setValue:self->city forKey:@"location"];
+        }else if(self->country.length > 1){
+            [launchDicLocal setValue:self->country forKey:@"location"];
+        }else{
+            [launchDicLocal setValue:@"" forKey:@"location"];
+        }
         [arrLaunchLocal addObject:launchDicLocal];
         [dictValueLocal setValue:arrLaunchLocal forKey:@"consents"];
         TBLog(@"consent Data: %@",dictValueLocal);
         [[DBManager shared] insertAnalayticsData:dictValueLocal withEventType:@"consents"];
-        */
+        
         
         //[self sendEvents:dictValue multipleRecordExits:NO withCompletion:handler];
     }
@@ -1171,8 +1198,9 @@ static BOOL trackingEnabled = YES;
             }
         });
     }
-    
-    handler(YES, nil, nil);
+    if (handler != NULL){
+        handler(YES, [NSDictionary dictionaryWithObject:@"event logged successfully" forKey:@"info"], nil);
+    }
     return YES;
 }
 
@@ -1594,8 +1622,9 @@ NSNumber *parentTimestamp = nil;
                             }
                         }
                         
-                        
-                        handler(NO, nil, error);
+                        if (handler != NULL){
+                            handler(NO, nil, error);
+                        }
                     }
                     else {
                         if ([dictResponse valueForKey:@"error"] && [dictResponse valueForKey:@"status"]) {
@@ -1621,13 +1650,17 @@ NSNumber *parentTimestamp = nil;
                             };
                             
                             NSError *createError = [NSError errorWithDomain:kIntemptErrorDomain code:[[dictResponse valueForKey:@"status"] intValue] userInfo:dictUserInfo];
-                            handler(NO, nil, createError);
+                            if (handler != NULL){
+                                handler(NO, nil, createError);
+                            }
                         }
                         else {
                             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
                             TBLog(@"success response code=%ld",(long)httpResponse.statusCode);
                             [[DBManager shared] deleteAnalayticsDataWithSync:YES];
-                            handler(YES, dictResponse, nil);
+                            if (handler != NULL){
+                                handler(YES, dictResponse, nil);
+                            }
                         }
                     }
                 }
@@ -1636,7 +1669,9 @@ NSNumber *parentTimestamp = nil;
                 for (NSString *insertId in arrInsertIds) {
                     [[DBManager shared] updateRecordsWithEventId:[insertId integerValue] withIsSync:NO];
                 }
-                handler(NO, nil, error);
+                if (handler != NULL){
+                    handler(NO, nil, error);
+                }
             }
         });
     }];
@@ -1689,12 +1724,15 @@ NSNumber *parentTimestamp = nil;
                                 NSLocalizedFailureReasonErrorKey: NSLocalizedString([dictResponse valueForKey:@"message"], nil),
                                 NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"", nil)
                             };
-                            
-                            NSError *createError = [NSError errorWithDomain:kIntemptErrorDomain code:[[dictResponse valueForKey:@"status"] intValue] userInfo:dictUserInfo];
-                            handler(NO, nil, createError);
+                            if (handler != NULL){
+                                NSError *createError = [NSError errorWithDomain:kIntemptErrorDomain code:[[dictResponse valueForKey:@"status"] intValue] userInfo:dictUserInfo];
+                                handler(NO, nil, createError);
+                            }
                         }
                         else {
-                            handler(YES, dictResponse, nil);
+                            if (handler != NULL){
+                                handler(YES, dictResponse, nil);
+                            }
                         }
                     }
                 }

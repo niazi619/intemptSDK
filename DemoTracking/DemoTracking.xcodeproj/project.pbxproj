@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		0C016EF825E3BF0900393130 /* CustomEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C016EF725E3BF0900393130 /* CustomEventViewController.swift */; };
 		0C20A87624F545A100503FAB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C20A87524F545A100503FAB /* Constants.swift */; };
-		0C976E5C260EFB83005F61A1 /* AppTrackingTransparency.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C976E5A260EFB83005F61A1 /* AppTrackingTransparency.framework */; };
 		E96C9C8C04FF14C7390024DB /* Pods_DemoTracking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83A7C5614DA29A6ABB89F2C2 /* Pods_DemoTracking.framework */; };
 		ED2FB1762437CAC3009FAE97 /* NextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2FB1752437CAC3009FAE97 /* NextViewController.swift */; };
 		ED2FB1822437D229009FAE97 /* 1.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = ED2FB17F2437D228009FAE97 /* 1.jpeg */; };
@@ -22,9 +21,9 @@
 		ED6CDE9C242B85AE0073A920 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED6CDE9B242B85AE0073A920 /* Assets.xcassets */; };
 		ED6CDE9F242B85AE0073A920 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED6CDE9D242B85AE0073A920 /* LaunchScreen.storyboard */; };
 		ED8385E62440413300D42A56 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED8385E52440413200D42A56 /* Extension.swift */; };
+		FA455E42275797A600C0B412 /* Intempt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA455E412757977B00C0B412 /* Intempt.framework */; platformFilter = ios; };
+		FA455E43275797A600C0B412 /* Intempt.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FA455E412757977B00C0B412 /* Intempt.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FA599F3E2747C6ED00AC25F4 /* LocationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA599F3D2747C6ED00AC25F4 /* LocationsManager.swift */; };
-		FA991DD727424A7F009D1FA7 /* Intempt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C016F0925E3C41F00393130 /* Intempt.framework */; platformFilter = ios; };
-		FA991DD827424A7F009D1FA7 /* Intempt.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0C016F0925E3C41F00393130 /* Intempt.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FA991DDA274254C4009D1FA7 /* MoreEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA991DD9274254C4009D1FA7 /* MoreEventViewController.swift */; };
 		FA991DDC2742948A009D1FA7 /* CustomViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA991DDB2742948A009D1FA7 /* CustomViewTest.swift */; };
 		FA991DDE274294DB009D1FA7 /* CustomBtnTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA991DDD274294DB009D1FA7 /* CustomBtnTest.swift */; };
@@ -34,9 +33,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		0C016F0825E3C41F00393130 /* PBXContainerItemProxy */ = {
+		FA455E402757977B00C0B412 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 0C016F0425E3C41E00393130 /* Intempt.xcodeproj */;
+			containerPortal = FA455E3C2757977B00C0B412 /* Intempt.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = ED19F4CD24217C6800305287;
 			remoteInfo = Intempt;
@@ -50,7 +49,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				FA991DD827424A7F009D1FA7 /* Intempt.framework in Embed Frameworks */,
+				FA455E43275797A600C0B412 /* Intempt.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -59,10 +58,7 @@
 
 /* Begin PBXFileReference section */
 		0C016EF725E3BF0900393130 /* CustomEventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomEventViewController.swift; sourceTree = "<group>"; };
-		0C016F0425E3C41E00393130 /* Intempt.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Intempt.xcodeproj; path = ../intempt/Intempt.xcodeproj; sourceTree = "<group>"; };
 		0C20A87524F545A100503FAB /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		0C8C648A25CAEE3C007F3589 /* Intempt.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intempt.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/DemoTracking-gpsggzgeqhckllgomsmcecnrulxn/Build/Products/Debug-iphonesimulator/Intempt.framework"; sourceTree = "<group>"; };
-		0C976E5A260EFB83005F61A1 /* AppTrackingTransparency.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppTrackingTransparency.framework; path = System/Library/Frameworks/AppTrackingTransparency.framework; sourceTree = SDKROOT; };
 		5A9F3E0561C2BEE678B13AA2 /* Pods-DemoTracking.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoTracking.debug.xcconfig"; path = "Target Support Files/Pods-DemoTracking/Pods-DemoTracking.debug.xcconfig"; sourceTree = "<group>"; };
 		70C1D587C9B120C704926BF7 /* Pods-DemoTracking.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoTracking.release.xcconfig"; path = "Target Support Files/Pods-DemoTracking/Pods-DemoTracking.release.xcconfig"; sourceTree = "<group>"; };
 		83A7C5614DA29A6ABB89F2C2 /* Pods_DemoTracking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DemoTracking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -79,6 +75,7 @@
 		ED6CDE9E242B85AE0073A920 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ED6CDEA0242B85AE0073A920 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ED8385E52440413200D42A56 /* Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		FA455E3C2757977B00C0B412 /* Intempt.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Intempt.xcodeproj; path = ../intempt/Intempt.xcodeproj; sourceTree = "<group>"; };
 		FA599F3D2747C6ED00AC25F4 /* LocationsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationsManager.swift; sourceTree = "<group>"; };
 		FA991DD9274254C4009D1FA7 /* MoreEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreEventViewController.swift; sourceTree = "<group>"; };
 		FA991DDB2742948A009D1FA7 /* CustomViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewTest.swift; sourceTree = "<group>"; };
@@ -93,8 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA991DD727424A7F009D1FA7 /* Intempt.framework in Frameworks */,
-				0C976E5C260EFB83005F61A1 /* AppTrackingTransparency.framework in Frameworks */,
+				FA455E42275797A600C0B412 /* Intempt.framework in Frameworks */,
 				E96C9C8C04FF14C7390024DB /* Pods_DemoTracking.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -102,18 +98,9 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0C016F0525E3C41E00393130 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				0C016F0925E3C41F00393130 /* Intempt.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		0CA89D5A24F510BE00FD6852 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0C976E5A260EFB83005F61A1 /* AppTrackingTransparency.framework */,
 				83A7C5614DA29A6ABB89F2C2 /* Pods_DemoTracking.framework */,
 			);
 			name = Frameworks;
@@ -131,7 +118,7 @@
 		ED6CDE86242B85AB0073A920 = {
 			isa = PBXGroup;
 			children = (
-				0C016F0425E3C41E00393130 /* Intempt.xcodeproj */,
+				FA455E3C2757977B00C0B412 /* Intempt.xcodeproj */,
 				ED6CDE91242B85AB0073A920 /* DemoTracking */,
 				ED6CDE90242B85AB0073A920 /* Products */,
 				0CA89D5A24F510BE00FD6852 /* Frameworks */,
@@ -150,7 +137,6 @@
 		ED6CDE91242B85AB0073A920 /* DemoTracking */ = {
 			isa = PBXGroup;
 			children = (
-				0C8C648A25CAEE3C007F3589 /* Intempt.framework */,
 				0C20A87524F545A100503FAB /* Constants.swift */,
 				ED6CDE92242B85AB0073A920 /* AppDelegate.swift */,
 				ED6CDE94242B85AB0073A920 /* SceneDelegate.swift */,
@@ -174,6 +160,14 @@
 				ED6CDEA0242B85AE0073A920 /* Info.plist */,
 			);
 			path = DemoTracking;
+			sourceTree = "<group>";
+		};
+		FA455E3D2757977B00C0B412 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FA455E412757977B00C0B412 /* Intempt.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		FA599F3B2747C6C400AC25F4 /* LocationManager */ = {
@@ -235,8 +229,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 0C016F0525E3C41E00393130 /* Products */;
-					ProjectRef = 0C016F0425E3C41E00393130 /* Intempt.xcodeproj */;
+					ProductGroup = FA455E3D2757977B00C0B412 /* Products */;
+					ProjectRef = FA455E3C2757977B00C0B412 /* Intempt.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -247,11 +241,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		0C016F0925E3C41F00393130 /* Intempt.framework */ = {
+		FA455E412757977B00C0B412 /* Intempt.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = Intempt.framework;
-			remoteRef = 0C016F0825E3C41F00393130 /* PBXContainerItemProxy */;
+			remoteRef = FA455E402757977B00C0B412 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */

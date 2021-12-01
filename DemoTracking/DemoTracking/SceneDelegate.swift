@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import AppTrackingTransparency
 import Intempt
 import Dispatch
 
@@ -19,11 +18,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
-        decideInitialViewController()
         
-        APP_DELEGATE.delay(1){
-            self.requestTrackingPermission()
-        }
+    
+
+        
+        decideInitialViewController()
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -55,43 +54,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
     }
-    
-    private func requestTrackingPermission() {
-        if #available(iOS 14, *) {
-            ATTrackingManager.requestTrackingAuthorization { status in
-                switch status {
-                    case .authorized:
-                        // Tracking authorization dialog was shown
-                        // and we are authorized
-                        print("Tracking authorized.")
-                        
-                        UserDefaults.standard.set(true, forKey: "TrackingEnabled")
-                        // Now that we are authorized we can get the IDFA
-                        DispatchQueue.main.async {
-                            self.decideInitialViewController()
-                            self.initializeIntemptTracking()
-                        }
-                    case .denied:
-                        // Tracking authorization dialog was
-                        // shown and permission is denied
-                        print("Denied. Please turn on app tracking to enable app analytics.")
-                        UserDefaults.standard.set(false, forKey: "TrackingEnabled")
-                    case .notDetermined:
-                        // Tracking authorization dialog has not been shown
-                        print("Not determined.")
-                    case .restricted:
-                        print("Restricted. Please turn on app tracking to enable app analytics.")
-                        UserDefaults.standard.set(false, forKey: "TrackingEnabled")
-                    @unknown default:
-                        print("Unknown.")
-                }
-            }
-        }
-        else {
-            initializeIntemptTracking()
-        }
-    }
-    
+
     private func initializeIntemptTracking() {
         //Initialize Intempt SDK
         let intemptConfig = IntemptConfig(queueEnabled: true, withItemsInQueue: 7, withTimeBuffer: 15, withInitialDelay: 0.3, withInputTextCaptureDisabled: false)
