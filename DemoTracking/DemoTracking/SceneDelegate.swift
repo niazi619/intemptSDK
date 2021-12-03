@@ -19,9 +19,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
         
-    
-
-        
         decideInitialViewController()
     }
     
@@ -45,7 +42,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillEnterForeground(_ scene: UIScene) {
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
-        print("sceneWillEnterForeground=",sceneWillEnterForeground)
+        print("sceneWillEnterForeground=")
         //self.initializeIntemptTracking()
     }
     

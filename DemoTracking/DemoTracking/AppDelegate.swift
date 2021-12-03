@@ -31,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
         }
-        
+        IntemptClient.enableLogging()
         return true
     }
     

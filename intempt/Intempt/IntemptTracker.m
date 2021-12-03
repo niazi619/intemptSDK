@@ -6,6 +6,7 @@
 //  Copyright © 2020 Intempt. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
 #import "IntemptTracker.h"
 #import "JRSwizzle.h"
 #import "IntemptTouchTracker.h"
@@ -14,7 +15,14 @@
 #import "UIViewController+IntemptActionTracker.h"
 #import "IntemptConstants.h"
 #import "IntemptClient.h"
-#import "UIScene+IntemptAction.h"
+#import "UIResponder+IntemptAction.h"
+
+#if TARGET_OS_IPHONE
+    #import <objc/runtime.h>
+    #import <objc/message.h>
+#else
+    #import <objc/objc-class.h>
+#endif
 
 @implementation IntemptTracker
 static IntemptNotificationCenterTracker* notificationsClient;
@@ -55,6 +63,9 @@ static NSString *_token;
                 break;
         }
      
+        #ifdef DEBUG
+            [IntemptClient enableLogging];
+        #endif
         [IntemptClient sharedClientWithOrganizationId:_orgId withTrackerId:_trackerId withToken:_token withConfig:settings  withCompletion:handler];
 
         // Actions tracker initialization
@@ -65,28 +76,74 @@ static NSString *_token;
             if (!result || error) {
                 TBLog(@"Can't swizzle methods - %@", [error description]);
             }
-            /*
-            NSError *error2;
-            BOOL result2 = [UIApplication jr_swizzleClassMethod:@selector(applicationWillEnterForeground:) withClassMethod:@selector(intempt_applicationWillEnterForeground:) error:&error2];
-            if (!result2 || error2) {
-                TBLog(@"Can't swizzle methods - %@", [error2 description]);
-            }*/
         });
         
-        // UIScene tracker initialization
-        /*
-        static dispatch_once_t sceneTrackingToken;
-        dispatch_once(&sceneTrackingToken, ^{
-            NSError *error;
-            if (@available(iOS 13.0, *)) {
-                BOOL result = [UIWindowScene jr_swizzleMethod:@selector(sceneWillEnterForeground:) withMethod:@selector(intempt_sceneWillEnterForeground:) error:&error];
-                if (!result || error) {
-                    TBLog(@"Can't swizzle methods - %@", [error description]);
+        // UISceneDelegate tracker initialization
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            static dispatch_once_t sceneTrackingToken;
+            dispatch_once(&sceneTrackingToken, ^{
+                if (@available(iOS 13.0, *)) {
+                    
+                    ////we created category using UIResponder interface UIResponder+IntemptAction
+                    Class class = objc_getClass("UIResponder");
+                    Class connectedScene = [[[[[UIApplication sharedApplication]connectedScenes]allObjects]firstObject].delegate class];
+                    if(class && connectedScene){
+                        SEL originalSelector = @selector(sceneWillEnterForeground:);
+                        SEL swizzledSelector = @selector(intempt_sceneWillEnterForeground:);
+
+                        Method originalMethod = class_getInstanceMethod(connectedScene, originalSelector);
+                        Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
+                        
+                        ///incase developer has not overrided the sceneWillEnterForeground of UISceneDelegate then we must have  to inject method
+                        if(!originalMethod){
+                            
+                            ///we implemented a method in UIResponder+IntemptAction with the name sceneWillEnterForeground, we get that implementation and inject in UISceneDelegate
+                            Method swizzledOriginalMethod = class_getInstanceMethod(class, originalSelector);
+                            class_addMethod(connectedScene,
+                                            originalSelector,
+                                            class_getMethodImplementation(class, originalSelector),
+                                            method_getTypeEncoding(swizzledOriginalMethod));
+                            
+                            ////as we just injected method so get reference again to swizzle
+                            originalMethod = class_getInstanceMethod(connectedScene, originalSelector);
+                        }
+                        method_exchangeImplementations(originalMethod, swizzledMethod);
+                    }
                 }
-            }
+            });
         });
-        */
-        
+
+        // AppDelegate delegates tracker initialization
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            static dispatch_once_t appTrackingToken;
+            dispatch_once(&appTrackingToken, ^{
+                
+                Class appClass = [[[UIApplication sharedApplication]delegate]class];
+                ////we created category using UIResponder interface UIResponder+IntemptAction
+                Class class = objc_getClass("UIResponder");
+                SEL originalSelector = @selector(applicationWillEnterForeground:);
+                SEL swizzledSelector = @selector(intempt_applicationWillEnterForeground:);
+
+                Method originalMethod = class_getInstanceMethod(appClass, originalSelector);
+                Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
+                
+                ///incase developer has not overrided the applicationWillEnterForeground of AppDelegate then we must have  to inject method
+                if(!originalMethod){
+                    
+                    ///we implemented a method in UIResponder+IntemptAction with the name applicationWillEnterForeground, we get that implementation and inject in AppDelegate
+                    Method swizzledOriginalMethod = class_getInstanceMethod(class, originalSelector);
+                    class_addMethod(appClass,
+                                    originalSelector,
+                                    class_getMethodImplementation(class, originalSelector),
+                                    method_getTypeEncoding(swizzledOriginalMethod));
+                    
+                    
+                    ////as we just injected method so get reference again to swizzle
+                    originalMethod = class_getInstanceMethod(appClass, originalSelector);
+                }
+                method_exchangeImplementations(originalMethod, swizzledMethod);
+            });
+        });
         // View tracker initialization
         static dispatch_once_t viewTrackingToken;
         dispatch_once(&viewTrackingToken, ^{
@@ -104,9 +161,12 @@ static NSString *_token;
             
             UIApplication *application = [UIApplication sharedApplication];
             NSArray *appWindows = [NSArray arrayWithArray:application.windows];
-            UIWindow *mainWindow = [appWindows objectAtIndex:0];
-            
-            [mainWindow addGestureRecognizer:recognizer];
+            if (appWindows){
+                if(appWindows.count > 0){
+                    UIWindow *mainWindow = [appWindows objectAtIndex:0];
+                    [mainWindow addGestureRecognizer:recognizer];
+                }
+             }
         });
         NSString *msg = [NSString stringWithFormat:@"Init was called with orgId \"%@\", trackerId \"%@\" and token \"%@\"", orgId, sourceId, token];
         handler(YES, [NSDictionary dictionaryWithObject:msg forKey:@"info"] , nil);

@@ -13,11 +13,18 @@ let APP_DELEGATE: AppDelegate = UIApplication.shared.delegate as! AppDelegate
 
 struct IntemptOptions {
     
-    ////DEMO_SDK_APP
+    ////Session_demo
     
+    static let orgId = "dev-tech"
+    static let sourceId = "300069193536909312"
+    static let token = "ZdhWmYnqM2VeVXimGFbBSIMjyoOTjXcz.Azwi7txbczd7yAxO5VfBRZjIaCp6gwsI3DyyQYIc6vZ8wE2ZxGxwnQjxbd40fXcc"
+
+    ////DEMO_SDK_APP
+    /*
     static let orgId = "dev-tech"
     static let sourceId = "293437767630585856"
     static let token = "y0IhgZI24Jj4j8Ty4dYsV8xKyKGDsrqA.GfB-hwI--VYp5vfqxAqqlE7X2dvrOfLXl1OYRMCkzYkreAPnMBIyHmrbsZfgGijq"
+    */
     
     ///iOS_SECOND_SOURCE
     /*
