@@ -7,54 +7,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "432E202C-CAFE-409D-B425-C0C65012226D"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../intempt/Intempt/Legacy/IntemptClient.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1282"
-            endingLineNumber = "1282"
-            landmarkName = "-checkAppUpgradeStatus:"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "432E202C-CAFE-409D-B425-C0C65012226D - 5ac0bcceea45fdba"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[IntemptClient bundleInfo:]"
-                  moduleName = "Intempt"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/macbook/Waseem%20Development/Xcode%20Projects/Intempt%20SDK%20Project/Itempt-Github/intemptSDK/intempt/Intempt/Legacy/IntemptClient.m"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1282"
-                  endingLineNumber = "1282"
-                  offsetFromSymbolStart = "53">
-               </Location>
-               <Location
-                  uuid = "432E202C-CAFE-409D-B425-C0C65012226D - d0d9265dd6f7b98a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[IntemptClient checkAppUpgradeStatus:]"
-                  moduleName = "Intempt"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/macbook/Waseem%20Development/Xcode%20Projects/Intempt%20SDK%20Project/Itempt-Github/intemptSDK/intempt/Intempt/Legacy/IntemptClient.m"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1282"
-                  endingLineNumber = "1282"
-                  offsetFromSymbolStart = "665">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "48F06334-DA13-49B3-B47B-DF93C411D466"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -118,22 +70,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "E11D9B9B-BEC1-4794-94DD-84AC19ACA5BD"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "DemoTracking/AppDelegate.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "53"
-            endingLineNumber = "53"
-            landmarkName = "applicationWillEnterForeground(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "D5988313-6342-4644-893C-EC0B84F4D8C3"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -145,6 +81,102 @@
             endingLineNumber = "16"
             landmarkName = "-intempt_sceneWillEnterForeground:"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A4FCA202-EFF6-40B9-A694-6456D48511C4"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../intempt/Intempt/Legacy/IntemptClient.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "453"
+            endingLineNumber = "453"
+            landmarkName = "-withOrgId:andSourceId:andToken:uuidString:withCompletion:"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "A4FCA202-EFF6-40B9-A694-6456D48511C4 - e6fb1f248dfd81"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[IntemptClient withOrgId:andSourceId:andToken:uuidString:withCompletion:]"
+                  moduleName = "Intempt"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macbook/Waseem%20Development/Xcode%20Projects/Intempt%20SDK%20Project/Itempt-Github/intemptSDK/intempt/Intempt/Legacy/IntemptClient.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "465"
+                  endingLineNumber = "465"
+                  offsetFromSymbolStart = "1165">
+               </Location>
+               <Location
+                  uuid = "A4FCA202-EFF6-40B9-A694-6456D48511C4 - e6fb1f248dfc35"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[IntemptClient withOrgId:andSourceId:andToken:uuidString:withCompletion:]"
+                  moduleName = "Intempt"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macbook/Waseem%20Development/Xcode%20Projects/Intempt%20SDK%20Project/Itempt-Github/intemptSDK/intempt/Intempt/Legacy/IntemptClient.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "453"
+                  endingLineNumber = "453"
+                  offsetFromSymbolStart = "584">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BB229632-8CE7-4A62-98EF-3818D4260CBC"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../intempt/Intempt/Legacy/IntemptClient.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "763"
+            endingLineNumber = "763"
+            landmarkName = "-locationManager:didRangeBeacons:inRegion:"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "BB229632-8CE7-4A62-98EF-3818D4260CBC - f04f30b6cff45090"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[IntemptClient locationManager:didRangeBeacons:inRegion:]"
+                  moduleName = "Intempt"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macbook/Waseem%20Development/Xcode%20Projects/Intempt%20SDK%20Project/Itempt-Github/intemptSDK/intempt/Intempt/Legacy/IntemptClient.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "764"
+                  endingLineNumber = "764"
+                  offsetFromSymbolStart = "3521">
+               </Location>
+               <Location
+                  uuid = "BB229632-8CE7-4A62-98EF-3818D4260CBC - f04f30b6cff450b1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[IntemptClient locationManager:didRangeBeacons:inRegion:]"
+                  moduleName = "Intempt"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macbook/Waseem%20Development/Xcode%20Projects/Intempt%20SDK%20Project/Itempt-Github/intemptSDK/intempt/Intempt/Legacy/IntemptClient.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "763"
+                  endingLineNumber = "763"
+                  offsetFromSymbolStart = "2236">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

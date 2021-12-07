@@ -52,7 +52,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillEnterForeground(_ application: UIApplication){
         print("applicationWillEnterForeground")
     }
-    
+    func applicationDidEnterBackground(_ application: UIApplication){
+        print("applicationDidEnterBackground")
+    }
+    func applicationWillTerminate(_ application: UIApplication){
+        print("applicationWillTerminate")
+    }
     func decideInitialViewController() {
         let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ViewController")
         let navigationController = UINavigationController(rootViewController: viewController)

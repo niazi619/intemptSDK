@@ -16,8 +16,8 @@ struct IntemptOptions {
     ////Session_demo
     
     static let orgId = "dev-tech"
-    static let sourceId = "300069193536909312"
-    static let token = "ZdhWmYnqM2VeVXimGFbBSIMjyoOTjXcz.Azwi7txbczd7yAxO5VfBRZjIaCp6gwsI3DyyQYIc6vZ8wE2ZxGxwnQjxbd40fXcc"
+    static let sourceId = "301500495041536000"
+    static let token = "SGltbb2C_KREzPEXGoNncWXbK-GmThUU.UO3SU8TFdc8Y9G02hDuqkRdI_I3rbWWqDg3Jkzt-spJ_PywDbYj2MxQPVwVfNs0D"
 
     ////DEMO_SDK_APP
     /*

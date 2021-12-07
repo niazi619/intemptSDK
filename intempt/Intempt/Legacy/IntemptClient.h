@@ -153,6 +153,20 @@ Use this Instance method to initilaze the beacon for the app.
 */
 - (void)withOrgId:(NSString*)orgId andSourceId:(NSString*)trackerId andToken:(NSString*)token uuidString:(NSString*)uuid withCompletion:(CompletionHandler)handler;
 
+/**
+ Call this method in order to reset tracking session.
+ */
+- (void)validateTrackingSession;
+
+/**
+ Call this method to end the tracking session. it will not create new session automatically, developer is responsible to create new session
+ */
+- (void)endTrackingSession;
+
+/**
+ Call this method to star the new tracking session.
+ */
+- (void)startTrackingSession;
 
 /**
 Use this Instance method when you want to set a unique identifier (email or phone no.) for your app. Its an alternative to default identify method and more likely you didn't enable tracking for the app.

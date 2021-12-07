@@ -28,6 +28,7 @@ extern int const kRetryLimit;
 extern double const kInitialDelay;
 extern double const kRetryDelay;
 extern BOOL const kDisableTextInput;
+extern int const TRACKING_SESSION_TIME_OUT;
 
 typedef enum geoLocationStateType {
     GEO_DISABLED = 0,
