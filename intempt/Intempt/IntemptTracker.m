@@ -311,32 +311,6 @@ static NSString *_token;
     return [client track:collectionName withProperties:userProperties withCompletion:handler];
 }
 
-+ (void)beaconWithOrgId:(NSString*)orgId andSourceId:(NSString*)sourceId andToken:(NSString*)token andDeviceUUID:(NSString*)uuid onCompletion:(CompletionHandler)handler {
-    
-    if (orgId == nil || orgId.length == 0 || sourceId == nil || sourceId.length == 0 || token == nil || token .length == 0 || uuid == nil || uuid.length == 0) {
-        NSAssert(NULL, @"Origanization ID or source ID or token or device uuid must not be blank.");
-    }
-    TBLog(@"Beacon initialized with orgId %@, trackerId %@, token %@ and uuid %@", orgId, sourceId, token,uuid);
-    
-    TBLog(@"--------------- orgId %@, trackerId %@, token %@", _orgId, _trackerId, _token);
-    [IntemptClient sharedClientWithOrganizationId:_orgId withTrackerId:_trackerId withToken:_token withConfig:nil withCompletion:handler];
-    
-    IntemptClient *client = [IntemptClient sharedClient];
-    if (!client) {
-        [NSException raise:@"IdentifyBeforeTrackingStart" format:@"identifyVisitor was called before tracking was started"];
-    }
-       
-    return [client withOrgId:orgId andSourceId:sourceId andToken:token uuidString:uuid withCompletion:handler];
-}
 
-+ (void)identifyUsingBeaconWith:(NSString*)identity withProperties:(NSDictionary*)userProperties onCompletion:(CompletionHandler)handler {
-
-    IntemptClient *client = [IntemptClient sharedClient];
-    if (!client) {
-        [NSException raise:@"IdentifyBeforeTrackingStart" format:@"identifyVisitor was called before tracking was started"];
-    }
-    
-    return [client identifyUsingBeaconWith:identity withProperties:userProperties withCompletion:handler];
-}
 
 @end

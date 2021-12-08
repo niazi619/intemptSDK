@@ -36,29 +36,14 @@ typedef void(^CompletionHandler)(BOOL status, id result, NSError *error);
 
 /**
  Use this method when you specific tracking information to server. Creating custom Schema is mandatory to use this method. Go to your project on https://app.intempt.com and select organization and then select source and click on `Visit Schema` to add custom Schema
- Without adding schema on https://app.intempt.com custom events will not be logged, also make sure properties added in schema have same data types as your data, if you will try sending string data but field data type is int then you will get error
+ Without adding collection in schema on https://app.intempt.com custom events will not be saved, also make sure properties added in schema have same data types as your data, if you will try sending string data but field data type is int then you will get error
  @param collectionName Custom Schema name (Exclude the unique id)
  @param userProperties An Array of user properties which should be the same parameters you added in your custom schema
  @note In Swift you can pass Error object instead of NSError as error
 */
 + (void)track:(NSString*)collectionName withProperties:(NSArray*)userProperties onCompletion:(CompletionHandler)handler;
 
-/**
- Call this method from any ViewController's  `viewDidLoad` method to initilaze the beacon for the app.
- @param orgId  Your Intempt Organization ID generated from intempt developer console
- @param sourceId Your Intempt Source ID generated from intempt developer console
- @param token Your Intempt Source Token generated from intempt developer console
- @param uuid A beacon UUID
-*/
-+ (void)beaconWithOrgId:(NSString*)orgId andSourceId:(NSString*)sourceId andToken:(NSString*)token andDeviceUUID:(NSString*)uuid onCompletion:(CompletionHandler)handler;
 
-/**
- Use this method when you want to set a unique identifier (email or phone no.) for your app. Its an alternative to default identify method and more likely you didn't enable tracking for the app.
- @param identity An Identity i.e, email address or phone number
- @param userProperties A dictionary of user properties (set accroding to your custom schema's parameters on intempt developer site)
- @note In Swift you can pass Error object instead of NSError as error
-*/
-+ (void)identifyUsingBeaconWith:(NSString*)identity withProperties:(NSDictionary*)userProperties onCompletion:(CompletionHandler)handler;
 
 @end
 

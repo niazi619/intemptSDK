@@ -29,4 +29,4 @@ double const kInitialDelay = 0.2;
 double const kRetryDelay = 0.1;
 BOOL const kcaptureTextInput = YES;
 BOOL const kDisableTextInput = NO;
-int const TRACKING_SESSION_TIME_OUT = 30; //seconds //shouldn't be more than 120 seconds
+int const TRACKING_SESSION_TIME_OUT = 60; //seconds //shouldn't be more than 120 seconds

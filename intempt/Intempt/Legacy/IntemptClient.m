@@ -30,7 +30,7 @@ static BOOL loggingEnabled = NO;
 static BOOL trackingEnabled = YES;
 
 
-@interface IntemptClient ()<CLLocationManagerDelegate,CBCentralManagerDelegate, CBPeripheralDelegate> {
+@interface IntemptClient ()<CLLocationManagerDelegate> {
     NSString *visitorId, *cfBundleIdentifier, *parentId, *eventId, *brand, *strMajor;
     int exitFlag;
     NSMutableDictionary *profileDic, *sceneDic, *interactionDic, *deviceDic, *geoDic, *appDic, *launchDic, *screenDic;
@@ -47,8 +47,6 @@ static BOOL trackingEnabled = YES;
      double longitude;
      NSString *proximityVisitorId;*/
 }
-
-@property (strong, nonatomic) CLBeaconRegion *beaconRegion;
 
 // The project ID for this particular client.
 @property (nonatomic, strong) NSString *organizationId;
@@ -72,13 +70,6 @@ static BOOL trackingEnabled = YES;
 @property (strong, nonatomic) NSMutableArray *entryArray;
 @property (strong, nonatomic) NSMutableArray *exitArray;
 @property (strong, nonatomic) NSDictionary *propertiesOverridesDictionary;
-
-@property (strong, nonatomic) CBCentralManager *centralManager;
-@property (strong, nonatomic) CBPeripheral *discoveredPeripheral;
-
-@property (strong, nonatomic) NSString *orgIdBeacon;
-@property (strong, nonatomic) NSString *trackerIdBeacon;
-@property (strong, nonatomic) NSString *tokenBeacon;
 
 @property(nonatomic,strong) NSTimer *timerSync;
 /**
@@ -114,7 +105,6 @@ static BOOL trackingEnabled = YES;
 
 @implementation IntemptClient
 
-@synthesize delegate;
 @synthesize organizationId=_organizationId;
 @synthesize sourceId=_sourceId;
 @synthesize token=_token;
@@ -251,6 +241,7 @@ static BOOL trackingEnabled = YES;
         [self addEvent:newEvent toEventCollection:@"session" withCompletion:nil];
         [[NSUserDefaults standardUserDefaults]removeObjectForKey:@"sessionId"];
         [[NSUserDefaults standardUserDefaults]synchronize];
+        sessionId = @"";
     }
 }
 
@@ -277,7 +268,7 @@ static BOOL trackingEnabled = YES;
 
 + (void)initialize {
     // initialize the cached client exactly once.
-    
+
     if (self != [IntemptClient class]) {
         /*
          Without this extra check, your initializations could run twice if you ever have a subclass that
@@ -430,50 +421,6 @@ static BOOL trackingEnabled = YES;
     [self startTimer];
     
     return self;
-}
-
-- (void)withOrgId:(NSString*)orgId andSourceId:(NSString*)trackerId andToken:(NSString*)token uuidString:(NSString*)uuid withCompletion:(CompletionHandler)handler {
-    
-    self.locationManager.delegate = self;
-    _locationManager.desiredAccuracy=kCLLocationAccuracyBest;
-    _locationManager.distanceFilter=kCLDistanceFilterNone;
-    _centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
-    _beaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:[[NSUUID alloc] initWithUUIDString:uuid] identifier:@"com"];
-    
-    //_beaconRegion.notifyEntryStateOnDisplay = YES;
-    //_beaconRegion.notifyOnEntry = NO;
-    //_beaconRegion.notifyOnExit = NO;
-    //_data = [[NSMutableData alloc] init];
-    
-    self.orgIdBeacon = orgId;
-    self.trackerIdBeacon = trackerId;
-    self.tokenBeacon = token;
-    
-    //proximityVisitorId = [self generateUUIDNoDashes];
-    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
-    NSMutableArray *profileData = [[NSMutableArray alloc] init];
-    [dic setValue:[NSString stringWithFormat:@"%@",visitorId]forKey:@"identifier"];
-    [dic setValue:visitorId forKey:@"visitorId"];
-    [profileData addObject:dic];
-    
-    dictValue =[[NSMutableDictionary alloc] init];
-    [dictValue setValue:profileData forKey:@"profile"];
-    [self sendProximitySourceEvents:self.orgIdBeacon andSourceId:self.trackerIdBeacon andToken:self.tokenBeacon eventsValue:dictValue withCompletion:handler];
-    [self.locationManager startRangingBeaconsInRegion:self.beaconRegion];
-    
-    /*UIBackgroundTaskIdentifier bgTask = [[UIApplication  sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-     NSLog(@"End of tolerate time. Application should be suspended now if we do not ask more 'tolerance'");
-     [[UIApplication sharedApplication] endBackgroundTask:UIBackgroundTaskInvalid];
-     }];
-     
-     if (bgTask == UIBackgroundTaskInvalid) {
-     NSLog(@"This application does not support background mode");
-     }
-     else {
-     //if application supports background mode, we'll see this log.
-     NSLog(@"Application will continue to run in background");
-     }*/
-    
 }
 
 - (void)disableTextInput:(BOOL)status {
@@ -696,142 +643,6 @@ static BOOL trackingEnabled = YES;
     TBLog(@"Cannot find the location.");
 }
 
-# pragma mark - Beacon Delegate Mmethod
-
-/*- (void)locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region {
- if ([self insideRegion: region location: manager.location])
- [_locationManager requestStateForRegion:region];
- }*/
-
-- (void)locationManager:(CLLocationManager *)manager didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region {
-}
-
-- (void)locationManager:(CLLocationManager*)manager didRangeBeacons:(NSArray*)beacons inRegion:(CLBeaconRegion*)region {
-    // Beacon found!
-    CLBeacon *foundBeacon = [beacons firstObject];
-    if (foundBeacon == nil)
-        return;
-    [self.filterBuffer enqueue:foundBeacon];
-    
-    if (self.filterBuffer.count < 10) {
-        return;
-    }
-    
-    [self.filterBuffer dequeue];
-    NSInteger minImmediateProximitySightings = 0;
-    for (NSInteger i=0; i < self.filterBuffer.count; i++) {
-        CLProximity proximity = ((CLBeacon*)self.filterBuffer[i]).proximity;
-        if (proximity == CLProximityNear || proximity == CLProximityImmediate )
-            minImmediateProximitySightings++;
-    }
-    NSString *major = [NSString stringWithFormat:@"%@", foundBeacon.major];
-    NSString *minor = [NSString stringWithFormat:@"%@", foundBeacon.minor];
-    NSInteger rssi = foundBeacon.rssi;
-    
-    [self.majorArrayData addObject:major];
-    
-    NSString * majorValue = [NSString stringWithFormat:@"%@",[self.majorArrayData objectAtIndex:0]];
-    if ([majorValue isEqualToString:strMajor]) {
-        [self.majorArrayData removeAllObjects];
-        [self.majorArrayData addObject:major];
-        [self.locationManager stopRangingBeaconsInRegion:_beaconRegion];
-        
-        [self.locationManager startRangingBeaconsInRegion:_beaconRegion];
-    }
-    
-    if (minImmediateProximitySightings > 5) {
-        self.currentState = 1;
-        NSString*str = @"1";
-        [self.entryArray addObject:str];
-        NSString * value = [NSString stringWithFormat:@"%@",[self.entryArray objectAtIndex:0]];
-        
-        if ([value isEqualToString:@"1"] && [majorValue isEqualToString:major]) {
-            [self.delegate didEnterRegion:foundBeacon];
-            exitFlag = 1;
-            
-            [self.entryArray insertObject:@"0" atIndex:0];
-            [self.exitArray removeAllObjects];
-            
-            
-            NSMutableDictionary *dicEntry = [[NSMutableDictionary alloc] init];
-            [dicEntry setValue:[NSString stringWithFormat:@"%@",visitorId]forKey:@"visitorId"];
-            
-            [dicEntry setValue:[self addTimestamp] forKey:@"timestamp"];
-            //NSString *strTime = [NSString stringWithFormat:@"%lld",timestamp];
-            //[dicEntry setValue:strTime forKey:@"entryTime"];
-            
-            [dicEntry setValue:visitorId forKey:@"visitorId"];
-            [dicEntry setValue:[self generateUUIDNoDashes] forKey:@"eventId"];
-            [dicEntry setValue:major forKey:@"major"];
-            [dicEntry setValue:minor forKey:@"minor"];
-            
-            NSArray *arrEntryData = [NSArray arrayWithObject:dicEntry];
-            
-            self->dictValue = [[NSMutableDictionary alloc] init];
-            [self->dictValue setValue:arrEntryData forKey:@"entry"];
-            
-            dispatch_async(self.uploadQueue, ^{
-                if (![self connected]) {
-                    // Not connected
-                    TBLog(@"Please Check Your Internet Connection");
-                } else {
-                    [self sendProximitySourceEvents:self->_orgIdBeacon andSourceId:self->_trackerIdBeacon andToken:self->_tokenBeacon eventsValue:self->dictValue withCompletion:self->_completion];
-                }
-            });
-            TBLog(@"entryData-----%@",self->dictValue);
-        }
-    }
-    else if (rssi == 0) {
-        [self.exitArray addObject:[NSString stringWithFormat:@"%d",exitFlag]];
-        NSString * value = [NSString stringWithFormat:@"%@",[self.exitArray objectAtIndex:0]];
-        
-        if ([value isEqualToString:@"1"] && [majorValue isEqualToString:major]) {
-            NSString *major = [NSString stringWithFormat:@"%@", foundBeacon.major];
-            [self.delegate didExitRegion:foundBeacon];
-            [self.entryArray removeAllObjects];
-            [self.exitArray insertObject:@"0" atIndex:0];
-            
-            
-            NSMutableDictionary *dicExit = [[NSMutableDictionary alloc] init];
-            [dicExit setValue:[NSString stringWithFormat:@"%@",visitorId]forKey:@"visitorId"];
-            
-            [dicExit setValue:[self addTimestamp] forKey:@"timestamp"];
-            //NSString *strTime = [NSString stringWithFormat:@"%lld",timestamp];
-            //[dic setValue:strTime forKey:@"entryTime"];
-            
-            
-            [dicExit setValue:visitorId forKey:@"visitorId"];
-            [dicExit setValue:[self generateUUIDNoDashes] forKey:@"eventId"];
-            [dicExit setValue:major forKey:@"major"];
-            [dicExit setValue:minor forKey:@"minor"];
-            
-            NSArray *arrExitData = [NSArray arrayWithObject:dicExit];
-            
-            self->dictValue = [[NSMutableDictionary alloc] init];
-            [self->dictValue setValue:arrExitData forKey:@"exit"];
-            //[self sendEvents:self->dictValue];
-            TBLog(@"exitData-----%@",self->dictValue);
-            dispatch_async(self.uploadQueue, ^{
-                [self sendProximitySourceEvents:self->_orgIdBeacon andSourceId:self->_trackerIdBeacon andToken:self->_tokenBeacon eventsValue:self->dictValue withCompletion:self->_completion];
-            });
-            strMajor = major;
-            [self.filterBuffer removeAllObjects];
-            
-            [self.majorArrayData removeAllObjects];
-            [self.locationManager stopRangingBeaconsInRegion:_beaconRegion];
-            
-            [self.locationManager startRangingBeaconsInRegion:_beaconRegion];
-        }
-        
-        self.currentState = 0;
-        TBLog(@"No Beacon Found!");
-    }
-    
-    // You can retrieve the beacon data from its properties
-    //NSString *uuid = foundBeacon.proximityUUID.UUIDString;
-    //NSString *major = [NSString stringWithFormat:@"%@", foundBeacon.major];
-    //NSString *minor = [NSString stringWithFormat:@"%@", foundBeacon.minor];
-}
 
 # pragma mark - Identify
 
@@ -876,60 +687,15 @@ static BOOL trackingEnabled = YES;
     }
 }
 
-
-- (void)identifyUsingBeaconWith:(NSString*)identity withProperties:(NSDictionary *)userProperties withCompletion:(CompletionHandler)handler {
-    
-    if (![IntemptClient validateTrackerId:self.trackerIdBeacon]) {
-        TBLog(@"You tried to add an event without setting beacon source id please set one!");
-        return;
-    }
-    
-    if (![IntemptClient validateToken:self.tokenBeacon]) {
-        TBLog(@"You tried to add an event without setting beacon token, please set one!");
-        return;
-    }
-    
-    NSMutableDictionary *event = [[NSMutableDictionary alloc] initWithDictionary:userProperties];
-    if(identity != nil || [identity stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length > 0){
-        if ([self isValidEmail:identity] || [self isValidPhoneNumber:identity]){
-            [event setObject:identity forKey:@"identifier"];
-            
-            [[NSUserDefaults standardUserDefaults] setValue:identity forKey:@"identifier"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            
-            if(profileDic == nil)
-                profileDic = [[NSMutableDictionary alloc] init];
-            
-            [profileDic setValue:visitorId forKey:@"visitorId"];
-            [profileDic setValue:[self addTimestamp] forKey:@"timestamp"];
-            [profileDic setValue:identity forKey:@"identifier"];
-            
-            //if (arrProfile == nil)
-            //arrProfile = [NSMutableArray array];
-            //[arrProfile addObject:profileDic];
-            
-            NSArray *arrProfile = [NSArray arrayWithObject:profileDic];
-            dictValue = [[NSMutableDictionary alloc] init];
-            [dictValue setValue:arrProfile forKey:@"profile"];
-            TBLog(@"Identify Beacon Data: %@",dictValue);
-            [self sendProximitySourceEvents:self.orgIdBeacon andSourceId:self.trackerIdBeacon andToken:self.tokenBeacon eventsValue:dictValue withCompletion:handler];
-        }
-        else{
-            TBLog(@"Please provide a valid identity(email, phone)");
-        }
-    }
-    else {
-        TBLog(@"Identity field can't be empty");
-        return;
-    }
-}
-
 # pragma mark - Track
 
 - (void)track:(NSString*)collectionName withProperties:(NSArray *)userProperties withCompletion:(CompletionHandler)handler {
     
+    //// in case developer end session and have not started new session then in order to log events we need to start need session
+    if([sessionId isEqualToString:@""]){
+        [self startTrackingSession];
+    }
     NSMutableArray *aryData = [[NSMutableArray alloc] initWithArray:userProperties];
-    [userProperties setValue:visitorId forKey:@"visitorId"];
     [userProperties setValue:sessionId forKey:@"sessionId"];
     eventId = [self generateUUIDNoDashes];
     [userProperties setValue:eventId forKey:@"eventId"];
@@ -971,6 +737,11 @@ static BOOL trackingEnabled = YES;
         return NO;
     }
     
+    //// in case developer end session and have not started new session then in order to log events we need to start need session
+    if([sessionId isEqualToString:@""]){
+        [self startTrackingSession];
+    }
+    
     NSMutableDictionary *newEvent = [NSMutableDictionary dictionary];
     [newEvent setValue:[self addTimestamp] forKey:@"timestamp"];
     //[self addTimestamp: newEvent];
@@ -997,7 +768,6 @@ static BOOL trackingEnabled = YES;
         profileDic = [[NSMutableDictionary alloc] init];
         eventId = [self generateUUIDNoDashes];
     
-        [self->profileDic setValue:self->visitorId forKey:@"visitorId"];
         [self->profileDic setValue:self->sessionId forKey:@"sessionId"];
         
         NSUserDefaults * df = [NSUserDefaults standardUserDefaults];
@@ -1041,7 +811,6 @@ static BOOL trackingEnabled = YES;
         interactionDic = [[NSMutableDictionary alloc] init];
         
         //NSString *timestamp = [newEvent valueForKey:@"timestamp"];
-        [interactionDic setValue:visitorId forKey:@"visitorId"];
         [interactionDic setValue:sessionId forKey:@"sessionId"];
         [interactionDic setValue:[newEvent valueForKey:@"timestamp"] forKey:@"timestamp"];
         [interactionDic setValue:parentId forKey:@"parentId"];
@@ -1070,7 +839,8 @@ static BOOL trackingEnabled = YES;
     
     else if ([eventCollection isEqualToString:@"identify"]) {
         
-        [profileDic setValue:self->visitorId forKey:@"visitorId"];
+        ///first end session and create new session then log event so that new indentity should be saved with new session
+        [self validateTrackingSession];
         [profileDic setValue:self->sessionId forKey:@"sessionId"];
         [profileDic setValue:[newEvent valueForKey:@"timestamp"] forKey:@"timestamp"];
         [profileDic setValue:[event objectForKey:@"identifier"] forKey:@"identifier"];
@@ -1089,7 +859,6 @@ static BOOL trackingEnabled = YES;
         NSMutableDictionary *launchDicLocal = [[NSMutableDictionary alloc] initWithDictionary:event];
         
         [launchDicLocal setValue:[self generateUUIDNoDashes] forKey:@"eventId"];
-        [launchDicLocal setValue:self->visitorId forKey:@"visitorId"];
         [launchDicLocal setValue:self->sessionId forKey:@"sessionId"];
         [launchDicLocal setValue:[newEvent valueForKey:@"timestamp"] forKey:@"timestamp"];
         [launchDicLocal setValue:[newEvent valueForKey:@"timestamp"] forKey:@"timestamp_unixtime_ms"];
@@ -1143,7 +912,6 @@ static BOOL trackingEnabled = YES;
         [df setValue:self->eventId forKey:@"parentId"];
         [df synchronize];
 
-        [launchDicLocal setValue:self->visitorId forKey:@"visitorId"];
         [launchDicLocal setValue:self->sessionId forKey:@"sessionId"];
         [launchDicLocal setValue:self->eventId forKey:@"eventId"];
         [launchDicLocal setValue:[newEvent valueForKey:@"timestamp"] forKey:@"timestamp"];
@@ -1229,7 +997,6 @@ static BOOL trackingEnabled = YES;
         [df setValue:self->eventId forKey:@"parentId"];
         [df synchronize];
         
-        [launchDicLocal setValue:self->visitorId forKey:@"visitorId"];
         [launchDicLocal setValue:self->sessionId forKey:@"sessionId"];
         [launchDicLocal setValue:self->eventId forKey:@"eventId"];
         [launchDicLocal setValue:[newEvent valueForKey:@"timestamp"] forKey:@"timestamp"];
@@ -1309,7 +1076,6 @@ static BOOL trackingEnabled = YES;
         
         NSString *lastParentId = [df valueForKey:@"parentId"];
         self->parentId = [df valueForKey:@"parentId"];
-        [self->profileDic setValue:self->visitorId forKey:@"visitorId"];
         [self->profileDic setValue:self->sessionId forKey:@"sessionId"];
         
         NSString *strIdentifier = [df valueForKey:@"identifier"];
@@ -1328,7 +1094,6 @@ static BOOL trackingEnabled = YES;
         [self->sceneDic addEntriesFromDictionary:event];
         [self->sceneDic setValue:self->eventId forKey:@"eventId"];
         [self->sceneDic setValue:[newEvent valueForKey:@"timestamp"] forKey:@"timestamp"];
-        [self->sceneDic setValue:self->visitorId forKey:@"visitorId"];
         [self->sceneDic setValue:self->sessionId forKey:@"sessionId"];
         
         //eventId of scene will be used a fk for interaction events
@@ -1549,57 +1314,6 @@ NSNumber *parentTimestamp = nil;
     [postTask resume];
 }
 
-/*- (NSURLSessionDataTask *)requestUrlWithRetryRemaining:(NSInteger)retryRemaining maxRetry:(NSInteger)maxRetry retryInterval:(NSTimeInterval)retryInterval progressive:(bool)progressive fatalStatusCodes:(NSArray<NSNumber *> *)fatalStatusCodes originalRequestCreator:(NSURLSessionDataTask *(^)(void (^)(NSURLSessionDataTask *, NSError *)))taskCreator originalFailure:(void(^)(NSURLSessionDataTask *task, NSError *))failure {
- void(^retryBlock)(NSURLSessionDataTask *, NSError *) = ^(NSURLSessionDataTask *task, NSError *error) {
- 
- if ([self isErrorFatal:error]) {
- TBLog(@"Request failed with fatal error: %@ - Will not try again!", error.localizedDescription);
- failure(task, error);
- return;
- }
- 
- NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
- for (NSNumber *fatalStatusCode in fatalStatusCodes) {
- if (response.statusCode == fatalStatusCode.integerValue) {
- TBLog(@"Request failed with fatal error: %@ - Will not try again!", error.localizedDescription);
- failure(task, error);
- return;
- }
- }
- 
- TBLog(@"Request failed: %@, %ld attempt/s left", error.localizedDescription, retryRemaining);
- if (retryRemaining > 0) {
- void (^addRetryOperation)(void) = ^{
- [self requestUrlWithRetryRemaining:retryRemaining - 1 maxRetry:maxRetry retryInterval:retryInterval progressive:progressive fatalStatusCodes:fatalStatusCodes originalRequestCreator:taskCreator originalFailure:failure];
- };
- if (retryInterval > 0.0) {
- dispatch_time_t delay;
- if (progressive) {
- delay = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(retryInterval * pow(2, maxRetry - retryRemaining) * NSEC_PER_SEC));
- TBLog(@"Delaying the next attempt by %.0f seconds …", retryInterval * pow(2, maxRetry - retryRemaining));
- } else {
- delay = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(retryInterval * NSEC_PER_SEC));
- TBLog(@"Delaying the next attempt by %.0f seconds …", retryInterval);
- }
- 
- // Not accurate because of "Timer Coalescing and App Nap" - which helps to reduce power consumption.
- dispatch_after(delay, dispatch_get_main_queue(), ^(void){
- addRetryOperation();
- });
- 
- } else {
- addRetryOperation();
- }
- 
- } else {
- TBLog(@"No more attempts left! Will execute the failure block.");
- failure(task, error);
- }
- };
- NSURLSessionDataTask *task = taskCreator(retryBlock);
- return task;
- }*/
-
 
 # pragma mark - HTTP Request and Response Management
 
@@ -1691,16 +1405,6 @@ NSNumber *parentTimestamp = nil;
         [self sendDataToServerWithRequest:request multipleRecordExits:status withCompletion:handler];
 }
 
-/*- (void)sendInteractions:(NSDictionary*)eventsValue withCompletion:(CompletionHandler)handler {
- 
- NSString *sourceDataAddress = [NSString stringWithFormat:@"%@%@/sources/%@/data",kIntemptServerAddress,self.organizationId,self.sourceId];
- TBLog(@"Tracker URL: %@",sourceDataAddress);
- //[self sendDataToServerWithURL:[NSURL URLWithString:sourceDataAddress] withParams:eventsValue withToken:self.token withCompletion:handler];
- 
- NSURLRequest *request = [self prepareRequestWithURL:[NSURL URLWithString:sourceDataAddress] withParams:eventsValue withToken:self.token];
- if(request)
- [self sendInteractionDataToServerWithRequest:request withCompletion:handler];
- }*/
 
 - (void)sendProximitySourceEvents:(NSString*)orgId andSourceId:(NSString*)trackerId andToken:(NSString*)token eventsValue:(NSMutableDictionary*)eventsValue withCompletion:(CompletionHandler)handler {
     
@@ -1901,64 +1605,6 @@ NSNumber *parentTimestamp = nil;
     [postDataTask resume];
 }
 
-/*- (void)sendInteractionDataToServerWithRequest:(NSURLRequest*)request withCompletion:(CompletionHandler)handler {
- 
- NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
- NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
- 
- NSURLSessionDataTask *postDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
- 
- dispatch_async(dispatch_get_main_queue(), ^{
- NSMutableDictionary *dictResponse = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
- TBLog(@"Response:------%@",dictResponse);
- 
- //Remove used 5 events
- if(self->arrInteraction.count >= 5){
- [self->arrInteraction removeObjectsInRange:NSMakeRange(0, 5)];
- //TBLog(@"5 interaction events removed after sending to server.");
- 
- //Make sure there is no leftover in the array
- if (self->arrInteraction.count > 0 && self->arrInteraction.count < 5) {
- NSArray *items = [self->arrInteraction copy];
- [self->arrInteraction removeObjectsInArray:items];
- NSDictionary *dictParams = [NSDictionary dictionaryWithObjectsAndKeys:items,@"interaction", nil];
- 
- //TBLog(@"Rest %ld interaction events is being batched.", items.count);
- TBLog(@"Event Data (Touch, Change, Action): %@",dictParams);
- 
- //[self sendInteractions:dictParams withCompletion:handler];
- [self sendEvents:dictParams multipleRecordExits:YES withCompletion:handler];
- }
- }
- 
- if(handler) {
- if(error) {
- handler(NO, nil, error);
- }
- else {
- if ([dictResponse valueForKey:@"error"] && [dictResponse valueForKey:@"status"]) {
- NSString *const kIntemptErrorDomain = [[NSBundle mainBundle] bundleIdentifier];
- NSDictionary *dictUserInfo = @{
- NSLocalizedDescriptionKey: NSLocalizedString([dictResponse valueForKey:@"error"], nil),
- NSLocalizedFailureReasonErrorKey: NSLocalizedString([dictResponse valueForKey:@"message"], nil),
- NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"", nil)
- };
- 
- NSError *createError = [NSError errorWithDomain:kIntemptErrorDomain code:[[dictResponse valueForKey:@"status"] intValue] userInfo:dictUserInfo];
- handler(NO, nil, createError);
- }
- else {
- handler(YES, dictResponse, nil);
- }
- }
- }
- });
- }];
- 
- [postDataTask resume];
- }*/
-
-
 # pragma mark - visitorId
 - (NSString *)getVisitorId {
     return visitorId;
@@ -1968,47 +1614,6 @@ NSNumber *parentTimestamp = nil;
 + (NSString *)sdkVersion {
     return kIntemptSdkVersion;
 }
-
-# pragma mark - CoreBluetooth
-- (void)centralManagerDidUpdateState:(CBCentralManager *)central {
-    // You should test all scenarios
-    
-    switch(central.state) {
-        case CBManagerStateResetting:
-            TBLog(@"The connection with the system service was momentarily lost, update imminent.");
-            break;
-            
-        case CBManagerStateUnsupported:
-            NSLog(@"The platform doesn't support Bluetooth.");
-            break;
-            
-        case CBManagerStateUnauthorized:
-            TBLog(@"The app is not authorized to use Bluetooth.");
-            break;
-        case CBManagerStatePoweredOff:
-            TBLog(@"Bluetooth is currently powered off, powered ON first.");
-            break;
-        case CBManagerStatePoweredOn:
-            //Scan for devices
-            //[_centralManager scanForPeripheralsWithServices:@[[CBUUID UUIDWithString:TRANSFER_SERVICE_UUID]] options:@{ CBCentralManagerScanOptionAllowDuplicatesKey : @YES }];
-            NSLog(@"Scanning started");
-            break;
-        default:
-            TBLog(@"State unknown, update imminent.");
-            break;
-    }
-    
-    
-    /*if (central.state != CBManagerStatePoweredOn) {
-     return;
-     }
-     
-     if (central.state == CBManagerStatePoweredOn) {
-     // [_centralManager scanForPeripheralsWithServices:@[[CBUUID UUIDWithString:TRANSFER_SERVICE_UUID]] options:@{ CBCentralManagerScanOptionAllowDuplicatesKey : @YES }];
-     TBLog(@"Scanning started");
-     }*/
-}
-
 
 # pragma mark - Helper Methods
 

@@ -42,11 +42,25 @@ UIBackgroundTaskIdentifier taskID;
 
         // Tell the system that you want to start a background task
         taskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-            // Cleanup before system kills the app
+            /// sometimes even before ending task, expiryhandler called,
+            /// so we need to end task here as well to avoid warning
+            TBLog(@"task completion handler");
+            if (taskID) {
+                TBLog(@"ending background inside handler");
+                [[UIApplication sharedApplication] endBackgroundTask:taskID];
+                taskID =  UIBackgroundTaskInvalid;
+            }
+            /*
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground){
+                    [[IntemptClient sharedClient]endTrackingSession];
+                }
+            });*/
         }];
         // Sleep the block for xx seconds
         [NSThread sleepForTimeInterval:TRACKING_SESSION_TIME_OUT];
 
+        TBLog(@"going to end session");
         // Call the method if the app is backgrounded (and not just inactive)
         dispatch_async(dispatch_get_main_queue(), ^{
             if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground){
@@ -78,7 +92,20 @@ UIBackgroundTaskIdentifier taskID;
 
         // Tell the system that you want to start a background task
         taskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-            // Cleanup before system kills the app
+            /// sometimes even before ending task, expiryhandler called,
+            /// so we need to end task here as well to avoid warning
+            TBLog(@"task completion handler");
+            if (taskID) {
+                TBLog(@"ending background inside handler");
+                [[UIApplication sharedApplication] endBackgroundTask:taskID];
+                taskID =  UIBackgroundTaskInvalid;
+            }
+            /*
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground){
+                    [[IntemptClient sharedClient]endTrackingSession];
+                }
+            });*/
         }];
         // Sleep the block for xx seconds
         [NSThread sleepForTimeInterval:TRACKING_SESSION_TIME_OUT];
@@ -131,7 +158,7 @@ UIBackgroundTaskIdentifier taskID;
     if([[NSUserDefaults standardUserDefaults] valueForKey:@"timestampaAppWentBackground"]) {
         NSNumber *timestampaAppWentBackground = [[NSUserDefaults standardUserDefaults] valueForKey:@"timestampaAppWentBackground"];
         double timestampNow = [[NSDate date] timeIntervalSince1970];
-        if (timestampNow - [timestampaAppWentBackground doubleValue] > TRACKING_SESSION_TIME_OUT){
+        if (timestampNow - [timestampaAppWentBackground doubleValue] >= TRACKING_SESSION_TIME_OUT){
             TBLog(@"reseting session due to time limit exceeded in background");
             [[IntemptClient sharedClient]endTrackingSession];
         }
@@ -142,7 +169,33 @@ UIBackgroundTaskIdentifier taskID;
 
 - (void)checkIfNeedToStartSession{
     if([[NSUserDefaults standardUserDefaults] valueForKey:@"sessionId"]) {
-        TBLog(@"session already live");
+        if([[NSUserDefaults standardUserDefaults] valueForKey:@"timestampaAppWentBackground"]) {
+            NSNumber *timestampaAppWentBackground = [[NSUserDefaults standardUserDefaults] valueForKey:@"timestampaAppWentBackground"];
+            double timestampNow = [[NSDate date] timeIntervalSince1970];
+            if (timestampNow - [timestampaAppWentBackground doubleValue] >= TRACKING_SESSION_TIME_OUT){
+                TBLog(@"app remain longer in background, ending old session");
+                
+                NSString *previousSessionId = [[NSUserDefaults standardUserDefaults] valueForKey:@"sessionId"];
+                NSNumber *sessionWasStartedAt = [[NSUserDefaults standardUserDefaults] valueForKey:@"sessionStartedAt"];
+                NSNumber *nowTime = [NSNumber numberWithDouble:[sessionWasStartedAt doubleValue] + TRACKING_SESSION_TIME_OUT];
+                 
+                NSMutableDictionary *newEvent = [NSMutableDictionary dictionary];
+                [newEvent setValue:previousSessionId forKey:@"sessionId"];
+                [newEvent setValue:sessionWasStartedAt forKey:@"session_start"];
+                [newEvent setValue:nowTime forKey:@"session_end"];
+                [newEvent setValue:[NSNumber numberWithInt:TRACKING_SESSION_TIME_OUT] forKey:@"duration"];
+                [[IntemptClient sharedClient] addEvent:newEvent toEventCollection:@"session" withCompletion:nil];
+                [[NSUserDefaults standardUserDefaults]removeObjectForKey:@"sessionId"];
+                [[NSUserDefaults standardUserDefaults]synchronize];
+                
+                [[IntemptClient sharedClient]startTrackingSession];
+                
+            }else{
+                TBLog(@"session already live");
+            }
+        }else{
+            TBLog(@"session already live");
+        }
     }else{
         [[IntemptClient sharedClient]startTrackingSession];
     }

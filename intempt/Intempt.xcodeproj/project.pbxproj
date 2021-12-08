@@ -62,7 +62,6 @@
 		0C8C646025CAA064007F3589 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		0C9578612517670F0016F4AB /* UIView+RecurrenceSubviews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+RecurrenceSubviews.h"; sourceTree = "<group>"; };
 		0C9578622517670F0016F4AB /* UIView+RecurrenceSubviews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+RecurrenceSubviews.m"; sourceTree = "<group>"; };
-		0C976E55260EFA8F005F61A1 /* AppTrackingTransparency.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppTrackingTransparency.framework; path = System/Library/Frameworks/AppTrackingTransparency.framework; sourceTree = SDKROOT; };
 		ED19F4CD24217C6800305287 /* Intempt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Intempt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED19F4D024217C6800305287 /* Intempt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Intempt.h; sourceTree = "<group>"; };
 		ED19F4D124217C6800305287 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -128,7 +127,6 @@
 		0C8C645F25CAA064007F3589 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0C976E55260EFA8F005F61A1 /* AppTrackingTransparency.framework */,
 				0C8C646025CAA064007F3589 /* libsqlite3.tbd */,
 			);
 			name = Frameworks;

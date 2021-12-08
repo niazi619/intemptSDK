@@ -12,16 +12,19 @@
    9. [Enable Default Event Tracking](#EnableDefaultEventTracking)
    10. [Enable Event Logging](#EnableEventLogging)
    11. [Disable Event Logging](#DisableEventLogging)
-   12. [iOS14 & ATTTransportSecurity](#iOS14)
-   13. [Privacy Location](#Privacy)
+   12. [Reset Tracking Session](#ResetTrackingSession)
+   13. [End Tracking Session](#EndTrackingSession)
+   14. [Start Tracking Session](#StartTrackingSession)
+   15. [iOS14 & ATTTransportSecurity](#iOS14)
+   16. [Privacy Location](#Privacy)
 3. [Troubleshooting](#Troubleshooting)
    1. [Building for iOS, but the linked and embedded framework 'Intempt.framework' was built for iOS + iOS Simulator.](#Universalframework)
    2. [Unsupported Architectures](#unsupportedarchitectures)
    3. [dyld: Library not loaded](#dyldLibrarynotloaded)
    4. [Intempt no such module found](#nosuchmodulefound)
+   5. [No data visible on app.intempt.com](#nodatafound)
 
 
-  
 # Intempt iOS SDK
 
 ## Requirements <a name="Requirements"></a>
@@ -301,6 +304,25 @@ Call this method if you want not see any output in console.
 IntemptClient.disableLogging()
 ```
 
+#### Reset Tracking Session <a name="ResetTrackingSession"></a>
+Call this method in order to reset tracking session. It will end previous session and start new session.
+
+```swift 
+IntemptClient.shared().validateTrackingSession()
+```
+#### End Tracking Session <a name="EndTrackingSession"></a>
+Call this method in order to end tracking session.
+
+```swift 
+IntemptClient.shared().endTrackingSession()
+```
+#### Start Tracking Session <a name="StartTrackingSession"></a>
+Call this method in order to start a new tracking session.
+
+```swift 
+IntemptClient.shared().startTrackingSession()
+```
+
 ## Tracking iOS14 and ATTTransportSecurity framework <a name="iOS14"></a>
 Intempt itself does not get IDFA and doesn't track user by default. Data is not forwarded to any external services, and is not linked with any third-party data. Also events captured are not linked to user indentity and not used for user tracking purpose. Analytic are captured to observe the user behavior, viuslations of app usage and improving user experience based on user activities in the app. So with the default configuration there is no need for adding Apple Tracking Transparency permission in info.plist and asking user consent. Also don't include Apple Tracking Transparency framework in your app. However if your app has other external integrations or you have implemented custom events which track user or share user data with other then you have to include it.
 
@@ -390,3 +412,7 @@ Open **universal** folder and first copy `Intempt.Framework` into your project d
 make sure in `Target ->General->Framework, Libraries and Embded Contents` `Embed & Sign` is selected.
 
 <img width="1243" alt="4" src="https://user-images.githubusercontent.com/93919087/144225710-c4b4c9d0-a24f-4fc6-97ae-c82834185d27.png">
+
+### No data visible on app.intempt.com console dashboard <a name="nodatafound"></a>
+
+For performance and efficiency purpose IntemptSDK send events as batch periodically, it may take few seconds to appear your events on console.

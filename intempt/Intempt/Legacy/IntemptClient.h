@@ -8,30 +8,13 @@
 
 @import Foundation;
 @import CoreLocation;
-@import CoreBluetooth;
 
 #import <Intempt/IntemptConfig.h>
 
 typedef void(^CompletionHandler)(BOOL status, id result, NSError *error);
 
-@protocol intemptDelegate <NSObject>
-/**
- Called upon entering the region
- @param beaconData CLBeacon
-*/
--(void)didEnterRegion:(CLBeacon*)beaconData;
-
-/**
- Called upon exiting the region
- @param beaconData CLBeacon
-*/
--(void)didExitRegion:(CLBeacon*)beaconData;
-
-@end
-
 @interface IntemptClient : NSObject
 
-@property (weak, nonatomic) id<intemptDelegate> delegate;
 @property (strong, nonatomic) CLLocation *currentLocation;
 
 /** An Intempt configuartion which can be configured by user. For more details please look into `IntemptConfig` class.
@@ -145,13 +128,6 @@ Use this Instance method when you specific tracking information to server. Creat
 */
 - (void)track:(NSString*)collectionName withProperties:(NSArray *)userProperties withCompletion:(CompletionHandler)handler;
 
-/**
-Use this Instance method to initilaze the beacon for the app.
-@param orgId Your Intempt Organization ID.
-@param trackerId Your Intempt Source ID.
-@param token Your Intempt Security Token.
-*/
-- (void)withOrgId:(NSString*)orgId andSourceId:(NSString*)trackerId andToken:(NSString*)token uuidString:(NSString*)uuid withCompletion:(CompletionHandler)handler;
 
 /**
  Call this method in order to reset tracking session.
@@ -159,7 +135,7 @@ Use this Instance method to initilaze the beacon for the app.
 - (void)validateTrackingSession;
 
 /**
- Call this method to end the tracking session. it will not create new session automatically, developer is responsible to create new session
+ Call this method to end the tracking session. it will not create new session automatically, developer is responsible to create new session using startTrackingSession
  */
 - (void)endTrackingSession;
 
@@ -168,12 +144,6 @@ Use this Instance method to initilaze the beacon for the app.
  */
 - (void)startTrackingSession;
 
-/**
-Use this Instance method when you want to set a unique identifier (email or phone no.) for your app. Its an alternative to default identify method and more likely you didn't enable tracking for the app.
-@param identity An Identity i.e, email address or phone number
-@param userProperties A dictionary of user properties (set accroding to your custom schema's parameters on intempt developer site)
-*/
-- (void)identifyUsingBeaconWith:(NSString*)identity withProperties:(NSDictionary *)userProperties withCompletion:(CompletionHandler)handler;
 
 /**
  Call this to initialize CLLocationManager if not initialized and start updating location
@@ -191,6 +161,8 @@ Get Intempt Visitor ID
  @return The current SDK version.
  */
 + (NSString *)sdkVersion;
+
++ (NSNumber*)addTimestamp;
 
 @property (nonatomic, copy) CompletionHandler completion;
 
