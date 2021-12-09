@@ -28,8 +28,6 @@
 		FA991DE02742950D009D1FA7 /* CustomLabelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA991DDF2742950D009D1FA7 /* CustomLabelTest.swift */; };
 		FAC64A9F2744DC7200358131 /* NavigationControllerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC64A9E2744DC7200358131 /* NavigationControllerViewController.swift */; };
 		FAC64AA32744E16E00358131 /* MySwipeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC64AA22744E16E00358131 /* MySwipeVC.swift */; };
-		FAE507EB276244D6007DB888 /* Intempt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAE507EA276244D6007DB888 /* Intempt.framework */; };
-		FAE507EC276244DB007DB888 /* Intempt.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FAE507EA276244D6007DB888 /* Intempt.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -39,7 +37,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				FAE507EC276244DB007DB888 /* Intempt.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -72,7 +69,6 @@
 		FA991DDF2742950D009D1FA7 /* CustomLabelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabelTest.swift; sourceTree = "<group>"; };
 		FAC64A9E2744DC7200358131 /* NavigationControllerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationControllerViewController.swift; sourceTree = "<group>"; };
 		FAC64AA22744E16E00358131 /* MySwipeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySwipeVC.swift; sourceTree = "<group>"; };
-		FAE507EA276244D6007DB888 /* Intempt.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Intempt.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,7 +76,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FAE507EB276244D6007DB888 /* Intempt.framework in Frameworks */,
 				E96C9C8C04FF14C7390024DB /* Pods_DemoTracking.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -108,7 +103,6 @@
 		ED6CDE86242B85AB0073A920 = {
 			isa = PBXGroup;
 			children = (
-				FAE507EA276244D6007DB888 /* Intempt.framework */,
 				ED6CDE91242B85AB0073A920 /* DemoTracking */,
 				ED6CDE90242B85AB0073A920 /* Products */,
 				0CA89D5A24F510BE00FD6852 /* Frameworks */,
