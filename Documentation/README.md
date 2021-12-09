@@ -15,7 +15,7 @@
    12. [Reset Tracking Session](#ResetTrackingSession)
    13. [End Tracking Session](#EndTrackingSession)
    14. [Start Tracking Session](#StartTrackingSession)
-   15. [iOS14 & ATTTransportSecurity](#iOS14)
+   15. [iOS14&Later and ATTTransportSecurity](#iOS14)
    16. [Privacy Location](#Privacy)
 3. [Troubleshooting](#Troubleshooting)
    1. [Building for iOS, but the linked and embedded framework 'Intempt.framework' was built for iOS + iOS Simulator.](#Universalframework)
@@ -323,7 +323,7 @@ Call this method in order to start a new tracking session.
 IntemptClient.shared().startTrackingSession()
 ```
 
-## Tracking iOS14 and ATTTransportSecurity framework <a name="iOS14"></a>
+## Tracking iOS14 & later and ATTTransportSecurity framework <a name="iOS14"></a>
 Intempt itself does not get IDFA and doesn't track user by default. Data is not forwarded to any external services, and is not linked with any third-party data. Also events captured are not linked to user indentity and not used for user tracking purpose. Analytic are captured to observe the user behavior, viuslations of app usage and improving user experience based on user activities in the app. So with the default configuration there is no need for adding Apple Tracking Transparency permission in info.plist and asking user consent. Also don't include Apple Tracking Transparency framework in your app. However if your app has other external integrations or you have implemented custom events which track user or share user data with other then you have to include it.
 
 ## Privacy - Location Permission <a name="Privacy"></a>

@@ -118,7 +118,7 @@ static BOOL trackingEnabled = YES;
 
 - (id)init {
     self = [super init];
-    loggingEnabled = NO;
+    
     #ifdef DEBUG
         loggingEnabled = YES;
     #endif
@@ -960,7 +960,7 @@ static BOOL trackingEnabled = YES;
         [arrLaunchLocal addObject:launchDicLocal];
         [dictValueLocal setValue:arrLaunchLocal forKey:@"launch"];
         
-        TBLog(@"Launch Data:---%@",arrLaunchLocal);
+        NSLog(@"Launch Data:---%@",arrLaunchLocal);
         
         if (![self connected]) {
             // Not connected
@@ -1046,7 +1046,7 @@ static BOOL trackingEnabled = YES;
         [self->dictValue setValue:self->arrLaunch forKey:@"launch"];
         
         //TBLog(@"dictValueLocal=%@",dictValueLocal);
-        TBLog(@"Launch Data (Location Access Not Provided):---%@",dictValueLocal);
+        NSLog(@"Launch Data (Location Access Not Provided):---%@",dictValueLocal);
         if (![self connected]) {
             // Not connected
             TBLog(@"Please Check Your Internet Connection");

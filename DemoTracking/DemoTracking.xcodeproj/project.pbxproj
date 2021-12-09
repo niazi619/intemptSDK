@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -21,8 +21,6 @@
 		ED6CDE9C242B85AE0073A920 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED6CDE9B242B85AE0073A920 /* Assets.xcassets */; };
 		ED6CDE9F242B85AE0073A920 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED6CDE9D242B85AE0073A920 /* LaunchScreen.storyboard */; };
 		ED8385E62440413300D42A56 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED8385E52440413200D42A56 /* Extension.swift */; };
-		FA455E42275797A600C0B412 /* Intempt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA455E412757977B00C0B412 /* Intempt.framework */; platformFilter = ios; };
-		FA455E43275797A600C0B412 /* Intempt.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FA455E412757977B00C0B412 /* Intempt.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FA599F3E2747C6ED00AC25F4 /* LocationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA599F3D2747C6ED00AC25F4 /* LocationsManager.swift */; };
 		FA991DDA274254C4009D1FA7 /* MoreEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA991DD9274254C4009D1FA7 /* MoreEventViewController.swift */; };
 		FA991DDC2742948A009D1FA7 /* CustomViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA991DDB2742948A009D1FA7 /* CustomViewTest.swift */; };
@@ -30,17 +28,9 @@
 		FA991DE02742950D009D1FA7 /* CustomLabelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA991DDF2742950D009D1FA7 /* CustomLabelTest.swift */; };
 		FAC64A9F2744DC7200358131 /* NavigationControllerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC64A9E2744DC7200358131 /* NavigationControllerViewController.swift */; };
 		FAC64AA32744E16E00358131 /* MySwipeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC64AA22744E16E00358131 /* MySwipeVC.swift */; };
+		FAE507EB276244D6007DB888 /* Intempt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAE507EA276244D6007DB888 /* Intempt.framework */; };
+		FAE507EC276244DB007DB888 /* Intempt.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FAE507EA276244D6007DB888 /* Intempt.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		FA455E402757977B00C0B412 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FA455E3C2757977B00C0B412 /* Intempt.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = ED19F4CD24217C6800305287;
-			remoteInfo = Intempt;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		0C718FAF25108FF000B29C8E /* Embed Frameworks */ = {
@@ -49,7 +39,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				FA455E43275797A600C0B412 /* Intempt.framework in Embed Frameworks */,
+				FAE507EC276244DB007DB888 /* Intempt.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -75,7 +65,6 @@
 		ED6CDE9E242B85AE0073A920 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ED6CDEA0242B85AE0073A920 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ED8385E52440413200D42A56 /* Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
-		FA455E3C2757977B00C0B412 /* Intempt.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Intempt.xcodeproj; path = ../intempt/Intempt.xcodeproj; sourceTree = "<group>"; };
 		FA599F3D2747C6ED00AC25F4 /* LocationsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationsManager.swift; sourceTree = "<group>"; };
 		FA991DD9274254C4009D1FA7 /* MoreEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreEventViewController.swift; sourceTree = "<group>"; };
 		FA991DDB2742948A009D1FA7 /* CustomViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewTest.swift; sourceTree = "<group>"; };
@@ -83,6 +72,7 @@
 		FA991DDF2742950D009D1FA7 /* CustomLabelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabelTest.swift; sourceTree = "<group>"; };
 		FAC64A9E2744DC7200358131 /* NavigationControllerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationControllerViewController.swift; sourceTree = "<group>"; };
 		FAC64AA22744E16E00358131 /* MySwipeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySwipeVC.swift; sourceTree = "<group>"; };
+		FAE507EA276244D6007DB888 /* Intempt.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Intempt.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,7 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA455E42275797A600C0B412 /* Intempt.framework in Frameworks */,
+				FAE507EB276244D6007DB888 /* Intempt.framework in Frameworks */,
 				E96C9C8C04FF14C7390024DB /* Pods_DemoTracking.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -118,7 +108,7 @@
 		ED6CDE86242B85AB0073A920 = {
 			isa = PBXGroup;
 			children = (
-				FA455E3C2757977B00C0B412 /* Intempt.xcodeproj */,
+				FAE507EA276244D6007DB888 /* Intempt.framework */,
 				ED6CDE91242B85AB0073A920 /* DemoTracking */,
 				ED6CDE90242B85AB0073A920 /* Products */,
 				0CA89D5A24F510BE00FD6852 /* Frameworks */,
@@ -160,14 +150,6 @@
 				ED6CDEA0242B85AE0073A920 /* Info.plist */,
 			);
 			path = DemoTracking;
-			sourceTree = "<group>";
-		};
-		FA455E3D2757977B00C0B412 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				FA455E412757977B00C0B412 /* Intempt.framework */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		FA599F3B2747C6C400AC25F4 /* LocationManager */ = {
@@ -227,28 +209,12 @@
 			mainGroup = ED6CDE86242B85AB0073A920;
 			productRefGroup = ED6CDE90242B85AB0073A920 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = FA455E3D2757977B00C0B412 /* Products */;
-					ProjectRef = FA455E3C2757977B00C0B412 /* Intempt.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				ED6CDE8E242B85AB0073A920 /* DemoTracking */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		FA455E412757977B00C0B412 /* Intempt.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Intempt.framework;
-			remoteRef = FA455E402757977B00C0B412 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		ED6CDE8D242B85AB0073A920 /* Resources */ = {
@@ -493,6 +459,7 @@
 				PRODUCT_NAME = DemoTracking;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_WORKSPACE = NO;
 			};
 			name = Debug;
 		};
@@ -521,6 +488,7 @@
 				PRODUCT_NAME = DemoTracking;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_WORKSPACE = NO;
 			};
 			name = Release;
 		};

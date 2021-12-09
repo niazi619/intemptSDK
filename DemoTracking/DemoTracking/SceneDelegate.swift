@@ -44,7 +44,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
         print("sceneWillEnterForeground=")
-        //self.initializeIntemptTracking()
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {
@@ -69,7 +68,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 }
             }
         }
-        
+        IntemptClient.enableLogging()
     }
     
     func decideInitialViewController() {

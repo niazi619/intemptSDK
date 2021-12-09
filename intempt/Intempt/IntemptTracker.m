@@ -67,6 +67,7 @@ static NSString *_token;
             [IntemptClient enableLogging];
         #endif
         [IntemptClient sharedClientWithOrganizationId:_orgId withTrackerId:_trackerId withToken:_token withConfig:settings  withCompletion:handler];
+        
         [[IntemptClient sharedClient]validateTrackingSession];
         //launch event should affter session and profile
         [[IntemptClient sharedClient] refreshCurrentLocation];

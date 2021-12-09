@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import AppTrackingTransparency
 import Intempt
 import CoreLocation
 

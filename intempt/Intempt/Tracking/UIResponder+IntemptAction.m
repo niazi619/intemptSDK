@@ -15,7 +15,7 @@
 UIBackgroundTaskIdentifier taskID;
 
 - (void)intempt_sceneWillEnterForeground:(UIScene *)scene API_AVAILABLE(ios(13.0)){
-    TBLog(@"intempt_sceneWillEnterForeground");
+    //TBLog(@"intempt_sceneWillEnterForeground");
     
     // Tell the system that the task has ended.
     if (taskID != UIBackgroundTaskInvalid) {
@@ -31,7 +31,7 @@ UIBackgroundTaskIdentifier taskID;
 
 
 - (void)intempt_sceneDidEnterBackground:(UIScene *)scene API_AVAILABLE(ios(13.0)){
-    TBLog(@"intempt_sceneDidEnterBackground");
+    //TBLog(@"intempt_sceneDidEnterBackground");
     
     double timestampaAppWentBackground = [[NSDate date] timeIntervalSince1970];
     [[NSUserDefaults standardUserDefaults] setValue: [NSNumber numberWithDouble:timestampaAppWentBackground] forKey:@"timestampaAppWentBackground"];
@@ -44,9 +44,9 @@ UIBackgroundTaskIdentifier taskID;
         taskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
             /// sometimes even before ending task, expiryhandler called,
             /// so we need to end task here as well to avoid warning
-            TBLog(@"task completion handler");
+            //TBLog(@"task completion handler");
             if (taskID) {
-                TBLog(@"ending background inside handler");
+                //TBLog(@"ending background inside handler");
                 [[UIApplication sharedApplication] endBackgroundTask:taskID];
                 taskID =  UIBackgroundTaskInvalid;
             }
@@ -60,7 +60,7 @@ UIBackgroundTaskIdentifier taskID;
         // Sleep the block for xx seconds
         [NSThread sleepForTimeInterval:TRACKING_SESSION_TIME_OUT];
 
-        TBLog(@"going to end session");
+        //TBLog(@"going to end session");
         // Call the method if the app is backgrounded (and not just inactive)
         dispatch_async(dispatch_get_main_queue(), ^{
             if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground){
@@ -81,7 +81,7 @@ UIBackgroundTaskIdentifier taskID;
 }
 
 - (void)intempt_applicationDidEnterBackground:(UIApplication *)application{
-    TBLog(@"intempt_applicationDidEnterBackground");
+    //TBLog(@"intempt_applicationDidEnterBackground");
     
     double timestampaAppWentBackground = [[NSDate date] timeIntervalSince1970];
     [[NSUserDefaults standardUserDefaults] setValue: [NSNumber numberWithDouble:timestampaAppWentBackground] forKey:@"timestampaAppWentBackground"];
@@ -94,9 +94,9 @@ UIBackgroundTaskIdentifier taskID;
         taskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
             /// sometimes even before ending task, expiryhandler called,
             /// so we need to end task here as well to avoid warning
-            TBLog(@"task completion handler");
+            //TBLog(@"task completion handler");
             if (taskID) {
-                TBLog(@"ending background inside handler");
+                //TBLog(@"ending background inside handler");
                 [[UIApplication sharedApplication] endBackgroundTask:taskID];
                 taskID =  UIBackgroundTaskInvalid;
             }
@@ -130,7 +130,7 @@ UIBackgroundTaskIdentifier taskID;
 }
 
 - (void)intempt_applicationWillEnterForeground:(UIApplication *)application{
-    TBLog(@"intempt_applicationWillEnterForeground");
+    //TBLog(@"intempt_applicationWillEnterForeground");
     
     // Tell the system that the task has ended.
     if (taskID != UIBackgroundTaskInvalid) {
@@ -147,7 +147,7 @@ UIBackgroundTaskIdentifier taskID;
 
 - (void)intempt_applicationWillTerminate:(UIApplication *)application{
   
-    TBLog(@"intempt_applicationWillTerminate");
+    //TBLog(@"intempt_applicationWillTerminate");
     [[IntemptClient sharedClient]endTrackingSession];
     if ([self respondsToSelector:@selector(intempt_applicationWillTerminate:)]){
         return [self intempt_applicationWillTerminate:application];
@@ -206,24 +206,23 @@ UIBackgroundTaskIdentifier taskID;
 /**this method is just in case developer has not overrided in UISceneDelegate
  */
 - (void)sceneWillEnterForeground:(UIScene *)scene API_AVAILABLE(ios(13.0)){
-    TBLog(@"sceneWillEnterForeground inside intempt");
+    //TBLog(@"sceneWillEnterForeground inside intempt");
 }
 /**this method is just in case developer has not overrided in UISceneDelegate
  */
 - (void)sceneDidEnterBackground:(UIScene *)scene API_AVAILABLE(ios(13.0)){
-    TBLog(@"sceneDidEnterBackground inside intempt");
+    //TBLog(@"sceneDidEnterBackground inside intempt");
 }
 /**this method is just in case developer has not overrided in AppDelegate
  */
 - (void)applicationWillEnterForeground:(UIApplication *)application{
-    TBLog(@"applicationWillEnterForeground inside intempt");
-    
+    //TBLog(@"applicationWillEnterForeground inside intempt");
 }
 - (void)applicationDidEnterBackground:(UIApplication *)application{
-    TBLog(@"applicationDidEnterBackground inside intempt");
+    //TBLog(@"applicationDidEnterBackground inside intempt");
 }
 - (void)applicationWillTerminate:(UIApplication *)application{
   
-    TBLog(@"applicationWillTerminate inside intempt");
+    //TBLog(@"applicationWillTerminate inside intempt");
 }
 @end
