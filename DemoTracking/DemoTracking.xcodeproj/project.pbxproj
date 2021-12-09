@@ -30,6 +30,16 @@
 		FAC64AA32744E16E00358131 /* MySwipeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC64AA22744E16E00358131 /* MySwipeVC.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		FAE507F4276249C5007DB888 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FAE507F0276249C5007DB888 /* Intempt.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ED19F4CD24217C6800305287;
+			remoteInfo = Intempt;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		0C718FAF25108FF000B29C8E /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -69,6 +79,7 @@
 		FA991DDF2742950D009D1FA7 /* CustomLabelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabelTest.swift; sourceTree = "<group>"; };
 		FAC64A9E2744DC7200358131 /* NavigationControllerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationControllerViewController.swift; sourceTree = "<group>"; };
 		FAC64AA22744E16E00358131 /* MySwipeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySwipeVC.swift; sourceTree = "<group>"; };
+		FAE507F0276249C5007DB888 /* Intempt.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Intempt.xcodeproj; path = ../intempt/Intempt.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +114,7 @@
 		ED6CDE86242B85AB0073A920 = {
 			isa = PBXGroup;
 			children = (
+				FAE507F0276249C5007DB888 /* Intempt.xcodeproj */,
 				ED6CDE91242B85AB0073A920 /* DemoTracking */,
 				ED6CDE90242B85AB0073A920 /* Products */,
 				0CA89D5A24F510BE00FD6852 /* Frameworks */,
@@ -154,6 +166,14 @@
 			path = LocationManager;
 			sourceTree = "<group>";
 		};
+		FAE507F1276249C5007DB888 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FAE507F5276249C5007DB888 /* Intempt.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -203,12 +223,28 @@
 			mainGroup = ED6CDE86242B85AB0073A920;
 			productRefGroup = ED6CDE90242B85AB0073A920 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = FAE507F1276249C5007DB888 /* Products */;
+					ProjectRef = FAE507F0276249C5007DB888 /* Intempt.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				ED6CDE8E242B85AB0073A920 /* DemoTracking */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		FAE507F5276249C5007DB888 /* Intempt.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Intempt.framework;
+			remoteRef = FAE507F4276249C5007DB888 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		ED6CDE8D242B85AB0073A920 /* Resources */ = {
