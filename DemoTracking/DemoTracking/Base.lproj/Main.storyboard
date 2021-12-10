@@ -1112,7 +1112,7 @@
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Hello i am link https://www.google.com and i am phone +923429020370 and i am email wahab@gmail.com" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="jLd-VA-757">
+                                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Hello i am link https://www.google.com and i am phone +014290270 and i am email info@intemptcom" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="jLd-VA-757">
                                                                 <rect key="frame" x="15" y="88.5" width="354" height="61.5"/>
                                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                                 <color key="textColor" systemColor="labelColor"/>

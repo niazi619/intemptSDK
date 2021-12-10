@@ -1375,10 +1375,33 @@ NSNumber *parentTimestamp = nil;
     else {
         NSArray *arrAnalyticsDataToSync = [[DBManager shared] fetchAnalayticsDataWithSync:NO useLimit:NO withBatchSize:0];
         if (arrAnalyticsDataToSync.count > 0) {
+            /*
             for (ModelEvent *modelEvent in arrAnalyticsDataToSync) {
                 [self sendEventContent:modelEvent.eventContent eventIds:@[modelEvent.eventId] withCompletion:self.completion];
                 //Update `isSync` to `YES` of these records as will be sent to server.
                 [[DBManager shared] updateRecordsWithEventId:[modelEvent.eventId integerValue] withIsSync:YES];
+            }*/
+            NSMutableArray *arrInteractionIds = [NSMutableArray new];
+            NSMutableArray *arrInteractionItems = [NSMutableArray new];
+            
+            for (ModelEvent *modelEvent in arrAnalyticsDataToSync) {
+                // create array with `interaction` events
+                if ([modelEvent.eventType isEqualToString:@"interaction"]) {
+                    [arrInteractionIds addObject:modelEvent.eventId];
+                    [arrInteractionItems addObject:modelEvent.eventContent];
+                    
+                    //Update `isSync` to `YES` of these records as will be sent to server.
+                    [[DBManager shared] updateRecordsWithEventId:[modelEvent.eventId integerValue] withIsSync:YES];
+                }
+                else { //`launch` and `scene` type events should not be sent as batch
+                    [self sendEventContent:modelEvent.eventContent eventIds:@[modelEvent.eventId] withCompletion:self.completion];
+                    //Update `isSync` to `YES` of these records as will be sent to server.
+                    [[DBManager shared] updateRecordsWithEventId:[modelEvent.eventId integerValue] withIsSync:YES];
+                }
+            }
+            
+            if (arrInteractionIds.count > 0 && arrInteractionItems.count > 0) {
+                [self sendEventContent:[NSDictionary dictionaryWithObjectsAndKeys:arrInteractionItems,@"interaction", nil] eventIds:arrInteractionIds withCompletion:self.completion];
             }
         }
     }

@@ -23,6 +23,8 @@
    3. [dyld: Library not loaded](#dyldLibrarynotloaded)
    4. [Intempt no such module found](#nosuchmodulefound)
    5. [No data visible on app.intempt.com](#nodatafound)
+   6. [Events not sending, taking too long](#sendingtakingtoolong)
+
 
 
 # Intempt iOS SDK
@@ -416,3 +418,10 @@ make sure in `Target ->General->Framework, Libraries and Embded Contents` `Embed
 ### No data visible on app.intempt.com console dashboard <a name="nodatafound"></a>
 
 For performance and efficiency purpose IntemptSDK send events as batch periodically, it may take few seconds to appear your events on console.
+
+### Events not sending, taking too long <a name="sendingtakingtoolong"></a>
+
+if you see your events are captured and shown in log in debug mode but sent too late on intempt server, then in such case you need to check two below things in your intemptSDK initalization.
+- `TimeBuffer' its value is in seconds, if sdk send data to server periodically based on value of this parameter
+- `ItemsInQueue` its value is number of events, if you set value to 10, IntemptSDK will wait untill 10 or more events are captured then it sends
+

@@ -28,6 +28,7 @@
 		FA991DE02742950D009D1FA7 /* CustomLabelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA991DDF2742950D009D1FA7 /* CustomLabelTest.swift */; };
 		FAC64A9F2744DC7200358131 /* NavigationControllerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC64A9E2744DC7200358131 /* NavigationControllerViewController.swift */; };
 		FAC64AA32744E16E00358131 /* MySwipeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC64AA22744E16E00358131 /* MySwipeVC.swift */; };
+		FADE345E27639517006F8A08 /* Intempt.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FAE507F5276249C5007DB888 /* Intempt.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				FADE345E27639517006F8A08 /* Intempt.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
